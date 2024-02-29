@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const HospitalSchema = new mongoose.Schema({
+const HotelSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please add a name'],
@@ -38,18 +38,19 @@ const HospitalSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 });
 
-// Cascade delete appointments when a hospital is deleted
-HospitalSchema.pre('deleteOne',{document: true, query: false}, async function(next) {
-    console.log(`Appointments being removed from hospital ${this._id}`);
-    await this.model('Appointment').deleteMany({ hospital: this._id });
+//TODO 
+// Cascade delete bookings when a hotel is deleted
+HotelSchema.pre('deleteOne',{document: true, query: false}, async function(next) {
+    console.log(`bookings being removed from hotel ${this._id}`);
+    await this.model('booking').deleteMany({ hotel: this._id });
     next();
 });
 
 // Reverse populate with virtuals
-HospitalSchema.virtual('appointments', {
-    ref: 'Appointment',
+HotelSchema.virtual('bookings', {
+    ref: 'booking',
     localField: '_id',
-    foreignField: 'hospital',
+    foreignField: 'hotel',
     justOne: false
 });
-module.exports = mongoose.model('Hospital', HospitalSchema);
+module.exports = mongoose.model('Hotel', HotelSchema);
