@@ -1,5 +1,6 @@
 const Booking = require('../models/Booking');
 const Hotel = require('../models/Hotel');
+const Room = require('../models/Room');
 
 //@desc Get all bookings
 //@route GET /api/v1/bookings
@@ -66,16 +67,30 @@ exports.addBooking = async (req, res, next) => {
 
         //check for existed booking
         const existedBookings = await Booking.find({ user: req.user.id });
+        let nights=0;
 
-        //If the user is not an admin, they can only create 3 bookings.
-        if(existedBookings.length >= 3 && req.user.role !== 'admin'){
-            return res.status(400).json({ success: false, message: `The user with ID ${req.user.id} has already made 3 bookings` });
+        existedBookings.forEach(booking => {
+            if(booking.bookingend > Date.now()){
+                console.log(booking.bookingend);
+                nights += (booking.bookingend - booking.bookingbegin) / (1000 * 60 * 60 * 24);
+            }
+        });
+       
+        console.log(nights)
+        if(nights >= 3 && req.user.role !== 'admin'){
+            return res.status(400).json({ success: false, message: `The user with ID ${req.user.id} cannot make booking with more than 3 nights` });
         }
-
+        //console.log(req.params.hotelId);
         const hotel = await Hotel.findById(req.params.hotelId);
         if(!hotel){
             return res.status(404).json({ success: false, message: `No hotel with the id of ${req.params.hotelId}`});
         }
+
+        const room = await Room.findById(req.body.room);
+        if(!room){
+            return res.status(404).json({ success: false, message: `No room with the id of ${req.params.roomId}`});
+        }
+
         const booking = await Booking.create(req.body);
         res.status(200).json({ success: true, data: booking });
     } catch (error){
@@ -97,6 +112,21 @@ exports.updateBooking = async (req, res, next) => {
         //Make sure the user is the owner of the booking
         if(booking.user.toString() !== req.user.id && req.user.role !== 'admin'){
             return res.status(401).json({ success: false, message: `User ${req.user.id} is not authorized to update this booking` });
+        }
+
+        //check for existed booking
+        const existedBookings = await Booking.find({ user: req.user.id });
+
+        let nights=0;
+        existedBookings.forEach(booking => {
+            if(booking.bookingend < Date.now()){
+                nights += (booking.bookingend - booking.bookingbegin) / (1000 * 60 * 60 * 24);
+            }
+        });
+        
+        console.log(nights)
+        if(nights >= 3 && req.user.role !== 'admin'){
+            return res.status(400).json({ success: false, message: `The user with ID ${req.user.id} cannot make booking with more than 3 nights` });
         }
 
         booking = await Booking.findByIdAndUpdate(req.params.id, req.body, {

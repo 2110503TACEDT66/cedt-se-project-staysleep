@@ -27,11 +27,7 @@ const HotelSchema = new mongoose.Schema({
     },
     tel:{
         type: String
-    },
-    region:{
-        type: String,
-        required: [true, 'Please add a region']
-    },
+    }
 },
 {
     toJSON: { virtuals: true },
@@ -48,7 +44,7 @@ HotelSchema.pre('deleteOne',{document: true, query: false}, async function(next)
 
 // Reverse populate with virtuals
 HotelSchema.virtual('bookings', {
-    ref: 'booking',
+    ref: 'Booking',
     localField: '_id',
     foreignField: 'hotel',
     justOne: false

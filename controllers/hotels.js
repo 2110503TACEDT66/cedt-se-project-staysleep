@@ -66,6 +66,7 @@ exports.getHotels = async (req, res, next) => {
 
         res.status(200).json({ success: true, count: hotels.length, pagination, data: hotels });
     }catch(err){
+        console.log(err.stack);
         res.status(400).json({ success: false });
     }
 }
@@ -77,7 +78,7 @@ exports.getHotel = async (req, res, next) => {
     try{
         const hotel = await Hotel.findById(req.params.id);
         if(!hotel){
-            return res.status(400).json({ success: false });
+            return res.status(400).json({ success: false, message: `No Hotel with the ID of ${req.param.id}` });
         }
         res.status(200).json({ success: true, data: hotel });
     }catch (err){
@@ -107,7 +108,7 @@ exports.updateHotel = async (req, res, next) => {
         });
 
         if(!hotel){
-            return res.status(400).json({ success: false });
+            return res.status(400).json({ success: false, message: `No Hotel with the ID of ${req.param.id}` });
         }
 
         res.status(200).json({ success: true, data: hotel });
@@ -123,7 +124,7 @@ exports.deleteHotel = async (req, res, next) => {
     try{
         const hotel = await Hotel.findById(req.params.id);
         if(!hotel){
-            return res.status(400).json({ success: false });
+            return res.status(400).json({ success: false, message: `No Hotel with the ID of ${req.param.id}` });
         }
         await hotel.deleteOne();
         res.status(200).json({ success: true, data: {} });
