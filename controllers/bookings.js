@@ -76,7 +76,7 @@ exports.addBooking = async (req, res, next) => {
             }
         });
        
-        console.log(nights)
+        //console.log(nights)
         if(nights >= 3 && req.user.role !== 'admin'){
             return res.status(400).json({ success: false, message: `The user with ID ${req.user.id} cannot make booking with more than 3 nights` });
         }
