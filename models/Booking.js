@@ -30,4 +30,13 @@ const BookingSchema = new mongoose.Schema({
     }
 });
 
+
+// Reverse populate with virtuals
+BookingSchema.virtual('rooms', {
+    ref: 'Room',
+    localField: '_id',
+    foreignField: 'hotel',
+    justOne: false
+});
+
 module.exports = mongoose.model('Booking', BookingSchema);
