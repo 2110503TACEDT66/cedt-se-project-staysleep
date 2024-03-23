@@ -39,7 +39,7 @@ BookingSchema.virtual('rooms', {
     justOne: false
 });
 
-BookingSchema.virtual('user', {
+BookingSchema.virtual('users', {
     ref: 'User',
     localField: '_id',
     foreignField: 'user',
