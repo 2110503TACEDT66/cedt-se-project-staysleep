@@ -39,4 +39,5 @@ BookingSchema.virtual('rooms', {
     justOne: false
 });
 
+
 module.exports = mongoose.model('Booking', BookingSchema);
