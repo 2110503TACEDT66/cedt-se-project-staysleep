@@ -5,11 +5,12 @@ const Hotel = require('../models/Hotel');
 //@route GET /api/v1/rooms
 //@access Public
 exports.getRooms = async (req, res, next) => {
-    try{
+    try {
         const rooms = await Room.find();
-        res.status(200).json({ success: true, count: rooms.length, pagination, data: rooms });
-    }catch(err){
-        res.status(400).json({ success: false });
+        res.status(200).json({ success: true, count: rooms.length, data: rooms });
+    } catch (err) {
+        console.error(err.stack);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
     }
 }
 
