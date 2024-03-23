@@ -5,6 +5,6 @@ const router = express.Router({mergeParams: true});
 
 const {protect, authorize} = require('../middleware/auth');
 
-router.route('/:id').get(protect, getUser)
+router.route('/:id').get(getUser)
 
 module.exports = router;
