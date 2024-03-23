@@ -15,6 +15,9 @@ exports.getBookings = async (req, res, next) => {
         }).populate({
             path: 'room',
             select: 'roomNumber price'
+        }).populate({
+            path: 'user',
+            select: 'name'
         });
     } else { //If you are an admin, you can see all!
         if(req.params.hotelId){
@@ -25,6 +28,9 @@ exports.getBookings = async (req, res, next) => {
             }).populate({
                 path: 'room',
                 select: 'roomNumber price'
+            }).populate({
+                path: 'user',
+                select: 'name'
             });
         }else{
             query = Booking.find().populate({
@@ -33,6 +39,9 @@ exports.getBookings = async (req, res, next) => {
             }).populate({
                 path: 'room',
                 select: 'roomNumber price'
+            }).populate({
+                path: 'user',
+                select: 'name'
             });
         }
     }
@@ -56,6 +65,9 @@ exports.getBooking = async (req, res, next) => {
         }).populate({
             path: 'room',
             select: 'roomNumber price'
+        }).populate({
+            path: 'user',
+            select: 'name'
         });
         if(!booking){
             return res.status(404).json({ success: false , message: `No booking with the id of ${req.params.id}`});

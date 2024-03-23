@@ -39,5 +39,12 @@ BookingSchema.virtual('rooms', {
     justOne: false
 });
 
+BookingSchema.virtual('user', {
+    ref: 'User',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false
+});
+
 
 module.exports = mongoose.model('Booking', BookingSchema);
