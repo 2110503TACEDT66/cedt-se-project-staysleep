@@ -20,6 +20,10 @@ const RoomSchema = new mongoose.Schema(
       ref: "Hotel",
       required: true,
     },
+    picture: {
+        type: String,
+        required: false,
+    }
   },
   {
     toJSON: { virtuals: true },
