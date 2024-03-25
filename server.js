@@ -17,6 +17,13 @@ const rooms = require('./routes/rooms');
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // or '*' to allow any origin
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 //Body parser
 app.use(express.json());
 app.use('/api/v1/hotels', hotels);
