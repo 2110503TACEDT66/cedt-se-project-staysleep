@@ -22,7 +22,7 @@ exports.getHotels = async (req, res, next) => {
         path: 'rooms',
         populate: {
             path: 'bookings',
-            select: 'bookingbegin bookingend', // Add the fields you want to select for bookings
+            select: 'bookingbegin bookingend',
         },
     });
 
@@ -81,14 +81,23 @@ exports.getHotels = async (req, res, next) => {
 //@route GET /api/v1/hotels/:id
 //@access Public
 exports.getHotel = async (req, res, next) => {
-    try{
-        const hotel = await Hotel.findById(req.params.id);
-        if(!hotel){
-            return res.status(400).json({ success: false, message: `No Hotel with the ID of ${req.param.id}` });
+    try {
+        const hotel = await Hotel.findById(req.params.id).populate({
+            path: 'rooms',
+            populate: {
+                path: 'bookings',
+                select: 'bookingbegin bookingend',
+            },
+        });
+
+        if (!hotel) {
+            return res.status(404).json({ success: false, message: `No Hotel with the ID of ${req.params.id}` });
         }
+
         res.status(200).json({ success: true, data: hotel });
-    }catch (err){
-        res.status(400).json({ success: false });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Server Error" });
     }
 }
 
