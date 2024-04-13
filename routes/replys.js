@@ -8,7 +8,7 @@ const router = express.Router({mergeParams: true});
 const {protect, authorize} = require('../middleware/auth');
 //router.use('/:hotelId/replys', replyRouter)
 
-router.route('/').get(getReplys).post(protect, authorize('admin'), createReply);
-router.route('/:id').get(getReply).put(protect, authorize('admin'), updateReply).delete(protect, authorize('admin'), deleteReply);
+router.route('/').get(getReplys).post(protect, authorize('admin','staff'), createReply);
+router.route('/:id').get(getReply).put(protect, authorize('admin','staff'), updateReply).delete(protect, authorize('admin','staff'), deleteReply);
 
 module.exports = router;

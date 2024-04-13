@@ -20,7 +20,11 @@ const ReviewSchema = new mongoose.Schema(
     star: {
       type: Number,
       required: true,
-    }
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     toJSON: { virtuals: true },
