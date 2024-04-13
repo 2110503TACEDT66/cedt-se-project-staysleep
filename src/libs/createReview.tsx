@@ -1,7 +1,6 @@
-import getHotel from "./getHotel"
 import getUserProfile from "./getUserProfile"
 
-export default async function createReview(token:string, hid:string, message:string, star:number) {
+export default async function createReview(token:string, userID:string, hid:string, message:string, star:number) {
     
     const response = await fetch(`https://hotel-reservation-api-phi.vercel.app/api/v1/hotels/${hid}/reviews`,{
         method: "POST",
@@ -10,8 +9,8 @@ export default async function createReview(token:string, hid:string, message:str
           authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-            hotel: await getHotel(hid),
-            user: await getUserProfile(token),
+            hotel: hid,
+            user: userID,
             message: message,
             star: star,
         }),

@@ -8,7 +8,8 @@ export default async function updateReview(id:string, token:string, message:stri
         },
         body: JSON.stringify({
             message: message, 
-            star: star}),
+            star: star
+        }),
     })
     if(!response.ok){
         throw new Error("Failed to update review")
