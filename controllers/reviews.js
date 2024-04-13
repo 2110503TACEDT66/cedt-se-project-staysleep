@@ -1,15 +1,15 @@
 const Review = require('../models/Review')
 const Hotel = require('../models/Hotel');
+const Reply = require('../models/Reply')
 
 //@desc Get all reviews
 //@route GET /api/v1/reviews
 //@access Public
 exports.getReviews = async (req, res, next) => {
+    const queryStr = JSON.stringify(req.query);
 
-    //query = Hotel.find(JSON.parse(queryStr)).populate({path: 'reply',});
-    
     try {
-        const reviews = await Review.find();
+        const reviews = await Review.find(JSON.parse(queryStr)).populate({path: 'replys'});
         res.status(200).json({ success: true, count: reviews.length, data: reviews });
     } catch (err) {
         console.error(err.stack);

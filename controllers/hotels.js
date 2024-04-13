@@ -25,8 +25,13 @@ exports.getHotels = async (req, res, next) => {
             select: 'bookingbegin bookingend',
         },
     }).populate({
-        path: 'reviews'
+        path: 'reviews',
+        populate: {
+            path: 'replys',
+            select: 'message star',
+        },
     });
+
 
     // Select Fields
     if(req.query.select){
