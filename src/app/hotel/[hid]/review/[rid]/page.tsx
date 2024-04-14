@@ -14,7 +14,7 @@ export default async function ReviewPage({ params }: { params: { hid: string, ri
 
     const reviewRes = await getReview(params.rid);
     const review = reviewRes.data;
-    // console.log(reviewRes);
+    console.log(reviewRes);
 
     const hotelRes = await getHotel(review.hotel);
     const hotel = hotelRes.data;
@@ -45,8 +45,8 @@ export default async function ReviewPage({ params }: { params: { hid: string, ri
                     reviewRes.success ?
                         <>
                             <div className="flex justify-center w-full">
-                                <div className="w-1/2 my-4 h-fit justify-center bg-white rounded-lg shadow-xl">
-                                    <div className="flex flex-row mx-12 py-8">
+                                <div className="w-2/3 my-4 h-fit justify-center bg-white rounded-lg shadow-xl">
+                                    <div className="flex flex-row mx-8 py-8">
                                         <div className="w-fit mr-4">
                                             <h1 className="font-bold text-2xl mb-2 text-black">
                                                 {review.user.name}
@@ -60,9 +60,10 @@ export default async function ReviewPage({ params }: { params: { hid: string, ri
                                                 />
                                                 Hotel : {hotel.name}
                                             </span>
+                                            <div className="text-sm text-[#78819a] mt-10">Reviewed at {new Date(review.createdAt).toLocaleDateString()}</div>
                                         </div>
-                                        <div className="w-[80%] px-12"><p className="break-words my-2">{review.message}</p></div>
-                                        <div className="w-fit text-right text-[#7881a9] text-2xl">{review.star}</div>
+                                        <div className="w-[80%] px-20"><p className="break-words my-2">{review.message}</p></div>
+                                        <div className="w-fit text-right text-[#7881a9] text-2xl text-nowrap">4.54 ⭐</div>
                                     </div>
                                 </div>
                             </div>
