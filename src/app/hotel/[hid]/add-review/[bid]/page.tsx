@@ -1,7 +1,9 @@
 "use client";
 import { BookingDetail, BookingItem, hotelItem } from "@/interface";
+import createReview from "@/libs/createReview";
 import getBooking from "@/libs/getBooking";
 import getHotel from "@/libs/getHotel";
+import getUserProfile from "@/libs/getUserProfile";
 import { CircularProgress, Slider } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -11,7 +13,8 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
   const session = useSession();
   if (!session || !session.data?.user.token) return null;
 
-  const [rating, setRating] = useState(0);
+  // range [1.0, 5.0]
+  const [rating, setRating] = useState(3.0);
   const [hotelDetail, setHotelDetail] = useState<hotelItem | null>(null);
   const [bookingDetail, setBookingDetail] = useState<BookingItem | null>(null);
 
@@ -28,6 +31,20 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
 
     fetchData();
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const message = new FormData(e.currentTarget).get("review") as string;
+    const profile = await getUserProfile(session.data.user.token)
+
+    const response = await createReview(
+      session.data.user.token,
+      profile.data._id,
+      params.hid,
+      message,
+      rating
+    );
+  }
 
   return (
     <main className="w-full h-full py-16 px-6 flex flex-col items-center">
@@ -68,10 +85,11 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
               </span>
             </div>
             <div className="w-full flex flex-col justify-center items-center">
-              <form action="" className="flex flex-col">
+              <form action={""} onSubmit={handleSubmit} className="flex flex-col">
                 <div className="mb-2 text-center text-2xl text-[#7880a8] font-bold">{rating}</div>
                 <input type="range" className="w-[50rem]" value={rating * 10} max={50} min={10} onChange={(e) => { setRating(Number(e.target.value) / 10) }} />
                 <textarea
+                  name="review"
                   className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg"
                   placeholder="Describe your experience"
                 />
