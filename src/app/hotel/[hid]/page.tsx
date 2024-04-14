@@ -127,7 +127,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
                                             </div>
                                             {
                                                 (user.data.role === "admin") ? 
-                                                <Link href={`/hotel/`} className=" mr-5 mt-2">
+                                                <Link href={`/hotel/${params.hid}/review/${review.id}`} className=" mr-5 mt-2">
                                                     <Image src="/icon/replyicon.png" alt="reply icon" fill style={{ objectFit: "contain" }} className="!relative !h-[2.5rem] !w-fit" />
                                                 </Link > 
                                                 : null
