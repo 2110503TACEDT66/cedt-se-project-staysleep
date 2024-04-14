@@ -103,10 +103,10 @@ exports.getHotel = async (req, res, next) => {
             populate: {
                 path: 'replys',
                 select: 'message star',
-            },populate({
+            },populate:{
                 path: 'user', 
                 select: 'name',
-            });
+            }
         });
 
         if (!hotel) {
