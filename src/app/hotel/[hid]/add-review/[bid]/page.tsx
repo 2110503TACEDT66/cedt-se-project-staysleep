@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { set } from "node_modules/cypress/types/lodash";
 import { Suspense, useEffect, useState } from "react";
+import "./slider.css";
 
 const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
   const session = useSession();
@@ -100,9 +101,9 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
               </span>
             </div>
             <div className="w-full flex flex-col justify-center items-center">
-              <form action={""} onSubmit={handleSubmit} className="flex flex-col">
+              <form action={""} onSubmit={handleSubmit} className="w-full px-4 flex flex-col">
                 <div className="mb-2 text-center text-2xl text-[#7880a8] font-bold">{rating}</div>
-                <input type="range" className="w-[50rem]" value={rating * 10} max={50} min={10} onChange={(e) => { setRating(Number(e.target.value) / 10) }} />
+                <input type="range" className="w-[50rem] slider" value={rating * 10} max={50} min={10} onChange={(e) => { setRating(Number(e.target.value) / 10) }} />
                 <textarea
                   name="review"
                   className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg"
