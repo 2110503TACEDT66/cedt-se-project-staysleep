@@ -1,7 +1,5 @@
-import getUserProfile from "./getUserProfile"
-
+'use server';
 export default async function createReview(token:string, userID:string, hid:string, message:string, star:number) {
-    
     const response = await fetch(`https://hotel-reservation-api-phi.vercel.app/api/v1/hotels/${hid}/reviews`,{
         method: "POST",
         headers: {
