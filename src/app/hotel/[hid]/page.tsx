@@ -1,11 +1,41 @@
+'use client'
 import getHotel from "@/libs/getHotel";
 import Image from "next/image";
 import Link from "next/link";
-import { hotelItem, hotelJson, reviewItem, roomItem } from "@/interface";
+import { hotelItem, hotelJson, reviewItem, roomItem, singleHotelJson } from "@/interface";
+import getUserProfile from "@/libs/getUserProfile";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export default async function HospitalDetailPage({ params }: { params: { hid: string } }) {
+    const session = useSession();
+    if (!session || !session.data?.user.token) return null;
+
+    /*const [hotelDetail, setHotelDetail] = useState<singleHotelJson | null>(null);
+    if (!hotelDetail) return null;
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const hotelDetail = await getHotel(params.hid);
+          setHotelDetail(hotelDetail);
+        };
+    
+        fetchData();
+      });*/
+
     const hotelDetail = await getHotel(params.hid);
     console.log(hotelDetail.data)
+    
+
+    let reviewsNumber = hotelDetail.data.reviews.length;
+    let reviewStar = 0;
+    hotelDetail.data.reviews.map((reviewItem:reviewItem) => reviewStar += reviewItem.star);
+    reviewStar = (reviewStar/hotelDetail.data.reviews.length);
+    if (isNaN(reviewStar)) reviewStar = 0;
+    reviewStar = Math.round(reviewStar * 10) / 10;
+
+    const user = getUserProfile(session.data.user.token);
+
     return (
         <main className="container mx-auto px-5 py-10">
             <div className="flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg p-5">
@@ -53,22 +83,55 @@ export default async function HospitalDetailPage({ params }: { params: { hid: st
                 </div>
             </div>
             <div>
-                <h3 className="text-2xl mb-4">Reviews:</h3>
-                <div className="mt-8 flex flex-wrap justify-around items-start text-black">
-                    {hotelDetail.data.reviews && hotelDetail.data.reviews.length > 0 ? (
-                        hotelDetail.data.reviews.map((review: reviewItem) => (
-                            <div key={review._id} className="flex-grow w-full md:w-1/3 mb-8">
-                                <div className="bg-white rounded-lg shadow-lg p-6">
-                                    <h4 className="text-lg font-semibold mb-4 mt-3">{review.user}</h4>
-                                    <p className="text-gray-600 mb-4">Rating: {review.star} ⭐</p>
-                                    <p className="text-gray-600 mb-4">{review.message}</p>
+                <div className="flex">
+                    <div className = 'w-auto h-[15%] p-[10px] pt-11 mr-20'>
+                        <div className='bg-zinc-600 rounded-3xl w-44 p-10 py-16 text-white text-3xl flex justify-center'>
+                            <>{reviewStar} ⭐</>
+                        </div>
+                        <p className="ml-12 mt-2 text-[#78819a]">
+                            {reviewsNumber} reviews
+                        </p>
+                    </div>
+                    <div className="mt-8 text-black">
+                        {hotelDetail.data.reviews && hotelDetail.data.reviews.length > 0 ? (
+                            hotelDetail.data.reviews.map((review: reviewItem) => (
+                                <div key={review._id} className="w-full max-width: 100% mb-8">
+                                    <div className="bg-white rounded-lg shadow-lg p-6 w-full">
+                                        <div className="flex justify-between">
+                                            <h4 className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user}</h4>
+                                            <div className="text-[#78819a] mb-4 ml-8 text-3xl">{review.star} ⭐</div>
+                                        </div>
+                                        <div className="flex">
+                                            <div>
+                                                <div className="mb-5 mt-5 ml-5 flex">
+                                                    <Image src="/icon/bedicon.png" alt="bed icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
+                                                    <div className="ml-2 text-sm text-[#78819a]">Room</div>
+                                                </div>
+                                                <div className="mb-5 ml-5 flex">
+                                                    <Image src="/icon/calendaricon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
+                                                    <div className="ml-3 text-sm text-[#78819a]">Booking Date</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-black mb-4 mt-3 mx-24">
+                                                {review.message}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <div className="text-sm text-[#78819a] mt-8 ml-1">
+                                                Reviewed: {new Date(review.createdAt).toLocaleDateString()}
+                                            </div>
+                                            <Link href={``} className=" mr-5 mt-2">
+                                                <Image src="/icon/replyicon.png" alt="reply icon" fill style={{ objectFit: "contain" }} className="!relative !h-[2.5rem] !w-fit" />
+                                            </Link >
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No reviews available</p>
-                    )}
-                </div>
+                            ))
+                        ) : (
+                            <p>No reviews available</p>
+                        )}
+                    </div>
+                </div>               
             </div>
         </main>
     );

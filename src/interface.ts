@@ -7,7 +7,7 @@ export interface hotelItem {
     postalcode: string,
     tel: string,
     picture: string,
-    room: roomItem[]
+    rooms: roomItem[]
     reviews: reviewItem[],
     __v: number,
     id: string
@@ -18,7 +18,12 @@ export interface hotelJson {
     count: number,
     pagination: Object,
     data: hotelItem[]
-  }
+}
+
+export interface singleHotelJson {
+  success: boolean,
+  data: hotelItem
+}
   
 export interface BookingItem{
     _id: string,
@@ -55,6 +60,16 @@ export interface reviewItem {
   user: string;
   message: string;
   star: number;
+  createdAt: string;
   __v: number;
   id: string;
+}
+
+export interface userItem {
+  _id: string,
+  name: string,
+  email: string,
+  role: string,
+  __v: number,
+  id: string
 }
