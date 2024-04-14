@@ -39,4 +39,18 @@ ReviewSchema.virtual("replys", {
   justOne: false,
 });
 
+ReviewSchema.virtual("users", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "review",
+  justOne: false,
+});
+
+ReviewSchema.virtual("bookings", {
+  ref: "Booking",
+  localField: "_id",
+  foreignField: "review",
+  justOne: false,
+});
+
 module.exports = mongoose.model("Review", ReviewSchema);

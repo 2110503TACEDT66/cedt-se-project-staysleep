@@ -1,6 +1,6 @@
 const Review = require('../models/Review')
-const Hotel = require('../models/Hotel');
-const Reply = require('../models/Reply')
+const User = require('../models/User');
+
 
 //@desc Get all reviews
 //@route GET /api/v1/reviews
@@ -21,16 +21,23 @@ exports.getReviews = async (req, res, next) => {
 //@route GET /api/v1/reviews/:id
 //@access Public
 exports.getReview = async (req, res, next) => {
-    try{
-        const review = await Review.findById(req.params.id);
-        if(!review){
-            return res.status(400).json({ success: false, message: `No review with the ID of ${req.param.id}` });
+    try {
+        const review = await Review.findById(req.params.id).populate({
+            path: 'user', 
+            select: 'name',
+        });
+
+        if (!review) {
+            return res.status(400).json({ success: false, message: `No review with the ID of ${req.params.id}` });
         }
+
+        // Assuming you want to access the username via review.user.name
         res.status(200).json({ success: true, data: review });
-    }catch (err){
-        res.status(400).json({ success: false, error: "Internal Server Error"  });
+    } catch (err) {
+        res.status(400).json({ success: false, error: "Internal Server Error" });
     }
 }
+
 
 //@desc Create new review
 //@route POST /api/v1/hotels/:hotelId/reviews
