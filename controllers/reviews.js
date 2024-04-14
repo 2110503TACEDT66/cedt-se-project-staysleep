@@ -1,6 +1,6 @@
 const Review = require('../models/Review')
 const User = require('../models/User');
-
+const Booking = require('../models/Booking');
 
 //@desc Get all reviews
 //@route GET /api/v1/reviews
@@ -9,7 +9,10 @@ exports.getReviews = async (req, res, next) => {
     const queryStr = JSON.stringify(req.query);
 
     try {
-        const reviews = await Review.find(JSON.parse(queryStr)).populate({path: 'replys'});
+        const reviews = await Review.find(JSON.parse(queryStr)).populate({
+            path: 'user', 
+            select: 'name',
+        }).populate({path: 'replys'});
         res.status(200).json({ success: true, count: reviews.length, data: reviews });
     } catch (err) {
         console.error(err.stack);
