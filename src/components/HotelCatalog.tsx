@@ -11,7 +11,7 @@ export default async function hotelCatalog({hotelJson} : {hotelJson:Promise<hote
                 {
                     hotelJsonReady.data.map((hotelItem:hotelItem)=>(
                         <Link href={`/hotel/${hotelItem.id}`} className="w-1/5">
-                            <Card hotelName={hotelItem.name} imgSrc={hotelItem.picture} />
+                            <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} />
                         </Link>
                     ))
                 }

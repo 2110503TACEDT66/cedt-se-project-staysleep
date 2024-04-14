@@ -1,7 +1,7 @@
 import getHotel from "@/libs/getHotel";
 import Image from "next/image";
 import Link from "next/link";
-import { roomItem } from "@/interface";
+import { hotelItem, hotelJson, reviewItem, roomItem } from "@/interface";
 
 export default async function HospitalDetailPage({ params }: { params: { hid: string } }) {
     const hotelDetail = await getHotel(params.hid);
@@ -49,6 +49,24 @@ export default async function HospitalDetailPage({ params }: { params: { hid: st
                         ))
                     ) : (
                         <p>No rooms available</p>
+                    )}
+                </div>
+            </div>
+            <div>
+                <h3 className="text-2xl mb-4">Reviews:</h3>
+                <div className="mt-8 flex flex-wrap justify-around items-start text-black">
+                    {hotelDetail.data.reviews && hotelDetail.data.reviews.length > 0 ? (
+                        hotelDetail.data.reviews.map((review: reviewItem) => (
+                            <div key={review._id} className="flex-grow w-full md:w-1/3 mb-8">
+                                <div className="bg-white rounded-lg shadow-lg p-6">
+                                    <h4 className="text-lg font-semibold mb-4 mt-3">{review.user}</h4>
+                                    <p className="text-gray-600 mb-4">Rating: {review.star} ⭐</p>
+                                    <p className="text-gray-600 mb-4">{review.message}</p>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No reviews available</p>
                     )}
                 </div>
             </div>

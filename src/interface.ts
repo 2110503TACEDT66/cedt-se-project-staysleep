@@ -8,6 +8,7 @@ export interface hotelItem {
     tel: string,
     picture: string,
     room: roomItem[]
+    reviews: reviewItem[],
     __v: number,
     id: string
   }
@@ -46,4 +47,14 @@ export interface roomItem {
   maxOccupant: number;
   bookings: [];
   picture: string;
+}
+
+export interface reviewItem {
+  _id: string;
+  hotel: string;
+  user: string;
+  message: string;
+  star: number;
+  __v: number;
+  id: string;
 }
