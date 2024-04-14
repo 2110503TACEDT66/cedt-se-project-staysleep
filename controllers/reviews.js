@@ -34,12 +34,19 @@ exports.getReview = async (req, res, next) => {
             return res.status(400).json({ success: false, message: `No review with the ID of ${req.params.id}` });
         }
 
-        // Assuming you want to access the username via review.user.name
-        res.status(200).json({ success: true, data: review });
+        const userId = review.user._id;
+
+        const bookings = await Booking.find({ user: userId }).populate('hotel room');
+
+        review.user.bookings = bookings;
+
+        res.status(200).json({ success: true, data: review, data1: bookings});
     } catch (err) {
-        res.status(400).json({ success: false, error: "Internal Server Error" });
+        console.error(err); // Log any errors
+        res.status(500).json({ success: false, error: "Internal Server Error" });
     }
 }
+
 
 
 //@desc Create new review
