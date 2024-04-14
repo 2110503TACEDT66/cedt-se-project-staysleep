@@ -27,7 +27,7 @@ export default async function MyBooking() {
                                 {
                                     new Date(bookingItem.bookingend).getTime() < new Date().getTime()
                                         ?
-                                        <Link href={`/bookings/${bookingItem._id}/review`}>
+                                        <Link href={`/hotel/${bookingItem.hotel._id}/add-review/${bookingItem._id}`}>
                                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Review</button>
                                         </Link>
                                         :

@@ -1,0 +1,88 @@
+"use client";
+import { BookingDetail, BookingItem, hotelItem } from "@/interface";
+import getBooking from "@/libs/getBooking";
+import getHotel from "@/libs/getHotel";
+import { CircularProgress, Slider } from "@mui/material";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
+  const session = useSession();
+  if (!session || !session.data?.user.token) return null;
+
+  const [rating, setRating] = useState(0);
+  const [hotelDetail, setHotelDetail] = useState<hotelItem | null>(null);
+  const [bookingDetail, setBookingDetail] = useState<BookingItem | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const hotelDetail = await getHotel(params.hid);
+      if (!hotelDetail) return null;
+      setHotelDetail(hotelDetail.data);
+
+      const bookingDetail: BookingDetail = await getBooking(params.bid, session!.data.user.token);
+      if (!bookingDetail) return null;
+      setBookingDetail(bookingDetail.data);
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <main className="w-full h-full py-16 px-6 flex flex-col items-center">
+      <div className="w-full h-[20rem] flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-xl p-5">
+        {!hotelDetail ? <CircularProgress /> :
+          <>
+            <div className="md:w-1/3 !relative">
+              <Image
+                src={hotelDetail.picture}
+                alt="Hotel Image"
+                fill
+                style={{ objectFit: 'contain' }}
+                className="rounded-lg"
+              />
+            </div>
+            <div className="md:w-2/3 md:ml-10 mt-5 md:mt-0 text-black">
+              <h2 className="text-2xl font-semibold mb-2 mt-4">{hotelDetail.name}</h2>
+              <div className="text-lg mb-2">Address: {hotelDetail.address}, {hotelDetail.district}, {hotelDetail.province}, {hotelDetail.postalcode}</div>
+              <div className="text-lg mb-4">Tel: {hotelDetail.tel}</div>
+            </div>
+          </>
+        }
+      </div>
+      <div className="w-full flex justify-center mt-20 px-[7rem]">
+        {!bookingDetail ? <CircularProgress /> :
+          <>
+            <div className="w-fit flex flex-col mr-[20rem] text-slate-500">
+              <span className="font-bold text-2xl mb-5 text-black">
+                {bookingDetail.user.name}
+              </span>
+              <span className="flex gap-2 text-nowrap mb-3">
+                <Image src="/icon/bedicon.png" alt="bed icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
+                Room : {bookingDetail.room.roomNumber}
+              </span>
+              <span className="flex gap-2 text-nowrap">
+                <Image src="/icon/calendaricon.png" alt="bed icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
+                {new Date(bookingDetail.bookingbegin).toLocaleDateString()} - {new Date(bookingDetail.bookingend).toLocaleDateString()}
+              </span>
+            </div>
+            <div className="w-full flex flex-col justify-center items-center">
+              <form action="" className="flex flex-col">
+                <div className="mb-2 text-center text-2xl text-[#7880a8] font-bold">{rating}</div>
+                <input type="range" className="w-[50rem]" value={rating * 10} max={50} min={10} onChange={(e) => { setRating(Number(e.target.value) / 10) }} />
+                <textarea
+                  className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg"
+                  placeholder="Describe your experience"
+                />
+                <button className="w-[5rem] m-auto bg-[#7880a8] hover:bg-slate-700 text-white font-bold py-2 rounded">Submit</button>
+              </form>
+            </div>
+          </>
+        }
+      </div>
+    </main>
+  );
+};
+
+export default ReviewPage;

@@ -30,6 +30,7 @@ export interface BookingItem{
       roomNumber: string
     },
     hotel: {
+      _id: string,
       name: string
     }
   }
