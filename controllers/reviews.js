@@ -36,10 +36,10 @@ exports.getReview = async (req, res, next) => {
 //@route POST /api/v1/hotels/:hotelId/reviews
 //@access Private
 exports.createReview = async (req, res, next) => {
-    const hotel = await Review.create(req.body);
+    const review = await Review.create(req.body);
     res.status(201).json({
         success: true,
-        data: Review
+        data: review
     });
 }
 
