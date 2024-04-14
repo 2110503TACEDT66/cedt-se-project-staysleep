@@ -4,10 +4,12 @@ import createReview from "@/libs/createReview";
 import getBooking from "@/libs/getBooking";
 import getHotel from "@/libs/getHotel";
 import getUserProfile from "@/libs/getUserProfile";
-import { CircularProgress, Slider } from "@mui/material";
+import { Alert, CircularProgress, Slider } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { set } from "node_modules/cypress/types/lodash";
+import { Suspense, useEffect, useState } from "react";
 
 const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
   const session = useSession();
@@ -17,6 +19,11 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
   const [rating, setRating] = useState(3.0);
   const [hotelDetail, setHotelDetail] = useState<hotelItem | null>(null);
   const [bookingDetail, setBookingDetail] = useState<BookingItem | null>(null);
+
+  const [pending, setPending] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +41,7 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPending(true);
     const message = new FormData(e.currentTarget).get("review") as string;
     const profile = await getUserProfile(session.data.user.token)
 
@@ -44,6 +52,13 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
       message,
       rating
     );
+    setPending(false);
+    if (response) {
+      setSuccess(true);
+      setTimeout(() => {
+        router.push(`/bookings/manage`);
+      }, 1000);
+    }
   }
 
   return (
@@ -93,12 +108,21 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
                   className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg"
                   placeholder="Describe your experience"
                 />
-                <button className="w-[5rem] m-auto bg-[#7880a8] hover:bg-slate-700 text-white font-bold py-2 rounded">Submit</button>
+                <button className="w-fit px-4 py-2 flex justify-center items-center m-auto bg-[#7880a8] hover:bg-slate-700 text-white font-bold rounded">
+                  Submit
+                  {pending && <CircularProgress size={"1rem"} className="ml-4" />}
+                </button>
               </form>
             </div>
           </>
         }
       </div>
+      {
+        success &&
+        <Alert severity="success" className="mt-5 ml-auto">
+          Your review has been submitted successfully.
+        </Alert>
+      }
     </main>
   );
 };
