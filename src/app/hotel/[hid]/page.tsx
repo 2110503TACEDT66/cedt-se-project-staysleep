@@ -7,23 +7,30 @@ import getUserProfile from "@/libs/getUserProfile";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-export default async function HospitalDetailPage({ params }: { params: { hid: string } }) {
+export default function HospitalDetailPage({ params }: { params: { hid: string } }) {
+
     const session = useSession();
     if (!session || !session.data?.user.token) return null;
 
-    /*const [hotelDetail, setHotelDetail] = useState<singleHotelJson | null>(null);
-    if (!hotelDetail) return null;
+    const [hotelDetail, setHotelDetail] = useState<singleHotelJson | null>(null);
+    const [user, setUser] = useState<any | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-          const hotelDetail = await getHotel(params.hid);
-          setHotelDetail(hotelDetail);
-        };
-    
-        fetchData();
-      });*/
+            const hotelDetail = await getHotel(params.hid);
+            console.log(hotelDetail)
+            setHotelDetail(hotelDetail);
 
-    const hotelDetail = await getHotel(params.hid);
+            const user = await getUserProfile(session.data.user.token);
+            setUser(user);
+        };
+
+        fetchData();
+    }, []);
+
+    if(!hotelDetail) return null;
+    if(!user) return null;
+
     console.log(hotelDetail.data)
     
 
@@ -33,8 +40,6 @@ export default async function HospitalDetailPage({ params }: { params: { hid: st
     reviewStar = (reviewStar/hotelDetail.data.reviews.length);
     if (isNaN(reviewStar)) reviewStar = 0;
     reviewStar = Math.round(reviewStar * 10) / 10;
-
-    const user = getUserProfile(session.data.user.token);
 
     return (
         <main className="container mx-auto px-5 py-10">
@@ -98,7 +103,7 @@ export default async function HospitalDetailPage({ params }: { params: { hid: st
                                 <div key={review._id} className="w-full max-width: 100% mb-8">
                                     <div className="bg-white rounded-lg shadow-lg p-6 w-full">
                                         <div className="flex justify-between">
-                                            <h4 className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user}</h4>
+                                            <h4 className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
                                             <div className="text-[#78819a] mb-4 ml-8 text-3xl">{review.star} ⭐</div>
                                         </div>
                                         <div className="flex">
@@ -120,9 +125,13 @@ export default async function HospitalDetailPage({ params }: { params: { hid: st
                                             <div className="text-sm text-[#78819a] mt-8 ml-1">
                                                 Reviewed: {new Date(review.createdAt).toLocaleDateString()}
                                             </div>
-                                            <Link href={``} className=" mr-5 mt-2">
-                                                <Image src="/icon/replyicon.png" alt="reply icon" fill style={{ objectFit: "contain" }} className="!relative !h-[2.5rem] !w-fit" />
-                                            </Link >
+                                            {
+                                                (user.data.role === "admin") ? 
+                                                <Link href={`/hotel/`} className=" mr-5 mt-2">
+                                                    <Image src="/icon/replyicon.png" alt="reply icon" fill style={{ objectFit: "contain" }} className="!relative !h-[2.5rem] !w-fit" />
+                                                </Link > 
+                                                : null
+                                            }
                                         </div>
                                     </div>
                                 </div>

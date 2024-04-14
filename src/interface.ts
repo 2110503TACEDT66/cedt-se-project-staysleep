@@ -57,7 +57,7 @@ export interface roomItem {
 export interface reviewItem {
   _id: string;
   hotel: string;
-  user: string;
+  user: userItem;
   message: string;
   star: number;
   createdAt: string;
