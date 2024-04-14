@@ -61,4 +61,5 @@ HotelSchema.virtual('reviews', {
     justOne: false
 });
 
+
 module.exports = mongoose.model('Hotel', HotelSchema);
