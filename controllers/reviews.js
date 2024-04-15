@@ -28,7 +28,7 @@ exports.getReview = async (req, res, next) => {
         const review = await Review.findById(req.params.id).populate({
             path: 'user', 
             select: 'name',
-        });
+        }).populate({path: 'replys'});
 
         if (!review) {
             return res.status(400).json({ success: false, message: `No review with the ID of ${req.params.id}` });
@@ -40,7 +40,7 @@ exports.getReview = async (req, res, next) => {
 
         review.user.bookings = bookings;
 
-        res.status(200).json({ success: true, data: review, data1: bookings});
+        res.status(200).json({ success: true, data: review});
     } catch (err) {
         console.error(err); // Log any errors
         res.status(500).json({ success: false, error: "Internal Server Error" });
