@@ -1,4 +1,5 @@
 import './globals.css'
+import '../styles/slider.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import TopMenu from '@/components/TopMenu'
@@ -27,9 +28,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {/* <ReduxProvider> */}
-        <NextAuthProvider session={session}> 
-        <TopMenu/>
-        {children}
+        <NextAuthProvider session={session}>
+          <TopMenu />
+          {children}
         </NextAuthProvider>
         {/* </ReduxProvider> */}
       </body>
