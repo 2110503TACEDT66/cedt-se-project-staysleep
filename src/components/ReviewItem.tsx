@@ -114,7 +114,7 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
       {
         review.replys.map((replyItem: replyItem) => (
           <div key={replyItem._id} className="bg-white rounded-lg shadow-lg p-6 mt-5 ml-10">
-            <div className="text-black mb-4 mt-3 mr-24 w-[50vw] overflow:hidden whitespace-nowrap overflow-ellipsis">
+            <div className="text-black mb-4 mt-3 mr-24 w-[50vw] break-words">
               {replyItem.message}
             </div>
             <div className="flex justify-between">
