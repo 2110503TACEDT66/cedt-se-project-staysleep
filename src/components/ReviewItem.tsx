@@ -1,4 +1,5 @@
 import { replyItem, reviewItem } from "@/interface";
+import deleteReview from "@/libs/deleteReview";
 import updateReview from "@/libs/updateReview";
 import { CircularProgress } from "@mui/material";
 import Image from "next/image";
@@ -12,6 +13,7 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
   const [rating, setRating] = useState(review.star);
 
   const [pending, setPending] = useState(false);
+  const [deletePending, setDeletePending] = useState(false);
 
   // handle edit review
   const handleEdit = () => {
@@ -37,6 +39,18 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
         handleEdit();
       }, 1200);
     }
+  }
+  // delete review
+  const handleDelete = async () => {
+    setDeletePending(true);
+    const response = await deleteReview(review._id, token);
+
+    setTimeout(() => {
+      if (response) {
+        setDeletePending(false);
+        window.location.reload();
+      }
+    }, 1200);
   }
 
   return (
@@ -73,7 +87,7 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
           <div className="text-sm text-[#78819a] mt-8 ml-1">
             Reviewed: {new Date(review.createdAt).toLocaleDateString()}
           </div>
-          <div className="flex justify-between mt-2">
+          <div className="flex justify-between items-center mt-2">
             {
               (user.data.role === "admin" || user.data._id === review.user._id) ?
                 <button className="" onClick={handleEdit}>
@@ -82,10 +96,11 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
             }
             {
               (user.data.role === "admin" || user.data._id === review.user._id) ?
-                <button className="ml-5">
+                <button className="ml-5" onClick={handleDelete}>
                   <Image src="/icon/deleteicon.png" alt="delete icon" fill style={{ objectFit: "contain" }} className="!relative !h-[2.5rem] !w-fit" />
                 </button> : null
             }
+            {deletePending && <CircularProgress size={"1rem"} className="ml-4" />}
             {
               (user.data.role === "staff" || user.data.role === "admin") ?
                 <Link href={`/hotel/${review.hotel}/review/${review.id}`} className="ml-6">
