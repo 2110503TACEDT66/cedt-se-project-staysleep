@@ -60,6 +60,7 @@ export interface reviewItem {
   user: userItem;
   message: string;
   star: number;
+  replys: replyItem[];
   createdAt: string;
   __v: number;
   id: string;
@@ -72,4 +73,14 @@ export interface userItem {
   role: string,
   __v: number,
   id: string
+}
+
+export interface replyItem {
+  _id: string;
+  review: string;
+  user: string;
+  message: string;
+  __v: number;
+  createdAt: string;
+  id: string;
 }
