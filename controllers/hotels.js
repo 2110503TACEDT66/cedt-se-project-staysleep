@@ -28,7 +28,7 @@ exports.getHotels = async (req, res, next) => {
         path: 'reviews',
         populate: {
             path: 'replys',
-            select: 'message',
+            select: 'message user createdAt',
         }
     }).populate({
         path: 'reviews',
@@ -105,7 +105,7 @@ exports.getHotel = async (req, res, next) => {
             path: 'reviews',
             populate: {
                 path: 'replys',
-                select: 'message',
+                select: 'message user createdAt',
             }
         }).populate({
             path: 'reviews',
