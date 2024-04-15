@@ -10,7 +10,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { set } from "node_modules/cypress/types/lodash";
 import { Suspense, useEffect, useState } from "react";
-import "./slider.css";
 
 const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
   const session = useSession();
