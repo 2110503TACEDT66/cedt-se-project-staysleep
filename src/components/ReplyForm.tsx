@@ -15,10 +15,10 @@ export default function ReplyForm({ userID, rid }: { userID: string, rid: string
   };
 
   return (
-    <div className="w-full px-4 flex flex-col">
+    <div className="flex flex-col justify-center">
       <textarea
         name="reply"
-        className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg"
+        className="px-2 py-3 my-6 h-[7rem] border-2 border-slate-400 rounded-lg"
         placeholder="Write your reply"
         onChange={(e) => { setMessage(e.target.value) }}
       />
