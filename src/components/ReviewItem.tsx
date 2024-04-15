@@ -89,7 +89,7 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
           </div>
           <div className="flex justify-between items-center mt-2">
             {
-              (user.data.role === "admin" || user.data._id === review.user._id) ?
+              (user.data._id === review.user._id) ?
                 <button className="" onClick={handleEdit}>
                   <Image src="/icon/editicon.png" alt="edit icon" fill style={{ objectFit: "contain" }} className="!relative !h-[2.3rem] !w-fit" />
                 </button> : null
