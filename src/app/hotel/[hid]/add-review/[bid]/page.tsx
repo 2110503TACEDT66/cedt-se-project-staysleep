@@ -56,7 +56,7 @@ const ReviewPage = ({ params }: { params: { hid: string, bid: string } }) => {
     if (response) {
       setSuccess(true);
       setTimeout(() => {
-        router.push(`/bookings/manage`);
+        router.push(`/hotel/${params.hid}`);
       }, 1000);
     }
   }
