@@ -59,7 +59,7 @@ export default async function ReviewPage({ params }: { params: { hid: string, ri
                                             />
                                             Hotel : {hotel.name}
                                         </span>
-                                        <div className="text-sm text-[#78819a] mt-10">Reviewed at {new Date(review.createdAt).toLocaleDateString()}</div>
+                                        <div className="text-sm text-[#78819a] mt-10">Reviewed: {new Date(review.createdAt).toLocaleDateString()}</div>
                                     </div>
                                     <div className="w-[80%] px-20"><p className="break-words my-2">{review.message}</p></div>
                                     <div className="w-fit text-right text-[#7881a9] text-2xl text-nowrap">4.54 ⭐</div>

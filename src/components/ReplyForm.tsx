@@ -10,8 +10,8 @@ export default function ReplyForm({ userID, rid }: { userID: string, rid: string
   const onClick = async () => {
     if (!message || !session.data?.user.token) return;
     const res = await createReply(session.data?.user.token, userID, rid, message);
-    if(res.success) console.log("Reply successful");
-    else console.log("Reply failed");
+    if(res.success) alert("Reply successful");
+    else alert("Reply failed");
   };
 
   return (
