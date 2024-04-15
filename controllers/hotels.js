@@ -28,8 +28,11 @@ exports.getHotels = async (req, res, next) => {
         path: 'reviews',
         populate: {
             path: 'replys',
-            select: 'message star',
-        },populate:{
+            select: 'message',
+        }
+    }).populate({
+        path: 'reviews',
+        populate: {
             path: 'user', 
             select: 'name',
         }
@@ -102,8 +105,11 @@ exports.getHotel = async (req, res, next) => {
             path: 'reviews',
             populate: {
                 path: 'replys',
-                select: 'message star',
-            },populate:{
+                select: 'message',
+            }
+        }).populate({
+            path: 'reviews',
+            populate: {
                 path: 'user', 
                 select: 'name',
             }
