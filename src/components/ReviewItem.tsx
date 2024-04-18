@@ -1,12 +1,16 @@
-import { replyItem, reviewItem } from "@/interface";
+import { BookingItem, BookingItemForReview, replyItem, reviewItem, roomItem } from "@/interface";
 import deleteReview from "@/libs/deleteReview";
+import getRoom from "@/libs/getRoom";
 import updateReview from "@/libs/updateReview";
 import { CircularProgress } from "@mui/material";
+import { use } from "chai";
+import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, token: string }) => {
+const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user: any, token: string, booking: BookingItemForReview }) => {
   // hanle edit review
   const [isEditing, setIsEditing] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -14,6 +18,7 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
 
   const [pending, setPending] = useState(false);
   const [deletePending, setDeletePending] = useState(false);
+  const [room, setRoom] = useState<roomItem | null>(null);     
 
   // handle edit review
   const handleEdit = () => {
@@ -53,6 +58,16 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
     }, 1200);
   }
 
+  //getRoom
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const roomData = await getRoom(booking.room);
+      //console.log(roomData.data)
+      setRoom(roomData.data);
+    }
+    fetchRoom();
+  }, [])
+
   return (
     <div key={review._id} className="w-full max-width: 100% mb-12">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full">
@@ -61,14 +76,17 @@ const ReviewItem = ({ review, user, token }: { review: reviewItem, user: any, to
           <div className="text-[#78819a] mb-4 ml-8 text-3xl">{rating} ⭐</div>
         </div>
         <div className="flex w-full">
-          <div>
+          <div className="">
             <div className="mb-5 mt-5 ml-5 flex">
               <Image src="/icon/bedicon.png" alt="bed icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
-              <div className="ml-2 text-sm text-[#78819a]">Room</div>
+              <div className="ml-2 text-sm text-[#78819a]">Room: {room?.roomNumber}</div>
             </div>
             <div className="mb-5 ml-5 flex">
               <Image src="/icon/calendaricon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
-              <div className="ml-3 text-sm text-[#78819a]">Booking Date</div>
+              <div className="ml-3 text-sm text-[#78819a]">
+                {dayjs(booking.bookingbegin).format('DD/MM/YYYY')} - {dayjs(booking.bookingend).format('DD/MM/YYYY')}
+                {/*{dayjs(booking.bookingbegin).diff(dayjs(booking.bookingend), 'day')} days*/}
+              </div>
             </div>
           </div>
           {/* {review.message} */}

@@ -41,6 +41,20 @@ export interface BookingItem{
     }
   }
 
+  export interface BookingItemForReview{
+    _id: string,
+    bookingbegin: string,
+    bookingend: string,
+    user: {
+      name: string
+    },
+    room: string,
+    hotel: {
+      _id: string,
+      name: string
+    }
+  }
+
 export interface BookingDetail{
   data: BookingItem
 }
@@ -61,7 +75,7 @@ export interface reviewItem {
   message: string;
   star: number;
   replys: replyItem[];
-  booking: BookingItem;
+  booking: BookingItemForReview;
   createdAt: string;
   __v: number;
   id: string;
@@ -73,7 +87,8 @@ export interface userItem {
   email: string,
   role: string,
   __v: number,
-  id: string
+  id: string,
+  hotel?: string
 }
 
 export interface replyItem {
