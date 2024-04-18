@@ -42,6 +42,7 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
       setTimeout(() => {
         setPending(false);
         handleEdit();
+        window.location.reload();
       }, 1200);
     }
   }
