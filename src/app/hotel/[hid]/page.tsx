@@ -29,6 +29,17 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const reviewId = window.location.href.split("#")[1];
+    console.log(reviewId);
+    if (reviewId) {
+      const reviewElement = document.getElementById(reviewId);
+      if (reviewElement) {
+        reviewElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [user != null, hotelDetail != null]);
+
   if (!user || !hotelDetail)
     return (
       <div className="flex justify-center p-52">

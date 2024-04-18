@@ -18,7 +18,7 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
 
   const [pending, setPending] = useState(false);
   const [deletePending, setDeletePending] = useState(false);
-  const [room, setRoom] = useState<roomItem | null>(null);     
+  const [room, setRoom] = useState<roomItem | null>(null);
 
   // handle edit review
   const handleEdit = () => {
@@ -70,7 +70,7 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
   }, [])
 
   return (
-    <div key={review._id} className="w-full max-width: 100% mb-12">
+    <div id={review.id} key={review._id} className="w-full max-width: 100% mb-12">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full">
         <div className="flex justify-between">
           <h4 className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
