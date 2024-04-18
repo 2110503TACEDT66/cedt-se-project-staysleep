@@ -1,7 +1,7 @@
 import { reviewItem } from "@/interface"
 
 export default async function getReviewByBooking(id: string): Promise<reviewItem | null> {
-  const response = await fetch(`http://localhost:5000/api/v1/bookings/${id}/reviews`, { cache: 'no-store' })
+  const response = await fetch(`https://hotel-reservation-api-phi.vercel.app/api/v1/bookings/${id}/reviews`, { cache: 'no-store' })
   if (!response.ok) {
     return null
   }
