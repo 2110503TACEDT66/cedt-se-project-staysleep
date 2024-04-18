@@ -20,7 +20,6 @@ const ReviewSchema = new mongoose.Schema(
     message: {
       type: String,
       required: true,
-      unique: true,
     },
     star: {
       type: Number,
