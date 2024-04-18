@@ -9,9 +9,11 @@ export default function ReplyArea({ replyData, review, rid, role }: { replyData:
         <ReplyList replyData={replyData} />
         {role === "admin" ?
           <ReplyForm userID={review.user._id} rid={rid} />
-          : null
+          : <div>⠀</div>
         }
       </div>
     </div>
   );
 }
+
+// Invisible Character : >>⠀<<

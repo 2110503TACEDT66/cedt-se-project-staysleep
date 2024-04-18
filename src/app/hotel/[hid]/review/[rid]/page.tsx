@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ReplyArea from "@/components/ReplyArea";
 import getHotel from "@/libs/getHotel";
 import getReview from "@/libs/getReview";
+import getRoom from "@/libs/getRoom";
 import getUserProfile from "@/libs/getUserProfile";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
@@ -18,25 +19,9 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
 
   const hotelRes = await getHotel(review.hotel);
   const hotel = hotelRes.data;
-  // console.log(reviewRes.data1[2].hotel);
-  // const review = {
-  //     userID: "mockID",
-  //     user: { name: "UserName" },
-  //     booking: {
-  //         room: { roomNumber: "123" },
-  //         bookingbegin: new Date(Date.now()), bookingend: new Date(Date.now())
-  //     },
-  //     message: "YapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYapYap",
-  //     star: 5,
-  //     reply: [
-  //         {
-  //             message: "Yap1"
-  //         },
-  //         {
-  //             message: "Yap2"
-  //         }
-  //     ]
-  // }
+
+  const roomRes = await getRoom(review.booking.room);
+  const room = roomRes.data;
 
   return (
     <main>
@@ -54,7 +39,16 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
                       fill
                       className="!relative !h-[1.5rem] !w-fit object-contain"
                     />
-                    Hotel : {hotel.name}
+                    Hotel : {hotel.name}<br />Room : {room.roomNumber}
+                  </span>
+                  <span className="flex gap-2 text-nowrap">
+                    <Image
+                      src="/icon/calendaricon.png"
+                      alt="calendar icon"
+                      fill
+                      className="!relative !h-[1.5rem] !w-fit object-contain"
+                    />
+                    {new Date(review.booking.bookingbegin).toLocaleDateString()} - {new Date(review.booking.bookingend).toLocaleDateString()}
                   </span>
                   <div className="text-sm text-[#78819a] mt-10">
                     Reviewed: {new Date(review.createdAt).toLocaleDateString()}
@@ -75,16 +69,3 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
     </main>
   );
 }
-
-/*
-    Booking Data
-    <span className="flex gap-2 text-nowrap">
-        <Image
-            src="/icon/calendaricon.png"
-            alt="calendar icon"
-            fill
-            className="!relative !h-[1.5rem] !w-fit object-contain"
-        />
-        {new Date(review.booking.bookingbegin).toLocaleDateString()} - {new Date(review.booking.bookingend).toLocaleDateString()}
-    </span>
-*/
