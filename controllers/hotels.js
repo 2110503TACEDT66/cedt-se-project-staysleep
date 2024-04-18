@@ -36,6 +36,11 @@ exports.getHotels = async (req, res, next) => {
             path: 'user', 
             select: 'name',
         }
+    }).populate({
+        path: 'reviews',
+        populate: {
+            path: 'booking'
+        },
     });
 
 
@@ -112,7 +117,12 @@ exports.getHotel = async (req, res, next) => {
             populate: {
                 path: 'user', 
                 select: 'name',
-            }
+            },
+        }).populate({
+            path: 'reviews',
+            populate: {
+                path: 'booking'
+            },
         });
 
         if (!hotel) {

@@ -12,6 +12,11 @@ const ReviewSchema = new mongoose.Schema(
         ref: "User",
         required: true,
     },
+    booking:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking",
+        required: true,
+    },
     message: {
       type: String,
       required: true,

@@ -12,7 +12,9 @@ exports.getReviews = async (req, res, next) => {
         const reviews = await Review.find(JSON.parse(queryStr)).populate({
             path: 'user', 
             select: 'name',
-        }).populate({path: 'replys'});
+        })
+        .populate({ path: 'replys'})
+        .populate({ path: 'booking'});
         res.status(200).json({ success: true, count: reviews.length, data: reviews });
     } catch (err) {
         console.error(err.stack);
@@ -25,10 +27,13 @@ exports.getReviews = async (req, res, next) => {
 //@access Public
 exports.getReview = async (req, res, next) => {
     try {
-        const review = await Review.findById(req.params.id).populate({
-            path: 'user', 
-            select: 'name',
-        }).populate({path: 'replys'});
+        const review = await Review.findById(req.params.id)
+            .populate({
+                path: 'user', 
+                select: 'name',
+            })
+            .populate({ path: 'replys' })
+            .populate({ path: 'booking'});
 
         if (!review) {
             return res.status(400).json({ success: false, message: `No review with the ID of ${req.params.id}` });
