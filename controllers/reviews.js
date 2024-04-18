@@ -103,3 +103,32 @@ exports.deleteReview = async (req, res, next) => {
     res.status(400).json({ success: false });
   }
 };
+
+//@desc Get review by bookingID
+//@route GET /api/v1/bookings/:bookingId/reviews
+//@access Public
+exports.getReviewByBookingID = async (req, res, next) => {
+    if (!req.params.bookingId) {
+        next();
+    }
+    try {
+        // don't need to populate anything here. cause we'll only use reviewI
+        const review = await Review.findOne({ booking: req.params.bookingId });
+
+        if (!review) {
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message: `No review with the ID of ${req.params.id}`,
+                });
+        }
+
+        res.status(200).json({ success: true, data: review });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+};

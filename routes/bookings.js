@@ -3,7 +3,12 @@ const {getBookings, getBooking, addBooking, updateBooking,deleteBooking} = requi
 
 const router = express.Router({mergeParams: true});
 
+const reviewRouter = require('./reviews');
+
 const {protect, authorize} = require('../middleware/auth');
+
+// Re-route into other resource routers
+router.use('/:bookingId/reviews', reviewRouter);
 
 router.route('/').get(protect, getBookings).post(protect, authorize('admin','user'), addBooking);
 router.route('/:id').get(protect, getBooking).put(protect, authorize('admin','user'), updateBooking).delete(protect,  authorize('admin','user'), deleteBooking);
