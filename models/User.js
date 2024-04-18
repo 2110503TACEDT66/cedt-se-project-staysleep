@@ -41,6 +41,12 @@ const UserSchema = new mongoose.Schema({
       "Please add a valid telephone number starting with 0 and followed by 9 digits",
     ],
   },
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Hotel",
+    required: false,
+  },
+
 });
 
 //Encrypt password using bcrypt
