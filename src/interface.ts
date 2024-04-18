@@ -61,6 +61,7 @@ export interface reviewItem {
   message: string;
   star: number;
   replys: replyItem[];
+  booking: BookingItem;
   createdAt: string;
   __v: number;
   id: string;

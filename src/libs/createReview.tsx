@@ -1,5 +1,8 @@
 'use server';
-export default async function createReview(token:string, userID:string, hid:string, message:string, star:number) {
+
+import { BookingItem } from "@/interface";
+
+export default async function createReview(token:string, userID:string, hid:string, message:string, star:number, bookingID:BookingItem) {
     const response = await fetch(`https://hotel-reservation-api-phi.vercel.app/api/v1/hotels/${hid}/reviews`,{
         method: "POST",
         headers: {
@@ -11,6 +14,7 @@ export default async function createReview(token:string, userID:string, hid:stri
             user: userID,
             message: message,
             star: star,
+            booking: bookingID,
         }),
     })
     if(!response.ok){

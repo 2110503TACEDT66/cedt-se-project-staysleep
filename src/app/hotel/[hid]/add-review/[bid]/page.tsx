@@ -45,7 +45,7 @@ const ReviewPage = ({ params }: { params: { hid: string; bid: string } }) => {
     const message = new FormData(e.currentTarget).get("review") as string;
     const profile = await getUserProfile(session.data.user.token);
 
-    const response = await createReview(session.data.user.token, profile.data._id, params.hid, message, rating);
+    const response = await createReview(session.data.user.token, profile.data._id, params.hid, message, rating, bookingDetail!);
     setPending(false);
     if (response) {
       setSuccess(true);
