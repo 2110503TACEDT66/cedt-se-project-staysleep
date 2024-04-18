@@ -1,13 +1,15 @@
 "use client"
+import canReply from "@/libs/canReply";
 import ReplyForm from "./ReplyForm";
 import ReplyList from "./ReplyList";
 
-export default function ReplyArea({ replyData, review, rid, role }: { replyData: {}[], review: any, rid: string, role: string }) {
+export default function ReplyArea({ replyData, review, rid, userProfile }: { replyData: {}[], review: any, rid: string, userProfile: any }) {
+  // console.log(userProfile);
   return (
     <div className="flex justify-center w-full">
       <div className="flex flex-col justify-center w-3/5">
         <ReplyList replyData={replyData} />
-        {role === "admin" ?
+        {canReply(userProfile, review.hotel) ?
           <ReplyForm userID={review.user._id} rid={rid} />
           : <div>⠀</div>
         }

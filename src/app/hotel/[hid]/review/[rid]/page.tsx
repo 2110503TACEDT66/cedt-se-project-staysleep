@@ -12,6 +12,7 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
 
   let userProfileRes = null;
   if (session) userProfileRes = await getUserProfile(session?.user.token);
+  const userProfile = userProfileRes.data;
 
   const reviewRes = await getReview(params.rid);
   const review = reviewRes.data;
@@ -61,7 +62,7 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
               </div>
             </div>
           </div>
-          <ReplyArea replyData={review.replys} review={review} rid={params.rid} role={userProfileRes.data.role} />
+          <ReplyArea replyData={review.replys} review={review} rid={params.rid} userProfile={userProfile} />
         </>
       ) : (
         <>Review with id {params.rid} not found</>
