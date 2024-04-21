@@ -7,7 +7,7 @@ export default async function Hotel(){
     console.log(hotels)
 
     return(
-        <main className="text-center p-5 bg-slate-200 ">
+        <main className="text-center p-5">
             <h1 className = "text-xl font-medium text-black">Choose Your Accommodation</h1>
             <Hotelcatalog/>
         </main>

@@ -9,9 +9,7 @@ export default function HotelCatalog() {
     const [search, setSearch] = useState('');
     const [hotels, setHotels] = useState([]);
 
-    useEffect(() => {
-        fetchData(search);
-    }, [search]);
+    useEffect(() => {fetchData(search)}, [search]);
 
     const fetchData = (value) => {
         fetch(`${process.env.BACKEND_URL}/api/v1/hotels?search=${encodeURIComponent(value)}`)
@@ -35,13 +33,11 @@ export default function HotelCatalog() {
                     />
                 </InputGroup>
             </Form>
-            <h2 className="text-black">Explore {hotels.length} hotels in our list</h2>
             <div style={{ margin: "20px", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
                 {hotels
                     .filter((hotelItem) => {
-                        return search.toLowerCase() === ''
-                        ? hotelItem
-                        : hotelItem.name.toLowerCase().includes(search);
+                        const lowercaseSearch = search.toLowerCase();
+                        return lowercaseSearch === '' ? hotelItem : hotelItem.name.toLowerCase().includes(lowercaseSearch);
                     })
                     .map((hotelItem) => (
                         <Link href={`/hotel/${hotelItem.id}`} className="w-1/5" key={hotelItem.id}>
