@@ -4,6 +4,7 @@ import Card from "./Card";
 import Link from "next/link";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import { FaSearch } from "react-icons/fa";
 
 export default function HotelCatalog() {
     const [search, setSearch] = useState('');
@@ -23,16 +24,18 @@ export default function HotelCatalog() {
     };
 
     return (
-        <>
-            <Form>
-                <InputGroup className='my-3 text-black'>
-                    <Form.Control
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder='Search hotels'
-                        value={search}
-                    />
-                </InputGroup>
-            </Form>
+        <>  
+            <div className="text-black  max-w-lg mx-auto p-4 bg-white rounded-lg shadow-md flex items-center">
+                <FaSearch className=" mr-2" />
+                <input
+                    className="w-full focus:outline-none"
+                    type="text"
+                    placeholder="Type to search..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
+
             <div style={{ margin: "20px", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
                 {hotels
                     .filter((hotelItem) => {
@@ -40,7 +43,7 @@ export default function HotelCatalog() {
                         return lowercaseSearch === '' ? hotelItem : hotelItem.name.toLowerCase().includes(lowercaseSearch);
                     })
                     .map((hotelItem) => (
-                        <Link href={`/hotel/${hotelItem.id}`} className="w-1/5" key={hotelItem.id}>
+                        <Link href={`/hotel/${hotelItem.id}`} className="w-[100%] sm:w-[30%] lg:w-[25%] p-2 sm:p-4 lg:p-8 " key={hotelItem.id}>
                         <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} />
                         </Link>
                     ))
