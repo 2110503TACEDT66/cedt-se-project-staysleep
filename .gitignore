@@ -30,3 +30,6 @@
 # typescript
 /frontend/*.tsbuildinfo
 /frontend/next-env.d.ts
+/backend/node_modules/*
+#config/config.env
+/backend/VacQSequence.puml
