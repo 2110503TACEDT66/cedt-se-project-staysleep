@@ -1,6 +1,6 @@
-export default async function getHotel(id:string) {    
-    const response = await fetch(`https://hotel-reservation-api-phi.vercel.app/api/v1/hotels/${id}`,{cache: 'no-store'})
-    if(!response.ok){
+export default async function getHotel(id: string) {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/hotels/${id}`, { cache: 'no-store' })
+    if (!response.ok) {
         throw new Error("Failed to fetch hotel")
     }
 
@@ -9,4 +9,4 @@ export default async function getHotel(id:string) {
 
 
 // http://localhost:5000/api/v1/hotels/
-// https://hotel-reservation-api-phi.vercel.app/api/v1/hotels/
+// ${process.env.BACKEND_URL}/api/v1/hotels/

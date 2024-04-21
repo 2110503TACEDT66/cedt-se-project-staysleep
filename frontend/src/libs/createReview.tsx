@@ -2,12 +2,12 @@
 
 import { BookingItem } from "@/interface";
 
-export default async function createReview(token:string, userID:string, hid:string, message:string, star:number, bookingID:BookingItem) {
-    const response = await fetch(`https://hotel-reservation-api-phi.vercel.app/api/v1/hotels/${hid}/reviews`,{
+export default async function createReview(token: string, userID: string, hid: string, message: string, star: number, bookingID: BookingItem) {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/hotels/${hid}/reviews`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             hotel: hid,
@@ -17,7 +17,7 @@ export default async function createReview(token:string, userID:string, hid:stri
             booking: bookingID,
         }),
     })
-    if(!response.ok){
+    if (!response.ok) {
         throw new Error("Failed to create review")
     }
 
