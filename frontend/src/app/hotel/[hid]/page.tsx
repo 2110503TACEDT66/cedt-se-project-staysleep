@@ -69,6 +69,10 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
             {hotelDetail.data.postalcode}
           </div>
           <div className="text-lg mb-4">Tel: {hotelDetail.data.tel}</div>
+          <div className="bg-[#f3f4f6] rounded-lg p-4 text-[#7881a9] flex flex-col items-center w-[20%]">
+              <div className='text-lg'>{reviewStar} ⭐</div>
+              <div className='text-xs'>{reviewsNumber} reviews</div>
+          </div>
         </div>
       </div>
       <div className="mt-8 text-black">
@@ -99,12 +103,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
       </div>
       <div>
         <div className="flex">
-          <div className="w-auto h-[15%] p-[10px] pt-11 mr-20">
-            <div className="bg-zinc-600 rounded-3xl w-44 p-10 py-16 text-white text-3xl flex justify-center">
-              <>{reviewStar} ⭐</>
-            </div>
-            <p className="ml-12 mt-2 text-[#78819a]">{reviewsNumber} reviews</p>
-          </div>
+          
           <div className="mt-8 text-black w-full">
             {hotelDetail.data.reviews && hotelDetail.data.reviews.length > 0 ? (
               hotelDetail.data.reviews.map((review: reviewItem) => (

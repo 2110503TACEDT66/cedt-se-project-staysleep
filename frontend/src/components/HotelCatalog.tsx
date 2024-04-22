@@ -58,8 +58,8 @@ export default function HotelCatalog() {
                         return reviewStar >= rating;
                     })
                     .map((hotelItem: hotelItem) => (
-                        <Link href={`/hotel/${hotelItem.id}`} className="w-[100%] sm:w-[30%] lg:w-[25%] p-2 sm:p-4 lg:p-8 " key={hotelItem.id}>
-                            <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} />
+                        <Link href={`/hotel/${hotelItem.id}`} className="mt-5" key={hotelItem.id}>
+                            <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} address={hotelItem.address} district={hotelItem.district} province={hotelItem.province} postalcode={hotelItem.postalcode} tel={hotelItem.tel} />
                         </Link>
                     ))
                 }

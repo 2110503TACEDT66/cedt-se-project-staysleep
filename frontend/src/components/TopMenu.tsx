@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Link from 'next/link';
+
 export default async function TopMenu() {
   const session = await getServerSession(authOptions)
   return (
@@ -18,13 +19,13 @@ export default async function TopMenu() {
             sizes="100vh"
           />
         </Link>
-        
-        <div className="flex space-x-4">
-          <TopMenuItem title="Select Hotel" pageRef="/hotel" />
-          <TopMenuItem title="Booking" pageRef="/bookings/manage" />
-          <TopMenuItem title="About" pageRef="/about" />
-        </div>
       </div>
+      
+      <div className="flex items-center space-x-4">
+        <TopMenuItem title="Select Hotel" pageRef="/hotel" />
+        <TopMenuItem title="Booking" pageRef="/bookings/manage" />
+      </div>
+
       <div className="flex items-center">
         
         {session && session.user ? (
