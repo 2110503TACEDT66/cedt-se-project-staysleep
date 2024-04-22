@@ -4,16 +4,17 @@ import Card from "./Card";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { Rating } from '@mui/material';
-import { hotelItem, hotelJson } from '@/interface';
+import { hotelItem } from '@/interface';
+import { reviewItem } from '@/interface';
 
 export default function HotelCatalog() {
     const [search, setSearch] = useState('');
-    const [rating, setrating] = useState(0);
+    const [rating, setRating] = useState(0);
     const [hotels, setHotels] = useState([]);
-    //console.log(rating);
+    console.log(rating);
     useEffect(() => {fetchData(search)}, [search]);
 
-    const fetchData = (value) => {
+    const fetchData = (value:string) => {
         fetch(`${process.env.BACKEND_URL}/api/v1/hotels?search=${encodeURIComponent(value)}`)
             .then((response) => response.json())
             .then((json) => {
@@ -38,7 +39,7 @@ export default function HotelCatalog() {
                 <Rating
                     name="simple-controlled"
                     value={rating}
-                    onChange={(e) => setrating(e.target.value)}
+                    onChange={(e, newValue) => setRating(newValue !== null ? newValue : 0)}
                 />
             </div>
 
@@ -48,9 +49,17 @@ export default function HotelCatalog() {
                         const lowercaseSearch = search.toLowerCase();
                         return lowercaseSearch === '' ? hotelItem : hotelItem.name.toLowerCase().includes(lowercaseSearch);
                     })
+                    .filter((hotelItem: hotelItem) => {
+                        if (rating === 0) return true;
+                        let reviewStar = 0;
+                        hotelItem.reviews.forEach((reviewItem: reviewItem) => reviewStar += reviewItem.star);
+                        reviewStar = (reviewStar / hotelItem.reviews.length);
+                        if (isNaN(reviewStar)) reviewStar = 0;
+                        return reviewStar >= rating;
+                    })
                     .map((hotelItem: hotelItem) => (
                         <Link href={`/hotel/${hotelItem.id}`} className="w-[100%] sm:w-[30%] lg:w-[25%] p-2 sm:p-4 lg:p-8 " key={hotelItem.id}>
-                        <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} />
+                            <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} />
                         </Link>
                     ))
                 }
