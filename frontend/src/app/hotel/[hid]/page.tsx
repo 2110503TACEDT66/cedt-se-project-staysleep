@@ -8,10 +8,11 @@ import { useSession } from "next-auth/react";
 import { LegacyRef, useEffect, useRef, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import ReviewItem from "@/components/ReviewItem";
+import { redirect } from "next/navigation";
 
 export default function HospitalDetailPage({ params }: { params: { hid: string } }) {
   const session = useSession();
-  if (!session || !session.data?.user.token) return null;
+  if (!session || !session.data?.user.token) redirect("/api/auth/signin");
 
   const [hotelDetail, setHotelDetail] = useState<singleHotelJson | null>(null);
   const [user, setUser] = useState<any | null>(null);
