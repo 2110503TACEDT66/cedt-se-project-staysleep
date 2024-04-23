@@ -47,7 +47,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
       </div>
     );
 
-  // console.log(hotelDetail.data)
+  console.log(hotelDetail.data)
 
   let reviewsNumber = hotelDetail.data.reviews.length;
   let reviewStar = 0;
