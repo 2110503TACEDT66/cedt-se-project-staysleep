@@ -1,5 +1,5 @@
 const Hotel = require('../models/Hotel');
-const Tags = require('../models/Tags');
+const { merge } = require('../utils/utils');
 
 //@desc Get all hotels
 //@route GET /api/v1/hotels
@@ -183,3 +183,19 @@ exports.deleteHotel = async (req, res, next) => {
         res.status(400).json({ success: false });
     }
 }
+
+//@desc Add Tags to Hotel
+//@route PUT /api/v1/hotels/:id/tags
+//@access Private
+exports.addHotelTags = async (req, res, next) => {
+    try { 
+        const tags = await Hotel.findById(req.params.id);
+        tags.tags = merge(tags.tags, req.body.tags);
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, { tags: req.body.tags });
+
+        const _hotel = await Hotel.findById(req.params.id);
+        res.status(200).json({ success: true, data: _hotel });
+    } catch (err) {
+        res.status(400).json({ success: false, message: "Can't add Tags to Hotel (Server Error)" });
+    }
+};

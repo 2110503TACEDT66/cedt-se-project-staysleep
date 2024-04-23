@@ -1,5 +1,5 @@
 const express = require('express');
-const {getHotels,getHotel,createHotel,updateHotel,deleteHotel} = require('../controllers/hotels');
+const {getHotels,getHotel,createHotel,updateHotel,deleteHotel,addHotelTags} = require('../controllers/hotels');
 const {getTags,createTags} = require('../controllers/tags');
 
 // Include other resource routers
@@ -22,6 +22,7 @@ router.use('/:hotelId/reviews', reviewRouter)
 router.use('/:hotelId/replys', replyRouter)
 
 router.route('/').get(getHotels).post(protect, authorize('admin'), createHotel);
+router.route('/:id/tags').put(protect, authorize('admin', 'staff'), addHotelTags);
 router.route('/:id').get(getHotel).put(protect, authorize('admin'), updateHotel).delete(protect, authorize('admin'), deleteHotel);
 
 module.exports = router;
