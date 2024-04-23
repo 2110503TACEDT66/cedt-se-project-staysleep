@@ -199,3 +199,28 @@ exports.addHotelTags = async (req, res, next) => {
         res.status(400).json({ success: false, message: "Can't add Tags to Hotel (Server Error)" });
     }
 };
+
+//@desc Get hotels by tags
+//@route GET /api/v1/hotels/tags
+//@access Private
+exports.getHotelsByTags = async (req, res, next) => {
+    try{
+        const hotels = await Hotel.find({ tags: { $all: req.body.tags } });
+        res.status(200).json({ success: true, data: hotels });
+    }catch(err){
+        res.status(400).json({ success: false });
+    }
+}
+
+//@desc Remove hotel tags
+//@route PUT /api/v1/hotels/:id/tags
+//@access Private
+exports.removeHotelTags = async (req, res, next) => {
+    try{
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, { $pull: { tags: req.body.tag } });
+        res.status(200).json({ success: true, data: hotel });
+    }catch(err){
+        res.status(400).json({ success: false });
+    }
+}
+
