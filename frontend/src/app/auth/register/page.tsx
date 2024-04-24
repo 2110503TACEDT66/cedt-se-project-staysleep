@@ -31,16 +31,16 @@ const RegisterPage = () => {
       password: data.get("Password") as string,
       name: data.get("Name") as string,
       tel: data.get("Telephone") as string,
-      redirect: true,
+      redirect: false,
       callbackUrl: "/",
     });
 
     setPending(false);
-    if (response?.ok) {
-      // router.push("/");
-      // router.refresh();
+    if (response && !response.ok) {
+      setError(response.error + " " + response.status);
     } else {
-      setError(response?.error + " " + response?.status);
+      router.refresh();
+      router.push("/");
     }
   };
 

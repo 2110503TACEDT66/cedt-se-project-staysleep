@@ -8,9 +8,9 @@ export default async function userRegister(userName: string, userEmail: string, 
     body: JSON.stringify({ name: userName, email: userEmail, password: userPassword, role: "user", tel: userTel }),
   });
 
-  // if (!response.ok) {
-  //   throw new Error("Failed to register");
-  // }
+  if (!response.ok) {
+    throw new Error("Failed to register");
+  }
 
-  return await response.json();
+  return response.json();
 }
