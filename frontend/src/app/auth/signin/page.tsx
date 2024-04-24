@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { FaPaperPlane } from "react-icons/fa";
 
 const SignInPage = () => {
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +66,7 @@ const SignInPage = () => {
               />
             </div>
             <button className="ml-auto mr-auto mt-4 px-4 py-2 text-nowrap bg-secondary rounded-lg flex items-center font-bold text-primary hover:bg-black border border-primaryWhite hover:border-none" type="submit">
-              Login
+              Login <FaPaperPlane className="ml-2" />
               {pending && <CircularProgress className="p-2 ml-4" />}
             </button>
           </form>
