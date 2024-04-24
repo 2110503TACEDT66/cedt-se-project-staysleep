@@ -2,7 +2,6 @@ import NextAuth from 'next-auth/next';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import userLogin from '@/libs/userLogin';
-import Cookies from 'js-cookie';
 import userRegister from '@/libs/userRegister';
 
 export const authOptions: AuthOptions = {
@@ -42,18 +41,13 @@ export const authOptions: AuthOptions = {
             },
         }),
         CredentialsProvider({
-            id: 'register',
-            // The name to display on the sign in form (e.g. "Sign in with...")
-            name: 'Credentials',
-            // `credentials` is used to generate a form on the sign in page.
-            // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-            // e.g. domain, username, password, 2FA token, etc.
-            // You can pass any HTML attribute to the <input> tag through the object.
+            id: 'signup',
+            name: 'signup',
             credentials: {
-                email: { label: 'Email', type: 'email', placeholder: 'email' },
+                email: { label: 'Email', type: 'text' },
                 password: { label: 'Password', type: 'password' },
-                name: { label: 'Name', type: 'string' },
-                tel: { label: 'Tel', type: 'number' },
+                name: { label: 'Name', type: 'text' },
+                tel: { label: 'Tel', type: 'text' },
             },
             async authorize(credentials, req) {
                 if (!credentials) return null;
@@ -65,13 +59,9 @@ export const authOptions: AuthOptions = {
                 );
 
                 if (user) {
-                    // Any object returned will be saved in `user` property of the JWT
                     return user;
                 } else {
-                    // If you return null then an error will be displayed advising the user to check their details.
                     return null;
-
-                    // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
             },
         }),

@@ -27,12 +27,12 @@ export default async function TopMenu() {
             <UserDropDown />
           ) : (
             <>
-              <Link href="/api/auth/signin">
+              <Link href="/auth/signin">
                 <div className="px-4 py-2 text-nowrap bg-secondary rounded-lg flex items-center font-bold text-primary hover:bg-black border border-primaryWhite hover:border-none">
                   Sign-In
                 </div>
               </Link>
-              <Link href="/register">
+              <Link href="/auth/register">
                 <div className="px-4 py-2 hover:bg-black/30 rounded-md text-nowrap flex items-center font-bold text-primaryWhite">
                   Register
                 </div>
