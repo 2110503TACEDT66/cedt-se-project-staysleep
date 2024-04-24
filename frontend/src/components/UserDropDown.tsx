@@ -1,18 +1,19 @@
 "use client";
 import { Menu, Transition } from '@headlessui/react'
+import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
-import { Fragment, useEffect, useRef, useState } from 'react'
-import { FaUserCircle } from "react-icons/fa";
+import { Fragment, useEffect, useState } from 'react'
 import { TbLogout2, TbUserCircle } from "react-icons/tb";
 
-const UserDropDown = () => {
+const UserDropDown = (session: { session: Session }) => {
+  const user = session.session.user;
   return (
     <div className="">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center items-center gap-4 rounded-md px-4 py-2 hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-            <div className='text-nowrap text-white'>HeartBrokenTeenager</div>
-            <img src="https://github.com/Taihenc.png" alt="profile" className="w-10 h-10 rounded-full" />
+            <div className='text-nowrap text-white'>{user.name}</div>
+            <img src={user.picture} alt="profile" className="w-10 h-10 rounded-full" />
           </Menu.Button>
         </div>
         <Transition
@@ -33,7 +34,7 @@ const UserDropDown = () => {
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     <TbUserCircle className="mr-2 h-7 w-7 fill-primary" />
-                    heart@broken.teenager (Admin)
+                    {`${user.email} (${user.role})`}
                   </button>
                 )}
               </Menu.Item>

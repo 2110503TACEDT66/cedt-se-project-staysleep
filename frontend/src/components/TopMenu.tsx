@@ -24,7 +24,7 @@ export default async function TopMenu() {
         </div>
         <div className="flex items-center gap-3">
           {session?.user ? (
-            <UserDropDown />
+            <UserDropDown session={session} />
           ) : (
             <>
               <Link href="/auth/signin">
