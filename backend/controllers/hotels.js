@@ -13,9 +13,11 @@ exports.getHotels = async (req, res, next) => {
     const removeFields = ['select', 'sort', 'page', 'limit', 'tags'];
 
     let tags = [];
+    let meeTag = false;
     // tags
     if(req.query.tags){
         tags = req.query.tags.split(',');
+        meeTag = true;
     }
     console.log(tags);
 
@@ -24,7 +26,9 @@ exports.getHotels = async (req, res, next) => {
     console.log(reqQuery);
 
     // Create query string
-    reqQuery.tags = {"$all" : tags};
+    if (meeTag) {
+        reqQuery.tags = {"$all" : tags};
+    }
     let queryStr = JSON.stringify(reqQuery);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
     console.log(JSON.parse(queryStr))
