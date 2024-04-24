@@ -10,15 +10,24 @@ exports.getHotels = async (req, res, next) => {
     const reqQuery = { ...req.query };
     
     // Fields to exclude
-    const removeFields = ['select', 'sort', 'page', 'limit'];
+    const removeFields = ['select', 'sort', 'page', 'limit', 'tags'];
+
+    let tags = [];
+    // tags
+    if(req.query.tags){
+        tags = req.query.tags.split(',');
+    }
+    console.log(tags);
 
     // Loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param]);
     console.log(reqQuery);
 
     // Create query string
+    reqQuery.tags = {"$all" : tags};
     let queryStr = JSON.stringify(reqQuery);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+    console.log(JSON.parse(queryStr))
     query = Hotel.find(JSON.parse(queryStr)).populate({
         path: 'rooms',
         populate: {
@@ -191,7 +200,7 @@ exports.addHotelTags = async (req, res, next) => {
     try { 
         const tags = await Hotel.findById(req.params.id);
         tags.tags = merge(tags.tags, req.body.tags);
-        const hotel = await Hotel.findByIdAndUpdate(req.params.id, { tags: req.body.tags });
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, { tags });
 
         const _hotel = await Hotel.findById(req.params.id);
         res.status(200).json({ success: true, data: _hotel });
@@ -199,3 +208,18 @@ exports.addHotelTags = async (req, res, next) => {
         res.status(400).json({ success: false, message: "Can't add Tags to Hotel (Server Error)" });
     }
 };
+
+//@desc Remove hotel tags
+//@route DELETE /api/v1/hotels/:id/tags
+//@access Private
+exports.removeHotelTags = async (req, res, next) => {
+    try{
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, {$pull: { tags: { $in: req.body.tag }}} );
+        const _hotel = await Hotel.findById(req.params.id);
+        res.status(200).json({ success: true, data: _hotel });
+    }catch(err){
+        res.status(400).json({ success: false });
+        console.log(err);
+    }
+}
+
