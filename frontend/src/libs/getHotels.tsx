@@ -9,7 +9,3 @@ export default async function getHotels() {
 
     return await response.json()
 }
-
-// https://vaccine-app-backend.vercel.app/api/v1/hospitals
-// ${process.env.BACKEND_URL}/api/v1/hotels
-// http://localhost:5000/api/v1/hotels

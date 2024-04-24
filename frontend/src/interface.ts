@@ -9,6 +9,7 @@ export interface hotelItem {
     picture: string,
     rooms: roomItem[]
     reviews: reviewItem[],
+    tags:string[],
     __v: number,
     id: string
   }
@@ -100,3 +101,4 @@ export interface replyItem {
   createdAt: string;
   id: string;
 }
+
