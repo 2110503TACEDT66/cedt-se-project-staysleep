@@ -23,7 +23,7 @@ export default async function TopMenu() {
           <TopMenuItem title="About" pageRef="#" />
         </div>
         <div className="flex items-center gap-3">
-          {session && session.user ? (
+          {session?.user ? (
             <UserDropDown />
           ) : (
             <>
