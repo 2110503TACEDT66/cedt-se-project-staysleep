@@ -1,10 +1,11 @@
 import Link from 'next/link';
 
-export default function TopMenuItem({title, pageRef} : {title:string, pageRef:string}){
+export default function TopMenuItem({ title, pageRef, active }: { title: string, pageRef: string, active?: boolean }) {
     return (
-        <Link href = {pageRef} className = "bg-white w-30 font-thin text-center mx-auto font-sans text-md text-black">
-            <button className="hover:text-amber-500"
-            >{title}</button>
-        </Link>
+        <Link href={pageRef} className={active ? "text-primary font-bold" : "text-primaryWhite font-light"}>
+            <div className='px-4 py-2 hover:bg-black/30 rounded-md'>
+                {title}
+            </div>
+        </Link >
     );
 }

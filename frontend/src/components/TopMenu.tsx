@@ -3,58 +3,43 @@ import Image from 'next/image';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Link from 'next/link';
-import getUserProfile from '@/libs/getUserProfile';
+import UserDropDown from './UserDropDown';
 
 export default async function TopMenu() {
   const session = await getServerSession(authOptions)
-  console.log(session?.user)
-  console.log(session); 
-
-  if(session && session?.user ){
-    const userProfile = await getUserProfile(session?.user?.token);
-    session.user.name = userProfile.data.name;
-    
-  }
 
   return (
-    <div className="bg-white fixed top-0 left-0 right-0 z-30 border-b border-gray-300 flex items-center justify-between">
-      <div className="flex items-center ">
-        <Link href="/">
-          <Image
-            src="/img/logo.jpg"
-            className="h-12 w-auto mr-4"
-            alt="logo"
-            width={0}
-            height={0}
-            sizes="100vh"
-          />
+    <div className="max-w-[100vw] w-full h-[6rem] bg-gradient-to-b from-[rgba(20,20,23,0.8)] to-[rgba(20,20,23,0)] fixed top-0 left-0 z-30 flex items-start justify-between">
+      <div className="w-full relative flex px-4 py-3 justify-between items-center">
+        <Link href="/" className='flex items-center'>
+          <Image src="/img/logo.jpg" className="!h-[4.4rem] !w-fit mr-4 !relative rounded-full" alt="logo" fill style={{ objectFit: "contain" }} />
+          <div className="text-white text-lg tracking-[0.35em] font-bold">STAYSLEEP</div>
         </Link>
-        <div className='text-black font-medium'>StaySleep</div>
-      </div>
-      
-      <div className="flex items-center space-x-4">
-        <TopMenuItem title="Select Hotel" pageRef="/hotel" />
-        <TopMenuItem title="Booking" pageRef="/bookings/manage" />
-      </div>
 
-      <div className="flex items-center w-30 font-thin font-sans text-md text-black">
-        
-        {session ? (
-          <Link href="/api/auth/signout" className='flex flex-row'>
-            <div className = "text-md">{session.user.name}</div>
-            <button className="hover:text-amber-500 mx-3 text-black border border-black hover:text-amber-500 hover:shadow-2xl hover:border-amber-500 rounded-full ">‎   ‎ LOGOUT      ‎     ‎</button>
-          </Link>
-        ) : (
-          <Link href="/login" >
-            <button className="hover:text-amber-500 " >Login</button>
-          </Link>
-        )}
-
-        {session ? "" : (
-          <Link href="/register">
-            <button className="hover:text-amber-500 mx-5">Register</button>
-          </Link>
-        )}  
+        <div className="flex gap-3">
+          <TopMenuItem title="Home" pageRef="/" active />
+          <TopMenuItem title="Hotels" pageRef="/hotel" />
+          <TopMenuItem title="Booking" pageRef="/bookings/manage" />
+          <TopMenuItem title="About" pageRef="#" />
+        </div>
+        <div className="flex items-center gap-3">
+          {session && session.user ? (
+            <UserDropDown />
+          ) : (
+            <>
+              <Link href="/api/auth/signin">
+                <div className="px-4 py-2 text-nowrap bg-secondary rounded-lg flex items-center font-bold text-primary hover:bg-black border border-primaryWhite hover:border-none">
+                  Sign-In
+                </div>
+              </Link>
+              <Link href="/register">
+                <div className="px-4 py-2 hover:bg-black/30 rounded-md text-nowrap flex items-center font-bold text-primaryWhite">
+                  Register
+                </div>
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
