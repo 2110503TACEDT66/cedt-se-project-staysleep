@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion"
 import { HotelMock } from "@/interface";
 import { FaAngleRight } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Banner() {
   const hotels: HotelMock[] = [
@@ -81,17 +82,14 @@ export default function Banner() {
       </div>
       <Image src={"/img/bg.png"} alt="cover" fill priority className="object-cover -z-20" quality={40} />
       <Image src={hotels[index].image} alt="cover" fill priority className="object-cover -z-10 ml-[20rem]" quality={10} />
-      <button
+      <Link
+        href="/hotel"
         className="text-primaryWhite border-[2px] border-primary bg-transparent hover:bg-primary hover:text-black
         py-2 px-10 mx-8 my-12 z-30 absolute bottom-0 right-0 hover:border-transparent rounded-3xl"
-        onClick={e => {
-          e.stopPropagation();
-          router.push("/hotel");
-        }}
       >
         View Hotel
         <FaAngleRight className="inline ml-2" />
-      </button>
+      </Link>
     </div>
   );
 }
