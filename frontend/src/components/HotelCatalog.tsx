@@ -124,13 +124,13 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                                 className={`flex flex-wrap`}
                             >
                                 <div
-                                    className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible? 'rounded-l-lg': 'rounded-lg'}  text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
-                                    onClick={() => toggleTag(tag)}
+                                    className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible? 'rounded-l-lg': 'rounded-lg hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'}  text-secondary bg-primary/70  transition-all duration-250 ease-in-out shadow-sm ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
+                                    onClick={() => {visible? "":toggleTag(tag)}}
                                 >{tag}</div>
                                 {
                                     userRole ==='admin' && visible?
                                         <div
-                                            className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
+                                            className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
                                             onClick={() => fetchDeleteTag(tag)}
                                             >
                                             <Image src="/icon/deleicon.png" alt="calendar icon" width={12} height={12} style={{ objectFit: "contain" }} className='!relative' />
