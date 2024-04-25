@@ -3,11 +3,14 @@ import React, { useState, useEffect } from 'react';
 import Card from "./Card";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
-import { Rating } from '@mui/material';
+import { Rating, TextField } from '@mui/material';
 import { hotelItem } from '@/interface';
 import { reviewItem } from '@/interface';
+import { useSession } from 'next-auth/react';
+import getUserProfile from '@/libs/getUserProfile';
+import Image from 'next/image';
 
-export default function HotelCatalog() {
+export default function HotelCatalog({userRole} : {userRole:string}) {
     const [search, setSearch] = useState('');
     const [rating, setRating] = useState(0);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -53,6 +56,8 @@ export default function HotelCatalog() {
             setSelectedTags([...selectedTags, tag]);
         }
     };
+
+    
     
 
     return (
@@ -89,6 +94,14 @@ export default function HotelCatalog() {
                         {tag}
                     </button>
                 ))}
+                {
+                    userRole ==='admin'?
+                    
+                    <div className='h-5 w-5 items-center'>
+                        <Image src="/icon/addicon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className='!relative ' />
+                    </div>
+                    :null
+                }
             </div>
 
             <div style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
