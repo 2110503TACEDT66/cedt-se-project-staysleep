@@ -204,7 +204,7 @@ exports.addHotelTags = async (req, res, next) => {
     try { 
         const tags = await Hotel.findById(req.params.id);
         tags.tags = merge(tags.tags, req.body.tags);
-        const hotel = await Hotel.findByIdAndUpdate(req.params.id, { tags });
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, tags );
 
         const _hotel = await Hotel.findById(req.params.id);
         res.status(200).json({ success: true, data: _hotel });
