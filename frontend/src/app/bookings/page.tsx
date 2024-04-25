@@ -10,7 +10,7 @@ export default async function Bookings(){
     const profile = await getUserProfile(session.user.token)
     
     return (
-        <main className="w-[100%] flex flex-col items-center space-y-4 text-black">
+        <main className="w-[100%] flex flex-col items-center space-y-4 text-black pt-[2rem]">
             <div className="text-xl font-medium m-5">
                 New Reservations 
             </div>

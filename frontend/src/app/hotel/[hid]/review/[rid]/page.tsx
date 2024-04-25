@@ -25,7 +25,7 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
   const room = roomRes.data;
 
   return (
-    <main>
+    <main className="pt-[7rem]">
       {reviewRes.success ? (
         <>
           <div className="flex justify-center w-full">

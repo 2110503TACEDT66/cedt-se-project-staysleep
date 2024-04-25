@@ -81,12 +81,12 @@ const ReviewPage = ({ params }: { params: { hid: string; bid: string } }) => {
           </>
         )}
       </div>
-      <div className="w-full flex justify-center mt-20 px-[7rem]">
+      <div className="w-[80%] flex gap-6 justify-center mt-20 px-[3rem] py-[4rem] bg-white rounded-md">
         {!bookingDetail ? (
           <CircularProgress />
         ) : (
           <>
-            <div className="w-fit flex flex-col mr-[20rem] text-slate-500">
+            <div className="w-fit flex flex-col text-slate-500">
               <span className="font-bold text-2xl mb-5 text-black">{bookingDetail.user.name}</span>
               <span className="flex gap-2 text-nowrap mb-3">
                 <Image

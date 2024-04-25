@@ -6,9 +6,13 @@ import { FaSearch } from "react-icons/fa";
 import { Rating, TextField } from '@mui/material';
 import { hotelItem } from '@/interface';
 import { reviewItem } from '@/interface';
+<<<<<<< HEAD
 import { useSession } from 'next-auth/react';
 import getUserProfile from '@/libs/getUserProfile';
 import Image from 'next/image';
+=======
+import { TbSearch } from 'react-icons/tb';
+>>>>>>> 998cd829a6cb097ec5f456410739032defdd7af3
 
 export default function HotelCatalog({userRole} : {userRole:string}) {
     const [search, setSearch] = useState('');
@@ -22,7 +26,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
         fetchTags();
     }, [search]);
 
-    const fetchData = (value:string) => {
+    const fetchData = (value: string) => {
         fetch(`${process.env.BACKEND_URL}/api/v1/hotels?search=${encodeURIComponent(value)}`)
             .then((response) => response.json())
             .then((json) => {
@@ -57,51 +61,52 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
         }
     };
 
-    
-    
 
     return (
-        <>  
-            <div className="text-black max-w-lg mx-auto p-4 bg-white rounded-lg shadow-md flex flex-row items-center">
-                <FaSearch className="mr-2" />
-                <input
-                    className="w-full focus:outline-none"
-                    type="text"
-                    placeholder="Type to search..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                
-            </div>
-
-            <div className="tags-container mt-5">
-                {/* Rating */}
-                <Rating
-                    name="simple-controlled"
-                    value={rating}
-                    onChange={(e, newValue) => setRating(newValue !== null ? newValue : 0)}
-                />
-            </div>
-           
-            <div className="tags-container mt-5">
-                {/* button tag */}
-                {tags.map((tag, index) => (
-                    <button 
-                        key={index} 
-                        className={`text-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out hover:shadow-md rounded-full px-5 py-2 shadow-sm ${selectedTags.includes(tag) ? 'bg-blue-500 text-white' : ''}`} 
-                        onClick={() => toggleTag(tag)}
-                    >
-                        {tag}
-                    </button>
-                ))}
-                {
-                    userRole ==='admin'?
-                    
-                    <div className='h-5 w-5 items-center'>
-                        <Image src="/icon/addicon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className='!relative ' />
+        <>
+            <div className='w-full flex flex-col justify-center items-center'>
+                <div className="text-black max-w-lg p-4 bg-white rounded-lg shadow-md flex flex-row items-center z-10">
+                    <TbSearch className="inline-block h-5 w-5 mr-2 fill-primary" />
+                    <input
+                        className="w-full focus:outline-none"
+                        type="text"
+                        placeholder="Type to search..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+                <div className='w-[40rem] p-5 rounded-md bg-white/95 -translate-y-5 z-0'>
+                    <div className="tags-container mt-5">
+                        {/* Rating */}
+                        <Rating
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(e, newValue) => setRating(newValue !== null ? newValue : 0)}
+                        />
                     </div>
-                    :null
-                }
+
+ 
+                    <div className="tags-container flex flex-wrap justify-center gap-2 mt-5">
+                        {/* button tag */}
+                        {tags.map((tag, index) => (
+                            <button
+                                key={index}
+                                className={`px-5 py-2 text-nowrap rounded-lg text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-blue-500 text-white' : ''}`}
+                                onClick={() => toggleTag(tag)}
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                        {
+                            userRole ==='admin'?
+                            
+                            <div className='h-5 w-5 items-center'>
+                                <Image src="/icon/addicon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className='!relative ' />
+                            </div>
+                            :null
+                        }
+                    </div>
+                </div>
             </div>
 
             <div style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>

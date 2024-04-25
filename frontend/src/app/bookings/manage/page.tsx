@@ -12,7 +12,7 @@ export default async function MyBooking() {
     const bookings = await getBookings(session.user.token)
 
     return (
-        <div className="container mx-auto px-4 py-8 text-black">
+        <div className="container mx-auto px-4 py-8 pt-[7rem] text-black">
             {
                 bookings.data.length === 0 ? (
                     <div className="text-2xl text-center my-5">No bookings</div>

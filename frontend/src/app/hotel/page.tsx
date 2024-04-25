@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import getUserProfile from "@/libs/getUserProfile";
 
-export default async function Hotel(){
+export default async function Hotel() {
 
     const hotels = await getHotels()
     console.log(hotels)
@@ -16,9 +16,9 @@ export default async function Hotel(){
         userRole = user.data.role;
     }
 
-    return(
-        <main className="text-center p-5">
-            <h1 className = "text-xl font-medium text-black">Choose Your Accommodation</h1>
+    return (
+        <main className="text-center p-5 pt-[7rem]">
+            <h1 className="text-xl font-medium text-primaryWhite">Choose Your Accommodation</h1>
             <Hotelcatalog userRole = {userRole}/>
         </main>
     )
