@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import Card from "./Card";
 import Link from "next/link";
-import { FaSearch } from "react-icons/fa";
-import { Rating, TextField } from '@mui/material';
+import { Rating } from '@mui/material';
 import { hotelItem } from '@/interface';
 import { reviewItem } from '@/interface';
 import Image from 'next/image';
 import { TbSearch } from 'react-icons/tb';
+import { useSession } from 'next-auth/react';
 
 export default function HotelCatalog({userRole} : {userRole:string}) {
     const [search, setSearch] = useState('');
@@ -15,6 +15,11 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [hotels, setHotels] = useState([]);
     const [tags, setTags] = useState([]);
+    const [visible,setVisible] = useState(false);
+    const [addtag,setAddtag] = useState('');
+    
+    const session = useSession();
+    if (!session || !session.data?.user.token) return null;
 
     useEffect(() => {
         fetchData(search);
@@ -47,6 +52,36 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                 console.error('Error fetching tags:', error);
             });
     };
+    
+    const fetchDeleteTag = (tag: string) => {
+        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${session.data.user.token}`,
+                },
+                body: JSON.stringify({
+                    tag: [tag]
+                })}
+            ).then((response) => response.json())
+            .then((json) => {console.log('Tags data:', json, 'Delete tag:', tag); })// Log the response
+            .then(() => fetchTags());
+    }
+    
+    const fetchaAddTag = (tag: string) => {
+        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${session.data.user.token}`,
+                },
+                body: JSON.stringify({
+                    tags: [tag]
+                })}
+            ).then((response) => response.json())
+            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); setVisible(false); })// Log the response
+            .then(() => fetchTags());
+    }
 
     const toggleTag = (tag: string) => {
         if (selectedTags.includes(tag)) {
@@ -81,26 +116,56 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     </div>
 
  
-                    <div className="tags-container flex flex-wrap justify-center gap-2 mt-5">
+                    <div className="tags-container flex flex-wrap justify-center gap-2 mt-2 ">
                         {/* button tag */}
                         {tags.map((tag, index) => (
-                            <button
+                            <div
                                 key={index}
-                                className={`px-5 py-2 text-nowrap rounded-lg text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
-                                onClick={() => toggleTag(tag)}
+                                className={`flex flex-wrap`}
                             >
-                                {tag}
-                            </button>
+                                <div
+                                    className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' ? 'rounded-l-lg': 'rounded-lg'}  text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
+                                    onClick={() => toggleTag(tag)}
+                                >{tag}</div>
+                                {
+                                    userRole ==='admin'?
+                                        <div
+                                            className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
+                                            onClick={() => fetchDeleteTag(tag)}
+                                            >
+                                            <Image src="/icon/deleicon.png" alt="calendar icon" width={12} height={12} style={{ objectFit: "contain" }} className='!relative' />
+                                        </div>
+                                    :
+                                        null
+                                }
+                            </div>
                         ))}
                         {
                             userRole ==='admin'?
                             
-                            <div className='h-5 w-5 items-center'>
-                                <Image src="/icon/addicon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className='!relative ' />
+                            <div className='h-5 w-5 items-center' onClick={() => {
+                                setVisible(!visible);
+                            }}>
+                                <Image src="/icon/addicon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 ${visible? "rotate-45":""}`}/>
                             </div>
                             :null
                         }
                     </div>
+                    {
+                            visible?
+                            <div className=" justify-center mt-3 gap-2">
+                                <input
+                                    className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30"
+                                    type="text"
+                                    placeholder="Type to add tag..."
+                                    value={addtag}
+                                    onChange={(e) => setAddtag(e.target.value)}
+                                    onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
+                                />
+                                <button onClick={() => fetchaAddTag(addtag)} className='ml-10'>Add</button>
+                            </div>
+                            :null
+                    }
                 </div>
             </div>
 
