@@ -58,7 +58,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
   reviewStar = Math.round(reviewStar * 10) / 10;
 
   return (
-    <main className="container mx-auto px-5 py-10">
+    <main className="container mx-auto px-5 py-10 pt-[7rem]">
       <div className="flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg p-5">
         <div className="md:w-1/3">
           <Image src={hotelDetail.data.picture} alt="Hotel Image" width={500} height={300} className="rounded-lg" />

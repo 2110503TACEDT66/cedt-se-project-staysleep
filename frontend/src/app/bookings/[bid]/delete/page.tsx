@@ -13,7 +13,7 @@ export default async function BookingDeletePage({params} : { params: {bid: strin
     const bookingDetail = await getBooking(params.bid, session.user.token)
     
     return (
-        <main className="w-[100%] flex flex-col items-center space-y-4 text-black">
+        <main className="w-[100%] flex flex-col items-center space-y-4 text-black pt-[2rem]">
             <div className="text-xl font-medium m-5">
                 Are you sure you want to delete this booking?
             </div>
