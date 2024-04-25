@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { useState } from "react";
 
 export default function Banner() {
@@ -9,10 +10,13 @@ export default function Banner() {
   //const [index, setIndex] = useState(0);
   const router = useRouter();
 
-  const { data: session } = useSession();
+  const { data: session} = useSession();
 
+  
   return (
+    
     <div className="block px-5 m-0 w-screen h-[100vh] relative">
+      
       <Image src={"/img/cover1.jpg"} alt="cover" fill={true} priority className="object-cover" />
       <div className="relative top-24 z-20 text-center text-white">
         <h1 className="text-4xl font-medium">Hotel Service Center</h1>

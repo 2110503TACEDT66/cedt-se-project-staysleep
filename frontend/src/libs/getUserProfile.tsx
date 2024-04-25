@@ -6,6 +6,7 @@ export default async function getUserProfile(token: string) {
         }
     })
     if (!response.ok) {
+        return
         throw new Error("Cannot get user profile")
     }
 
