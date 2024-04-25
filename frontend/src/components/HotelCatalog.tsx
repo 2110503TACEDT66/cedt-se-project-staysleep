@@ -124,11 +124,11 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                                 className={`flex flex-wrap`}
                             >
                                 <div
-                                    className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' ? 'rounded-l-lg': 'rounded-lg'}  text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
+                                    className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible? 'rounded-l-lg': 'rounded-lg'}  text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
                                     onClick={() => toggleTag(tag)}
                                 >{tag}</div>
                                 {
-                                    userRole ==='admin'?
+                                    userRole ==='admin' && visible?
                                         <div
                                             className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
                                             onClick={() => fetchDeleteTag(tag)}
@@ -146,7 +146,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                             <div className='h-5 w-5 items-center' onClick={() => {
                                 setVisible(!visible);
                             }}>
-                                <Image src="/icon/addicon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 ${visible? "rotate-45":""}`}/>
+                                <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="calendar icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/>
                             </div>
                             :null
                         }
