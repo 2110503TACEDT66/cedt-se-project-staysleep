@@ -86,7 +86,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                         {tags.map((tag, index) => (
                             <button
                                 key={index}
-                                className={`px-5 py-2 text-nowrap rounded-lg text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-blue-500 text-white' : ''}`}
+                                className={`px-5 py-2 text-nowrap rounded-lg text-secondary bg-primary/70 hover:text-primary hover:bg-black hover:translate-y-[-3px] transition-all duration-250 ease-in-out shadow-sm hover:shadow-md ${selectedTags.includes(tag) ? 'bg-black text-yellow-400' : ''}`}
                                 onClick={() => toggleTag(tag)}
                             >
                                 {tag}
