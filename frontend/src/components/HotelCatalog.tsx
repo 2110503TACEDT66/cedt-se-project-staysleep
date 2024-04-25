@@ -6,13 +6,8 @@ import { FaSearch } from "react-icons/fa";
 import { Rating, TextField } from '@mui/material';
 import { hotelItem } from '@/interface';
 import { reviewItem } from '@/interface';
-<<<<<<< HEAD
-import { useSession } from 'next-auth/react';
-import getUserProfile from '@/libs/getUserProfile';
 import Image from 'next/image';
-=======
 import { TbSearch } from 'react-icons/tb';
->>>>>>> 998cd829a6cb097ec5f456410739032defdd7af3
 
 export default function HotelCatalog({userRole} : {userRole:string}) {
     const [search, setSearch] = useState('');
