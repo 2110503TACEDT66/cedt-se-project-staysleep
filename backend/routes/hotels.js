@@ -1,6 +1,6 @@
 const express = require('express');
 const {getHotels,getHotel,createHotel,updateHotel,deleteHotel,addHotelTags, removeHotelTags} = require('../controllers/hotels');
-const {getTags,createTags} = require('../controllers/tags');
+const {getTags,createTags,deleteTags} = require('../controllers/tags');
 
 // Include other resource routers
 const bookingRouter = require('./bookings');
@@ -13,7 +13,7 @@ const router = express.Router();
 const {protect, authorize} = require('../middleware/auth');
 
 // tags
-router.route('/tags').get(getTags).post(protect, authorize('admin', 'staff'), createTags);
+router.route('/tags').get(getTags).post(protect, authorize('admin', 'staff'), createTags).delete(protect, authorize('admin', 'staff'), deleteTags);
 
 //Re-route into other resource routers
 router.use('/:hotelId/bookings', bookingRouter);
