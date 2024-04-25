@@ -69,6 +69,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
     }
     
     const fetchaAddTag = (tag: string) => {
+        if (tag === "") return;
         fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
                 method: "POST",
                 headers: {
@@ -192,7 +193,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     })
                     .map((hotelItem: hotelItem) => (
                         <Link href={`/hotel/${hotelItem.id}`} className="mt-5" key={hotelItem.id}>
-                            <Card review={hotelItem.reviews} hotelName={hotelItem.name} imgSrc={hotelItem.picture} address={hotelItem.address} district={hotelItem.district} province={hotelItem.province} postalcode={hotelItem.postalcode} tel={hotelItem.tel} />
+                            <Card hotelItem={hotelItem} />
                         </Link>
                     ))
                 }
