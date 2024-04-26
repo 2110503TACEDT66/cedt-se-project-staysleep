@@ -62,7 +62,18 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
-  res.status(statusCode).cookie("token", token, options).json({ success: true, token });
+  res
+    .status(statusCode)
+    .cookie("token", token, options)
+    .json({
+      success: true,
+        token, user,
+        name: user.name,
+        email: user.email,
+        tel: user.tel,
+        picture: user.picture? user.picture : "/img/userImg.jpg",
+        role: user.role,
+      });
 };
 
 //@desc Get current logged in user

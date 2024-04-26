@@ -1,4 +1,5 @@
 const Hotel = require('../models/Hotel');
+const { merge } = require('../utils/utils');
 
 //@desc Get all hotels
 //@route GET /api/v1/hotels
@@ -9,15 +10,28 @@ exports.getHotels = async (req, res, next) => {
     const reqQuery = { ...req.query };
     
     // Fields to exclude
-    const removeFields = ['select', 'sort', 'page', 'limit'];
+    const removeFields = ['select', 'sort', 'page', 'limit', 'tags'];
+
+    let tags = [];
+    let meeTag = false;
+    // tags
+    if(req.query.tags){
+        tags = req.query.tags.split(',');
+        meeTag = true;
+    }
+    console.log(tags);
 
     // Loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param]);
     console.log(reqQuery);
 
     // Create query string
+    if (meeTag) {
+        reqQuery.tags = {"$all" : tags};
+    }
     let queryStr = JSON.stringify(reqQuery);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+    console.log(JSON.parse(queryStr))
     query = Hotel.find(JSON.parse(queryStr)).populate({
         path: 'rooms',
         populate: {
@@ -182,3 +196,34 @@ exports.deleteHotel = async (req, res, next) => {
         res.status(400).json({ success: false });
     }
 }
+
+//@desc Add Tags to Hotel
+//@route PUT /api/v1/hotels/:id/tags
+//@access Private
+exports.addHotelTags = async (req, res, next) => {
+    try { 
+        const tags = await Hotel.findById(req.params.id);
+        tags.tags = merge(tags.tags, req.body.tags);
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, tags );
+
+        const _hotel = await Hotel.findById(req.params.id);
+        res.status(200).json({ success: true, data: _hotel });
+    } catch (err) {
+        res.status(400).json({ success: false, message: "Can't add Tags to Hotel (Server Error)" });
+    }
+};
+
+//@desc Remove hotel tags
+//@route DELETE /api/v1/hotels/:id/tags
+//@access Private
+exports.removeHotelTags = async (req, res, next) => {
+    try{
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id, {$pull: { tags: { $in: req.body.tag }}} );
+        const _hotel = await Hotel.findById(req.params.id);
+        res.status(200).json({ success: true, data: _hotel });
+    }catch(err){
+        res.status(400).json({ success: false });
+        console.log(err);
+    }
+}
+

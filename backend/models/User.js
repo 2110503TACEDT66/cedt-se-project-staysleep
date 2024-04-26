@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema({
     ref: "Hotel",
     required: false,
   },
+  picture: {
+    type: String,
+    required: false,
+  },
 
 });
 
