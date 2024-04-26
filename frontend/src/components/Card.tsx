@@ -2,10 +2,10 @@ import Image from 'next/image';
 import { reviewItem } from '@/interface';
 import { hotelItem } from '@/interface';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation'
 
 export default function Card({hotelItem} : {hotelItem: hotelItem}) {
-    
+    const router = useRouter()
     const session = useSession();
     if (!session || !session.data?.user.token) return null;
 
@@ -35,7 +35,7 @@ export default function Card({hotelItem} : {hotelItem: hotelItem}) {
                     <div className='grid grid-cols-3 gap-3'>
                         {
                             hotelItem.tags.map((tag) => (
-                                <div key={tag} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg ">
+                                <div key={tag+hotelItem.id} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg ">
                                     {tag}
                                 </div>
                             ))
@@ -44,9 +44,9 @@ export default function Card({hotelItem} : {hotelItem: hotelItem}) {
                 </div>
                 {
                     session.data.user.role === 'admin'?
-                        <Link href={`/hotel/${hotelItem.id}/edit`} className='flex flex-row gap-3 mt-4 justify-end'>
+                        <div onClick={(e) => {e.preventDefault(); e.stopPropagation; router.push(`/hotel/${hotelItem.id}/edit`) }} className='flex flex-row gap-3 mt-4 justify-end'>
                             <Image src={"/icon/gearicon.png"} alt='Edit Hotel' width={20} height={20}/>
-                        </Link>
+                        </div>
                     : null
                 }
             </div>
