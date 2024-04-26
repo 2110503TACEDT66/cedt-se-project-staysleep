@@ -75,7 +75,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
                 <div className='text-lg'>{reviewStar} ⭐</div>
                 <div className='text-xs'>{reviewsNumber} reviews</div>
             </div>
-            <div className='grid grid-cols-3 gap-3'>
+            <div className='grid grid-cols-6 gap-3'>
               {
                 hotelDetail.data.tags.map((tag) => (
                   <div key={tag} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg ">

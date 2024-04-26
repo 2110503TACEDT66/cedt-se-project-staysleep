@@ -80,7 +80,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     tags: [tag]
                 })}
             ).then((response) => response.json())
-            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); setVisible(false); })// Log the response
+            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); })// Log the response
             .then(() => fetchTags());
     }
 
@@ -193,7 +193,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     })
                     .map((hotelItem: hotelItem) => (
                         <Link href={`/hotel/${hotelItem.id}`} className="mt-5" key={hotelItem.id}>
-                            <Card hotelItem={hotelItem} />
+                            <Card hotelItem={hotelItem} visible={visible} fetchaAddTag={fetchaAddTag}/>
                         </Link>
                     ))
                 }
