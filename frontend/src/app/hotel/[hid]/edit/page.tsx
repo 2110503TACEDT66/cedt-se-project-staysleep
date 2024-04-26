@@ -116,8 +116,9 @@ export default function EditPage({ params }: { params: { hid: string } }) {
     };
     
     return (
-        <main className="container mx-auto px-5 py-10 pt-[7rem]">
-                    <div className="tags-container flex flex-col justify-center mx-[25%] w-[50%] bg-white mb-3 p-4 rounded-md ">
+        <main className="container mx-auto px-5 py-10 pt-[7rem] justify-self-center">
+            <div className="flex flex-col justify-center items-center h-full">
+                    <div className="tags-container flex flex-col text-center justify-center mx-[25%] w-[50%] bg-white mb-3 p-4 rounded-md ">
                         <div className="flex flex-wrap gap-2 justify-center">
                             {tags.map((tag, index) => (
                                 !selectedTags.includes(tag)?
@@ -126,7 +127,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                     className={`flex flex-wrap`}
                                 >
                                     <div
-                                        className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap rounded-lg hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'}  text-secondary bg-primary/70  transition-all duration-250 ease-in-out shadow-sm `}
+                                        className={`flex flex-wrap gap-1 px-5 py-2  text-nowrap rounded-lg hover:font-bold hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'}  text-secondary bg-primary/70  transition-all duration-250 ease-in-out shadow-sm `}
                                         onClick={() => { toggleTag(tag)}}
                                     >
                                         {tag}
@@ -135,23 +136,23 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 : null
                             ))}
                         </div>
-                        <div className="justify-center mt-3 gap-2 w-[70%] ml-[15%]">
+                        <div className="justify-self-center mt-3  w-[100%] ">
                             <input
-                                className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30"
+                                className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-black"
                                 type="text"
                                 placeholder="Type to add tag..."
                                 value={addtag}
                                 onChange={(e) => setAddtag(e.target.value)}
                                 onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
                             />
-                            <button onClick={() => fetchaAddTag(addtag)} className='ml-10'>Add</button>
+                            <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-black'>Add</button>
                         </div>
                     </div>
-            <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg p-5">
+            <div className="flex flex-col md:flex-row bg-white justify-center rounded-lg shadow-lg p-5 w-[70%]">
                 <form id="form" onSubmit={async (e) => { handleSubmit(e); }} className="w-[80%] justify-items-end ml-[10%]">
                     <div className="flex flex-col gap-3">
                         <div className="relative">
-                            <label htmlFor="Name" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">Hotel name: </label>
+                            <label htmlFor="Name" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Hotel name: </label>
                             <input
                                 type="text"
                                 name="Name"
@@ -160,7 +161,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             />
                         </div>
                         <div className="relative">
-                            <label htmlFor="Address" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">Address: </label>
+                            <label htmlFor="Address" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Address: </label>
                             <input
                                 type="text"
                                 name="Address"
@@ -169,7 +170,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             />
                         </div>
                         <div className="relative">
-                            <label htmlFor="District" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">District: </label>
+                            <label htmlFor="District" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">District: </label>
                             <input
                                 type="text"
                                 name="District"
@@ -178,7 +179,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             />
                         </div>
                         <div className="relative">
-                            <label htmlFor="Province" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">Province: </label>
+                            <label htmlFor="Province" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Province: </label>
                             <input
                                 type="text"
                                 name="Province"
@@ -187,7 +188,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             />
                         </div>
                         <div className="relative">
-                            <label htmlFor="Postalcode" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">Postalcode: </label>
+                            <label htmlFor="Postalcode" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Postalcode: </label>
                             <input
                                 type="text"
                                 name="Postalcode"
@@ -196,7 +197,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             />
                         </div>
                         <div className="relative">
-                            <label htmlFor="Tel" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">Tel: </label>
+                            <label htmlFor="Tel" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Tel: </label>
                             <input
                                 type="text"
                                 name="Tel"
@@ -205,7 +206,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             />
                         </div>
                         <div className="relative">
-                            <label htmlFor="Picture" className="text-primaryWhite absolute -translate-x-full translate-y-[50%]">Picture: </label>
+                            <label htmlFor="Picture" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Picture: </label>
                             <input
                                 type="text"
                                 name="Picture"
@@ -231,6 +232,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                         Update <FaPaperPlane className="ml-2" />
                     </button>
                 </form>
+            </div>
             </div>
         </main>
     );

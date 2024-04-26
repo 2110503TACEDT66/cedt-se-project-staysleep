@@ -18,7 +18,7 @@ export default function Card({hotelItem} : {hotelItem: hotelItem}) {
     return (
         <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg p-5 my-2">
             <div className="">
-                <Image src={hotelItem.picture} alt="Hotel Image" width={500} height={300} className="rounded-lg" />
+                <Image src={hotelItem.picture} alt="Hotel Image" width={500} height={300}  className="rounded-lg object-cover" />
             </div>
             <div className="md:w-2/3 md:ml-10 mt-10 md:mt-0 text-black ">
                 <div className='text-2xl font-semibold mb-2 mt-4'>{hotelItem.name}</div>
@@ -30,7 +30,7 @@ export default function Card({hotelItem} : {hotelItem: hotelItem}) {
                     <div className='text-left mt-4 mb-4'>tel: {hotelItem.tel}</div>
                 </div>
                 <div className='w-[25%] justify-items-center'>
-                    <div className="bg-[#f3f4f6] rounded-lg p-4 text-[#7881a9] w-[100%] shadow-lg h-fit">
+                    <div className="bg-[#f3f4f6] rounded-lg p-4 text-[#7881a9] w-[100%] shadow-lg h-fit text-center">
                             <div className='text-lg'>{reviewStar} ⭐</div>
                             <div className='text-xs'>{hotelItem.reviews.length} reviews</div>
                     </div>
@@ -41,7 +41,7 @@ export default function Card({hotelItem} : {hotelItem: hotelItem}) {
                     <div className='grid grid-cols-4 gap-3'>
                         {
                             hotelItem.tags.map((tag) => (
-                                <div key={tag+hotelItem.id} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg ">
+                                <div key={tag+hotelItem.id} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg text-center">
                                     {tag}
                                 </div>
                             ))

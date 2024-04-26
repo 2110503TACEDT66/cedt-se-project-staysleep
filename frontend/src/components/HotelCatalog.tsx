@@ -8,6 +8,8 @@ import { reviewItem } from '@/interface';
 import Image from 'next/image';
 import { TbSearch } from 'react-icons/tb';
 import { useSession } from 'next-auth/react';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export default function HotelCatalog({userRole} : {userRole:string}) {
     const [search, setSearch] = useState('');
@@ -117,7 +119,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     </div>
 
  
-                    <div className="tags-container flex flex-wrap justify-center gap-2 mt-2 ">
+                    <div className="tags-container flex flex-row items-center flex-wrap justify-center gap-2 mt-2 ">
                         {/* button tag */}
                         {tags.map((tag, index) => (
                             <div
@@ -144,10 +146,14 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                         {
                             userRole ==='admin'?
                             
-                            <div className='h-5 w-5 items-center' onClick={() => {
+                            <div className='h-5 w-5 ' onClick={() => {
                                 setVisible(!visible);
                             }}>
-                                <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="Edit icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/>
+                                {
+                                    !visible? <SettingsIcon className="items-center" color = "action"/>:<HighlightOffIcon color = "action"/>
+                                }
+                                
+                                {/* <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="Edit icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/> */}
                             </div>
                             :null
                         }
@@ -156,14 +162,14 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                             visible?
                             <div className=" justify-center mt-3 gap-2">
                                 <input
-                                    className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30"
+                                    className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-gray-600"
                                     type="text"
                                     placeholder="Type to add tag..."
                                     value={addtag}
                                     onChange={(e) => setAddtag(e.target.value)}
                                     onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
                                 />
-                                <button onClick={() => fetchaAddTag(addtag)} className='ml-10'>Add</button>
+                                <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-black'>Add</button>
                             </div>
                             :null
                     }

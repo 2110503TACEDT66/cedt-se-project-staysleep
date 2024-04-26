@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import ReviewItem from "@/components/ReviewItem";
 import { redirect } from "next/navigation";
+import Card from "@/components/Card";
 
 export default function HospitalDetailPage({ params }: { params: { hid: string } }) {
   const session = useSession();
@@ -58,8 +59,12 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
   reviewStar = Math.round(reviewStar * 10) / 10;
 
   return (
-    <main className="container mx-auto px-5 py-10 pt-[7rem]">
-      <div className="flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg p-5">
+    <main className="flex flex-col  container mx-auto px-5 py-10 pt-[7rem]">
+      <div className = "flex w-[100%] justify-center " >
+        <Card  hotelItem={hotelDetail.data} />
+      </div>
+      
+      {/* <div className="flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg p-5">
         <div className="md:w-1/3">
           <Image src={hotelDetail.data.picture} alt="Hotel Image" width={500} height={300} className="rounded-lg" />
         </div>
@@ -78,7 +83,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
             <div className='grid grid-cols-6 gap-3'>
               {
                 hotelDetail.data.tags.map((tag) => (
-                  <div key={tag} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg ">
+                  <div key={tag} className="bg-[#f3f4f6] text-center rounded-lg px-5 py-2 h-10 shadow-lg ">
                       {tag}
                   </div>
                 ))
@@ -86,14 +91,14 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
           </div>
         </div>
         </div>
-      </div>
+      </div> */}
       <div className="mt-8 text-black">
-        <h3 className="text-2xl mb-4">Rooms:</h3>
-        <div className="mt-8 flex flex-wrap justify-around items-start text-black">
+        
+        <div className="w-[100%] mt-8 flex flew-row flex-wrap justify-around items-start text-black  ">
           {hotelDetail.data.rooms && hotelDetail.data.rooms.length > 0 ? (
             hotelDetail.data.rooms.map((room: roomItem) => (
-              <div key={room._id} className="flex-grow w-full md:w-1/3 mb-8">
-                <div className="bg-white rounded-lg shadow-lg p-6">
+              // <div key={room._id} className=" ">
+                <div key={room._id} className="bg-white rounded-lg grow-0 md:w-1/4 mb-8 shadow-lg p-6 mx-1">
                   <Image src={room.picture} alt="Room Image" width={500} height={300} className="rounded-lg" />
                   <h4 className="text-lg font-semibold mb-4 mt-3">{room.roomNumber}</h4>
                   <p className="text-gray-600 mb-4">Price: ${room.price} / night</p>
@@ -106,7 +111,7 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
                     </button>
                   </Link>
                 </div>
-              </div>
+              // </div>
             ))
           ) : (
             <p>No rooms available</p>
@@ -114,9 +119,9 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
         </div>
       </div>
       <div>
-        <div className="flex">
+        <div className="flex justify-center ">
           
-          <div className="mt-8 text-black w-full">
+          <div className="mt-8 text-black w-[80%]">
             {hotelDetail.data.reviews && hotelDetail.data.reviews.length > 0 ? (
               hotelDetail.data.reviews.map((review: reviewItem) => (
                 <ReviewItem review={review} user={user} token={session.data.user.token} booking={review.booking} />
