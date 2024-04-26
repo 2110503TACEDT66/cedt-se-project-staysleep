@@ -80,7 +80,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     tags: [tag]
                 })}
             ).then((response) => response.json())
-            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); })// Log the response
+            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); setVisible(false); })// Log the response
             .then(() => fetchTags());
     }
 
@@ -134,7 +134,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                                             className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
                                             onClick={() => fetchDeleteTag(tag)}
                                             >
-                                            <Image src="/icon/deleicon.png" alt="calendar icon" width={12} height={12} style={{ objectFit: "contain" }} className='!relative' />
+                                            <Image src="/icon/deleicon.png" alt="Edit icon" width={12} height={12} style={{ objectFit: "contain" }} className='!relative' />
                                         </div>
                                     :
                                         null
@@ -147,7 +147,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                             <div className='h-5 w-5 items-center' onClick={() => {
                                 setVisible(!visible);
                             }}>
-                                <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="calendar icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/>
+                                <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="Edit icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/>
                             </div>
                             :null
                         }
@@ -193,7 +193,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     })
                     .map((hotelItem: hotelItem) => (
                         <Link href={`/hotel/${hotelItem.id}`} className="mt-5" key={hotelItem.id}>
-                            <Card hotelItem={hotelItem} visible={visible} fetchaAddTag={fetchaAddTag}/>
+                            <Card hotelItem={hotelItem} />
                         </Link>
                     ))
                 }

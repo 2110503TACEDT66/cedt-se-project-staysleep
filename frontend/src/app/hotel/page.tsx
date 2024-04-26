@@ -3,6 +3,7 @@ import Hotelcatalog from "@/components/HotelCatalog";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import getUserProfile from "@/libs/getUserProfile";
+import { redirect } from "next/navigation";
 
 export default async function Hotel() {
 
@@ -11,6 +12,7 @@ export default async function Hotel() {
     var userRole = "";
 
     const session = await getServerSession(authOptions);
+    if (!session || !session?.user) return redirect("/api/auth/signin");
     if (session && session?.user){
         const user = await getUserProfile(session?.user?.token);
         userRole = user.data.role;

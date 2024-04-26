@@ -2,10 +2,10 @@
 import getHotel from "@/libs/getHotel";
 import Image from "next/image";
 import Link from "next/link";
-import { replyItem, reviewItem, roomItem, singleHotelJson } from "@/interface";
+import { reviewItem, roomItem, singleHotelJson } from "@/interface";
 import getUserProfile from "@/libs/getUserProfile";
 import { useSession } from "next-auth/react";
-import { LegacyRef, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import ReviewItem from "@/components/ReviewItem";
 import { redirect } from "next/navigation";
