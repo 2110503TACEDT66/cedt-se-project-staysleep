@@ -170,7 +170,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                 </div>
             </div>
 
-            <div style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
+            <div style={{margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
                 {hotels
                     .filter((hotelItem: hotelItem) => {
                         // Filter by searching
