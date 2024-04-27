@@ -5,6 +5,7 @@ import { CircularProgress, Input } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from 'next/navigation'
+import { set } from "node_modules/cypress/types/lodash";
 import { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 
@@ -12,6 +13,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [tags, setTags] = useState<string[]>([]);
     const [addtag,setAddtag] = useState('');
+    const [dragItem, setDragItem] = useState<string>('');
 
     const session = useSession();
     if (!session || !session.data?.user.token) redirect("/api/auth/signin");
@@ -78,13 +80,10 @@ export default function EditPage({ params }: { params: { hid: string } }) {
     const toggleTag = (tag: string) => {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
-            hotelDetail.data.tags = hotelDetail.data.tags.filter((selectedTag) => selectedTag !== tag);
             setTags([...tags, tag]);
-            setHotelDetail(hotelDetail);
         } else {
             setSelectedTags([...selectedTags, tag]);
-            hotelDetail.data.tags.push(tag)
-            setHotelDetail(hotelDetail);
+            setTags(tags.filter((tagItem) => tagItem !== tag));
         }
     };
       
@@ -105,7 +104,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                 postalcode: data.get("Postalcode") as string? data.get("Postalcode") as string : hotelDetail.data.postalcode,
                 tel: data.get("Tel") as string? data.get("Tel") as string : hotelDetail.data.tel,
                 picture: data.get("Picture") as string? data.get("Picture") as string : hotelDetail.data.picture,
-                tags: hotelDetail.data.tags
+                tags: selectedTags
             })
         })
         .then((response) => response.json())
@@ -114,6 +113,19 @@ export default function EditPage({ params }: { params: { hid: string } }) {
             router.push("/hotel")
         })
     };
+
+    const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+        setDragItem(e.currentTarget.innerText);
+        e.preventDefault();
+    }
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        if(dragItem === '') return console.error('No item to drop');
+        console.log('Drop:', dragItem)
+        toggleTag(dragItem);
+        setDragItem('');
+        e.preventDefault();
+    }
     
     return (
         <main className="container mx-auto px-5 py-10 pt-[7rem] justify-self-center">
@@ -125,6 +137,8 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 <div
                                     key={index}
                                     className={`flex flex-wrap`}
+                                    draggable="true"
+                                    onDrag={handleDrag}
                                 >
                                     <div
                                         className={`flex flex-wrap gap-1 px-5 py-2  text-nowrap rounded-lg hover:font-bold hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'}  text-secondary bg-primary/70  transition-all duration-250 ease-in-out shadow-sm `}
@@ -148,8 +162,8 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-zinc-100'>Add</button>
                         </div>
                     </div>
-            <div className="flex flex-col md:flex-row bg-[rgba(44,44,44,0.8)] justify-center rounded-lg shadow-lg p-5 w-[70%]">
-                <form id="form" onSubmit={async (e) => { handleSubmit(e); }} className="w-[80%] justify-items-end ml-[5%]">
+            <div className="flex flex-col md:flex-row bg-[rgba(44,44,44,0.8)] justify-center rounded-lg shadow-lg p-5 w-[70%]" onDrop={handleDrop} onDragOver={(e) => {e.preventDefault()}}>
+                <form id="form" onSubmit={async (e) => { handleSubmit(e); }} className="w-[80%] justify-items-end ml-[10%]">
                     <div className="flex flex-col gap-3">
                         <div className="relative">
                             <label htmlFor="Name" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Hotel name: </label>
@@ -218,8 +232,8 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                             <div className='flex flex-row gap-3'>
                                 <div className='flex flex-wrap gap-3'>
                                     {
-                                        hotelDetail.data.tags.map((tag) => (
-                                            <div key={tag} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg" onClick={() => {toggleTag(tag)}}>
+                                        selectedTags.map((tag) => (
+                                            <div key={tag} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg" onClick={() => {toggleTag(tag)}} onDrag={handleDrag} draggable="true">
                                                 {tag}
                                             </div>
                                         ))
