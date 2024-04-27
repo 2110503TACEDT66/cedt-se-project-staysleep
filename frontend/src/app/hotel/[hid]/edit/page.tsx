@@ -115,6 +115,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
     };
 
     const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+        if(dragItem !== '') return;
         setDragItem(e.currentTarget.innerText);
         e.preventDefault();
     }
@@ -126,9 +127,14 @@ export default function EditPage({ params }: { params: { hid: string } }) {
         setDragItem('');
         e.preventDefault();
     }
+
+    const handenDropClear = (e: React.DragEvent<HTMLDivElement>) => {
+        setDragItem('');
+        e.preventDefault();
+    }
     
     return (
-        <main className="container mx-auto px-5 py-10 pt-[7rem] justify-self-center">
+        <main className="container mx-auto px-5 py-10 pt-[7rem] justify-self-center" onDrop={handenDropClear} onDragOver={(e) => {e.preventDefault()}}>
             <div className="flex flex-col justify-center items-center h-full">
                     <div className="tags-container flex flex-col text-center justify-center mx-[25%] w-[50%] bg-[rgba(44,44,44,0.8)] mb-3 p-4 rounded-md ">
                         <div className="flex flex-wrap gap-2 justify-center">
@@ -141,7 +147,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                     onDrag={handleDrag}
                                 >
                                     <div
-                                        className={`flex flex-wrap gap-1 px-5 py-2  text-nowrap rounded-lg hover:font-bold hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'}  text-secondary bg-primary/70  transition-all duration-250 ease-in-out shadow-sm `}
+                                        className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap rounded-lg hover:font-bold hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md' transition-all duration-250 ease-in-out shadow-sm ${dragItem === tag ? 'invisible' : 'bg-primary/70 text-secondary'}`}
                                         onClick={() => { toggleTag(tag)}}
                                     >
                                         {tag}
@@ -233,7 +239,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 <div className='flex flex-wrap gap-3'>
                                     {
                                         selectedTags.map((tag) => (
-                                            <div key={tag} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg" onClick={() => {toggleTag(tag)}} onDrag={handleDrag} draggable="true">
+                                            <div key={tag} className={`rounded-lg px-5 py-2 h-10 shadow-lg  ${dragItem === tag ? 'invisible' : 'bg-[#f3f4f6] text-secondary'}`} onClick={() => {toggleTag(tag)}} onDrag={handleDrag} draggable="true">
                                                 {tag}
                                             </div>
                                         ))

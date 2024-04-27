@@ -127,7 +127,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                             className={`flex flex-wrap`}
                         >
                             <div
-                                className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible? 'rounded-l-lg': 'rounded-lg hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'}  text-secondary bg-primary/70  transition-all duration-250 ease-in-out shadow-sm ${selectedTags.includes(tag) ? 'bg-neutral-950 text-amber-400' : ''}`}
+                                className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible? 'rounded-l-lg': 'rounded-lg hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'} transition-all duration-250 ease-in-out shadow-sm ${selectedTags.includes(tag) ? 'bg-neutral-950 text-amber-400':'bg-primary/70 text-secondary' }`}
                                 onClick={() => {visible? "":toggleTag(tag)}}
                             >
                                 {tag}
