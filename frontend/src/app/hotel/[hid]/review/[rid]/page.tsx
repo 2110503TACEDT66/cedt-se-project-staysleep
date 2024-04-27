@@ -62,7 +62,7 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
               </div>
             </div>
           </div>
-          <ReplyArea replyData={review.replys} review={review} rid={params.rid} userProfile={userProfile} />
+          <ReplyArea replyData={review.replys} review={review} rid={params.rid} userProfile={userProfile} hid={params.hid}/>
         </>
       ) : (
         <>Review with id {params.rid} not found</>

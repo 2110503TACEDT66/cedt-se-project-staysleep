@@ -2,15 +2,17 @@
 
 import createReply from "@/libs/createReply";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function ReplyForm({ userID, rid }: { userID: string, rid: string }) {
+export default function ReplyForm({ userID, rid, hid }: { userID: string, rid: string, hid: string}) {
+  const router = useRouter();
   const session = useSession();
   const [message, setMessage] = useState("");
   const onClick = async () => {
     if (!message || !session.data?.user.token) return;
     const res = await createReply(session.data?.user.token, userID, rid, message);
-    if(res.success) alert("Reply successful");
+    if(res.success) router.push(`/hotel/${hid}`);
     else alert("Reply failed");
   };
 

@@ -8,11 +8,13 @@ export default function ReplyArea({
   review,
   rid,
   userProfile,
+  hid
 }: {
   replyData: {}[];
   review: any;
   rid: string;
   userProfile: any;
+  hid: string;
 }) {
   // console.log(userProfile);
   return (
@@ -20,7 +22,7 @@ export default function ReplyArea({
       <div className="flex flex-col justify-center w-3/5">
         <ReplyList replyData={replyData} />
         {canReply(userProfile, review.hotel) ? (
-          <ReplyForm userID={review.user._id} rid={rid} />
+          <ReplyForm userID={review.user._id} rid={rid} hid={hid}/>
         ) : (
           <div className="text-center py-20 font-bold">You are not allow to reply a review in this hotel</div>
         )}
