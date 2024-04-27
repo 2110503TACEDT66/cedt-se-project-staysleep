@@ -198,7 +198,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                         return selectedTags.every((tag) => hotelItem.tags.includes(tag));
                     })
                     .map((hotelItem: hotelItem) => (
-                        <Link href={`/hotel/${hotelItem.id}`} className="mt-5" key={hotelItem.id}>
+                        <Link href={`/hotel/${hotelItem.id}`} className="mt-5 w-[70%]" key={hotelItem.id}>
                             <Card hotelItem={hotelItem} />
                         </Link>
                     ))
