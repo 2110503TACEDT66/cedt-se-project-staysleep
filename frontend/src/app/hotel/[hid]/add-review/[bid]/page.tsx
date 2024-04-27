@@ -41,8 +41,15 @@ const ReviewPage = ({ params }: { params: { hid: string; bid: string } }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setPending(true);
     const message = new FormData(e.currentTarget).get("review") as string;
+
+     // Check if the review is empty
+    if (message.trim() === "") {
+      alert("Please add some text.");
+      return; 
+    }
+
+    setPending(true);
     const profile = await getUserProfile(session.data.user.token);
 
     const response = await createReview(session.data.user.token, profile.data._id, params.hid, message, rating, bookingDetail!);
@@ -125,7 +132,7 @@ const ReviewPage = ({ params }: { params: { hid: string; bid: string } }) => {
                 />
                 <textarea
                   name="review"
-                  className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg"
+                  className="px-2 py-3 my-8 h-[7rem] border-2 border-slate-400 rounded-lg text-black"
                   placeholder="Describe your experience"
                 />
                 <button className="w-fit px-4 py-2 flex justify-center items-center m-auto bg-[#7880a8] hover:bg-slate-700 text-white font-bold rounded">
