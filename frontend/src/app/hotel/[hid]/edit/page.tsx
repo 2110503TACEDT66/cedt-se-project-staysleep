@@ -118,7 +118,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
     return (
         <main className="container mx-auto px-5 py-10 pt-[7rem] justify-self-center">
             <div className="flex flex-col justify-center items-center h-full">
-                    <div className="tags-container flex flex-col text-center justify-center mx-[25%] w-[50%] bg-white mb-3 p-4 rounded-md ">
+                    <div className="tags-container flex flex-col text-center justify-center mx-[25%] w-[50%] bg-[rgba(44,44,44,0.8)] mb-3 p-4 rounded-md ">
                         <div className="flex flex-wrap gap-2 justify-center">
                             {tags.map((tag, index) => (
                                 !selectedTags.includes(tag)?
@@ -138,18 +138,18 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                         </div>
                         <div className="justify-self-center mt-3  w-[100%] ">
                             <input
-                                className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-black"
+                                className="focus:outline-none bg-[rgba(55,55,55,0.8)] rounded-lg shadow-md p-2 w-80 mx-30 text-orange-100"
                                 type="text"
                                 placeholder="Type to add tag..."
                                 value={addtag}
                                 onChange={(e) => setAddtag(e.target.value)}
                                 onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
                             />
-                            <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-black'>Add</button>
+                            <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-zinc-100'>Add</button>
                         </div>
                     </div>
-            <div className="flex flex-col md:flex-row bg-white justify-center rounded-lg shadow-lg p-5 w-[70%]">
-                <form id="form" onSubmit={async (e) => { handleSubmit(e); }} className="w-[80%] justify-items-end ml-[10%]">
+            <div className="flex flex-col md:flex-row bg-[rgba(44,44,44,0.8)] justify-center rounded-lg shadow-lg p-5 w-[70%]">
+                <form id="form" onSubmit={async (e) => { handleSubmit(e); }} className="w-[80%] justify-items-end ml-[5%]">
                     <div className="flex flex-col gap-3">
                         <div className="relative">
                             <label htmlFor="Name" className="text-zinc-400 absolute -translate-x-full translate-y-[50%]">Hotel name: </label>
@@ -157,7 +157,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="Name"
                                 placeholder={hotelDetail.data.name}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="relative">
@@ -166,7 +166,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="Address"
                                 placeholder={hotelDetail.data.address}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="relative">
@@ -175,7 +175,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="District"
                                 placeholder={hotelDetail.data.district}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="relative">
@@ -184,7 +184,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="Province"
                                 placeholder={hotelDetail.data.province}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="relative">
@@ -193,7 +193,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="Postalcode"
                                 placeholder={hotelDetail.data.postalcode}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="relative">
@@ -202,7 +202,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="Tel"
                                 placeholder={hotelDetail.data.tel}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="relative">
@@ -211,7 +211,7 @@ export default function EditPage({ params }: { params: { hid: string } }) {
                                 type="text"
                                 name="Picture"
                                 placeholder={hotelDetail.data.picture}
-                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-black"
+                                className="w-full max-w-full ml-2 px-5 py-3 bg-[rgba(217,217,217,0.1)] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-primary text-white"
                             />
                         </div>
                         <div className="w-[100%] md:ml-10 mt-10 md:mt-0 text-black">
