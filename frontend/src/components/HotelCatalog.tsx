@@ -10,6 +10,7 @@ import { TbSearch } from 'react-icons/tb';
 import { useSession } from 'next-auth/react';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { set } from 'node_modules/cypress/types/lodash';
 
 export default function HotelCatalog({userRole} : {userRole:string}) {
     const [search, setSearch] = useState('');
@@ -19,6 +20,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
     const [tags, setTags] = useState([]);
     const [visible,setVisible] = useState(false);
     const [addtag,setAddtag] = useState('');
+    const [error, setError] = useState(false);
     
     const session = useSession();
     if (!session || !session.data?.user.token) return null;
@@ -71,7 +73,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
     }
     
     const fetchaAddTag = (tag: string) => {
-        if (tag === "") return;
+        if (tag === "") return setError(true);
         fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
                 method: "POST",
                 headers: {
@@ -83,7 +85,7 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                 })}
             ).then((response) => response.json())
             .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); setVisible(false); })// Log the response
-            .then(() => fetchTags());
+            .then(() => {fetchTags();} );
     }
 
     const toggleTag = (tag: string) => {
@@ -163,16 +165,23 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                     </div>
                     {
                             visible?
-                            <div className=" justify-center mt-3 gap-2">
-                                <input
-                                    className="focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-gray-600"
-                                    type="text"
-                                    placeholder="Type to add tag..."
-                                    value={addtag}
-                                    onChange={(e) => setAddtag(e.target.value)}
-                                    onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
-                                />
-                                <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-black'>Add</button>
+                            <div>
+                                <div className="justify-center mt-3 gap-2">
+                                    <input
+                                        className={`focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-gray-600 ${error? "border border-red-300":null}`}
+                                        type="text"
+                                        placeholder="Type to add tag..."
+                                        value={addtag}
+                                        onChange={(e) => {setAddtag(e.target.value); setError(false);}}
+                                        onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
+                                    />
+                                    <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-black'>Add</button>
+                                </div>
+                                {
+                                    error?
+                                        <span className='text-red-600'>Fill the tag</span>
+                                    :null
+                                }
                             </div>
                             :null
                     }
