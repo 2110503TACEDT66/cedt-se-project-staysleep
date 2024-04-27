@@ -28,7 +28,7 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
     <main className="pt-[7rem]">
       {reviewRes.success ? (
         <>
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center">
             <div className="w-2/3 my-4 h-fit justify-center bg-white rounded-lg shadow-xl">
               <div className="flex flex-row mx-8 py-8">
                 <div className="w-fit mr-4">
