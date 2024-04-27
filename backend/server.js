@@ -8,7 +8,27 @@ const rateLimit = require('express-rate-limit');
 const { xss } = require('express-xss-sanitizer');
 const helmet = require('helmet');
 const hpp = require('hpp');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
+//Swagger
+const swaggerOptions={
+  swaggerDefinition:{
+    openapi: '3.0.0',
+    info: {
+      title: 'Library API',
+      version: '1.0.0',
+      description: 'An Express Hotel booking API'
+    },
+      servers: [
+        {
+          url: 'http://localhost:5000/api/v1'
+        }
+      ]
+  },
+  apis:['./routes/*.js'],
+};
+const swaggerDocs=swaggerJsDoc(swaggerOptions);
 
 //load env vars
 dotenv.config({ path: './config/config.env' });
@@ -58,6 +78,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 //Mount router
+app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/v1/hotels', hotels);
 app.use('/api/v1/bookings', bookings);
 app.use('/api/v1/rooms', rooms);
