@@ -12,7 +12,7 @@ const UserDropDown = (session: { session: Session }) => {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center items-center gap-4 rounded-md px-4 py-2 hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-            <div className='text-nowrap text-white'>{user.name}</div>
+            <div data-test-id = "username" className='text-nowrap text-white'>{user.name}</div>
             <img src={user.picture} alt="profile" className="w-10 h-10 rounded-full" />
           </Menu.Button>
         </div>

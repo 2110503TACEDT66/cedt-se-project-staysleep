@@ -70,10 +70,10 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
   }, [])
 
   return (
-    <div id={review.id} key={review._id} className="w-full max-width: 100% mb-12">
+    <div id={review.id} key={review._id} data-test-id="review" className="w-full max-width: 100% mb-12">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full">
         <div className="flex justify-between">
-          <h4 className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
+          <h4 data-test-id = "name" className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
           <div className="text-[#78819a] mb-4 ml-8 text-3xl">{rating} ⭐</div>
         </div>
         <div className="flex w-full">
