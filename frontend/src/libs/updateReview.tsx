@@ -1,3 +1,4 @@
+"use server";
 export default async function updateReview(id: string, token: string, message: string, star: number) {
 
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/reviews/${id}`, {

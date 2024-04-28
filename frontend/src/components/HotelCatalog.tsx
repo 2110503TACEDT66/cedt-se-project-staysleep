@@ -10,18 +10,21 @@ import { TbSearch } from 'react-icons/tb';
 import { useSession } from 'next-auth/react';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { set } from 'node_modules/cypress/types/lodash';
+import getHotels from '@/libs/getHotels';
+import getHotelsTags from '@/libs/getHotelsTags';
+import deleteHotelsTags from '@/libs/deleteHotelsTags';
+import createHotelsTags from '@/libs/createHotelsTags';
 
-export default function HotelCatalog({userRole} : {userRole:string}) {
+export default function HotelCatalog({ userRole }: { userRole: string }) {
     const [search, setSearch] = useState('');
     const [rating, setRating] = useState(0);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [hotels, setHotels] = useState([]);
     const [tags, setTags] = useState([]);
-    const [visible,setVisible] = useState(false);
-    const [addtag,setAddtag] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [addtag, setAddtag] = useState('');
     const [error, setError] = useState(false);
-    
+
     const session = useSession();
     if (!session || !session.data?.user.token) return null;
 
@@ -30,62 +33,42 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
         fetchTags();
     }, [search]);
 
-    const fetchData = (value: string) => {
-        fetch(`${process.env.BACKEND_URL}/api/v1/hotels?search=${encodeURIComponent(value)}`)
-            .then((response) => response.json())
-            .then((json) => {
-                setHotels(json.data);
+    const fetchData = async (value: string) => {
+        await getHotels(value)
+            .then((res) => {
+                setHotels(res.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
     };
 
-    const fetchTags = () => {
-        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log('Tags data:', json); // Log the response
-                if (Array.isArray(json.data.tags)) {
-                    setTags(json.data.tags); // Extract tags array
+    const fetchTags = async () => {
+        await getHotelsTags()
+            .then((res) => {
+                console.log('Tags data:', res); // Log the response
+                if (Array.isArray(res.data.tags)) {
+                    setTags(res.data.tags); // Extract tags array
                 } else {
-                    console.error('Tags data is not an array:', json.data);
+                    console.error('Tags data is not an array:', res.data);
                 }
             })
             .catch((error) => {
                 console.error('Error fetching tags:', error);
             });
     };
-    
-    const fetchDeleteTag = (tag: string) => {
-        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    authorization: `Bearer ${session.data.user.token}`,
-                },
-                body: JSON.stringify({
-                    tag: [tag]
-                })}
-            ).then((response) => response.json())
-            .then((json) => {console.log('Tags data:', json, 'Delete tag:', tag); })// Log the response
+
+    const fetchDeleteTag = async (tag: string) => {
+        await deleteHotelsTags(session.data.user.token, tag)
+            .then((res) => { console.log('Tags data:', res, 'Delete tag:', tag); })// Log the response
             .then(() => fetchTags());
     }
-    
-    const fetchaAddTag = (tag: string) => {
+
+    const fetchaAddTag = async (tag: string) => {
         if (tag === "") return setError(true);
-        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    authorization: `Bearer ${session.data.user.token}`,
-                },
-                body: JSON.stringify({
-                    tags: [tag]
-                })}
-            ).then((response) => response.json())
-            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag(""); setVisible(false); })// Log the response
-            .then(() => {fetchTags();} );
+        await createHotelsTags(session.data.user.token, tag)
+            .then((res) => { console.log('Tags data:', res, 'Add tag:', tag); setAddtag(""); setVisible(false); })// Log the response
+            .then(() => fetchTags());
     }
 
     const toggleTag = (tag: string) => {
@@ -120,75 +103,75 @@ export default function HotelCatalog({userRole} : {userRole:string}) {
                         />
                     </div>
 
- 
+
                     <div className="tags-container flex flex-row items-center flex-wrap justify-center gap-2 mt-2 ">
                         {/* button tag */}
                         {tags.map((tag, index) => (
                             <div
-                            key={index}
-                            className={`flex flex-wrap`}
-                        >
-                            <div
-                                className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible? 'rounded-l-lg': 'rounded-lg hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'} transition-all duration-250 ease-in-out shadow-sm ${selectedTags.includes(tag) ? 'bg-neutral-950 text-amber-400':'bg-primary/70 text-secondary' }`}
-                                onClick={() => {visible? "":toggleTag(tag)}}
+                                key={index}
+                                className={`flex flex-wrap`}
                             >
-                                {tag}
-                            </div>
-                            {
-                                userRole ==='admin' && visible?
-                                    <div
-                                        className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
-                                        onClick={() => fetchDeleteTag(tag)}
+                                <div
+                                    className={`flex flex-wrap gap-1 px-5 py-2 text-nowrap ${userRole === 'admin' && visible ? 'rounded-l-lg' : 'rounded-lg hover:translate-y-[-3px] hover:text-primary hover:bg-black hover:shadow-md'} transition-all duration-250 ease-in-out shadow-sm ${selectedTags.includes(tag) ? 'bg-neutral-950 text-amber-400' : 'bg-primary/70 text-secondary'}`}
+                                    onClick={() => { visible ? "" : toggleTag(tag) }}
+                                >
+                                    {tag}
+                                </div>
+                                {
+                                    userRole === 'admin' && visible ?
+                                        <div
+                                            className='flex flex-wrap justify-center px-2 bg-red-600/70 rounded-r-lg hover:bg-red-900 transition-all duration-250 ease-in-out shadow-sm hover:shadow-md'
+                                            onClick={() => fetchDeleteTag(tag)}
                                         >
-                                        <Image src="/icon/deleicon.png" alt="Edit icon" width={12} height={12} style={{ objectFit: "contain" }} className='!relative' />
-                                    </div>
-                                :
-                                    null
-                            }
-                        </div>
-                        
+                                            <Image src="/icon/deleicon.png" alt="Edit icon" width={12} height={12} style={{ objectFit: "contain" }} className='!relative' />
+                                        </div>
+                                        :
+                                        null
+                                }
+                            </div>
+
                         ))}
                         {
-                            userRole ==='admin'?
-                            
-                            <div className='h-5 w-5 ' onClick={() => {
-                                setVisible(!visible);
-                            }}>
-                                {
-                                    !visible? <SettingsIcon className="items-center" color = "action"/>:<HighlightOffIcon color = "action"/>
-                                }
-                                
-                                {/* <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="Edit icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/> */}
-                            </div>
-                            :null
+                            userRole === 'admin' ?
+
+                                <div className='h-5 w-5 ' onClick={() => {
+                                    setVisible(!visible);
+                                }}>
+                                    {
+                                        !visible ? <SettingsIcon className="items-center" color="action" /> : <HighlightOffIcon color="action" />
+                                    }
+
+                                    {/* <Image src={`${!visible? "/icon/gearicon.png":"/icon/addicon.png"}`} alt="Edit icon" fill style={{ objectFit: "contain" }} className={`!relative mt-3 ml-1 rotate-45 `}/> */}
+                                </div>
+                                : null
                         }
                     </div>
                     {
-                            visible?
+                        visible ?
                             <div>
                                 <div className="justify-center mt-3 gap-2">
                                     <input
-                                        className={`focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-gray-600 ${error? "border border-red-300":null}`}
+                                        className={`focus:outline-none bg-white/95 rounded-lg shadow-md p-2 w-80 mx-30 text-gray-600 ${error ? "border border-red-300" : null}`}
                                         type="text"
                                         placeholder="Type to add tag..."
                                         value={addtag}
-                                        onChange={(e) => {setAddtag(e.target.value); setError(false);}}
-                                        onKeyPress={(e) => {e.key === 'Enter' && fetchaAddTag(addtag)}}
+                                        onChange={(e) => { setAddtag(e.target.value); setError(false); }}
+                                        onKeyPress={(e) => { e.key === 'Enter' && fetchaAddTag(addtag) }}
                                     />
                                     <button onClick={() => fetchaAddTag(addtag)} className='ml-10 text-black'>Add</button>
                                 </div>
                                 {
-                                    error?
+                                    error ?
                                         <span className='text-red-600'>Fill the tag</span>
-                                    :null
+                                        : null
                                 }
                             </div>
-                            :null
+                            : null
                     }
                 </div>
             </div>
 
-            <div style={{margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
+            <div style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
                 {hotels
                     .filter((hotelItem: hotelItem) => {
                         // Filter by searching

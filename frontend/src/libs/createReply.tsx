@@ -1,3 +1,4 @@
+"use server";
 import getReview from "./getReview"
 import getUserProfile from "./getUserProfile"
 

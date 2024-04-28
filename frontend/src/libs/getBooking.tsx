@@ -1,3 +1,4 @@
+"use server";
 export default async function getBooking(id: string, token: string) {
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/bookings/${id}`, {
         cache: 'no-store',

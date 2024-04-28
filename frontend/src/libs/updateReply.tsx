@@ -1,3 +1,4 @@
+"use server";
 export default async function updateReply(id: string, token: string, message: string, rid: string) {
 
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/replys/${id}`, {

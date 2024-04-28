@@ -1,3 +1,4 @@
+"use server";
 'use server';
 
 import { BookingItem } from "@/interface";

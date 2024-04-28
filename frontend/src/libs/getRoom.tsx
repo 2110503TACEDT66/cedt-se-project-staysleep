@@ -1,3 +1,4 @@
+"use server";
 export default async function getRoom(id: string) {
 
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/rooms/${id}`, { cache: 'no-store' })

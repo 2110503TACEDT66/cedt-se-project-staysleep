@@ -1,3 +1,4 @@
+"use server";
 export default async function addBooking(userId:string, bookingStart: string, bookingEnd: string, hotelId: string, roomId: string, token: string) {
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/hotels/${hotelId}/bookings/`, {
       method: "POST",

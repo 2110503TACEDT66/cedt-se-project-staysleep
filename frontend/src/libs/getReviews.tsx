@@ -1,3 +1,4 @@
+"use server";
 export default async function getReviews() {
 
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/reviews`, { cache: 'no-store' })

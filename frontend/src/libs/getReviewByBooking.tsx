@@ -1,3 +1,4 @@
+"use server";
 import { reviewItem } from "@/interface"
 
 export default async function getReviewByBooking(id: string): Promise<reviewItem | null> {

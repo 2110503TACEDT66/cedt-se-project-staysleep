@@ -1,3 +1,4 @@
+"use server";
 export default async function userLogin(userEmail: string, userPassword: string) {
     console.log(`${process.env.BACKEND_URL}/api/v1/auth/login`)
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/auth/login`, {
