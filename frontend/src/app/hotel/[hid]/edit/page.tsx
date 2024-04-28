@@ -1,6 +1,9 @@
 "use client"
 import { singleHotelJson } from "@/interface";
+import createHotelsTags from "@/libs/createHotelsTags";
 import getHotel from "@/libs/getHotel";
+import getHotelsTags from "@/libs/getHotelsTags";
+import updateHotel from "@/libs/updateHotel";
 import { CircularProgress, Input } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -27,17 +30,16 @@ export default function EditPage({ params }: { params: { hid: string } }) {
         fetchTags(hotelDetail);
     };
 
-    const fetchTags = (hotelDetail:singleHotelJson) => {
+    const fetchTags = async (hotelDetail:singleHotelJson) => {
         if(!hotelDetail) return console.error('Hotel detail is not loaded yet');
-        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log('Tags data:', json); // Log the response
-                if (Array.isArray(json.data.tags)) {
-                    setTags(json.data.tags.filter((tag:string) => !hotelDetail.data.tags.includes(tag)));
+        await getHotelsTags()
+            .then((res) => {
+                console.log('Tags data:', res); // Log the response
+                if (Array.isArray(res.data.tags)) {
+                    setTags(res.data.tags.filter((tag:string) => !hotelDetail.data.tags.includes(tag)));
                     setSelectedTags(hotelDetail.data.tags);
                 } else {
-                    console.error('Tags data is not an array:', json.data);
+                    console.error('Tags data is not an array:', res.data);
                 }
             })
             .catch((error) => {
@@ -45,19 +47,10 @@ export default function EditPage({ params }: { params: { hid: string } }) {
             });
     };
 
-    const fetchaAddTag = (tag: string) => {
+    const fetchaAddTag = async (tag: string) => {
         if (tag === "") return;
-        fetch(`${process.env.BACKEND_URL}/api/v1/hotels/tags`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    authorization: `Bearer ${session.data.user.token}`,
-                },
-                body: JSON.stringify({
-                    tags: [tag]
-                })}
-            ).then((response) => response.json())
-            .then((json) => {console.log('Tags data:', json, 'Add tag:', tag); setAddtag("");})// Log the response
+        await createHotelsTags(session.data.user.token, tag)
+            .then((res) => {console.log('Tags data:', res, 'Add tag:', tag); setAddtag("");})// Log the response
             .then(() => {
                 hotelDetail?.data.tags.push(tag);
                 if (hotelDetail) {
@@ -90,23 +83,18 @@ export default function EditPage({ params }: { params: { hid: string } }) {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        const response = fetch(`${process.env.BACKEND_URL}/api/v1/hotels/${hotelDetail.data.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                authorization: `Bearer ${session.data.user.token}`,
-            },
-            body: JSON.stringify({
-                name: data.get("Name") as string? data.get("Name") as string : hotelDetail.data.name,
-                address: data.get("Address") as string? data.get("Address") as string : hotelDetail.data.address,
-                district: data.get("District") as string? data.get("District") as string : hotelDetail.data.district,
-                province: data.get("Province") as string? data.get("Province") as string : hotelDetail.data.province,
-                postalcode: data.get("Postalcode") as string? data.get("Postalcode") as string : hotelDetail.data.postalcode,
-                tel: data.get("Tel") as string? data.get("Tel") as string : hotelDetail.data.tel,
-                picture: data.get("Picture") as string? data.get("Picture") as string : hotelDetail.data.picture,
-                tags: selectedTags
-            })
-        })
+        const response = await updateHotel(
+            session.data.user.token, 
+            params.hid,
+            data.get("Name") as string? data.get("Name") as string : hotelDetail.data.name,
+            data.get("Address") as string? data.get("Address") as string : hotelDetail.data.address,
+            data.get("District") as string? data.get("District") as string : hotelDetail.data.district,
+            data.get("Province") as string? data.get("Province") as string : hotelDetail.data.province,
+            data.get("Postalcode") as string? data.get("Postalcode") as string : hotelDetail.data.postalcode,
+            data.get("Tel") as string? data.get("Tel") as string : hotelDetail.data.tel,
+            data.get("Picture") as string? data.get("Picture") as string : hotelDetail.data.picture,
+            selectedTags
+        )
         .then((response) => response.json())
         .then((json) => {
             console.log(json);
