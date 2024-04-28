@@ -13,7 +13,7 @@ const swaggerUI = require('swagger-ui-express');
 
 //Swagger
 // CDN CSS
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
