@@ -30,6 +30,16 @@ module.exports = router;
 /**
  * @swagger
  * components:
+ *  securitySchemes:
+ *       bearerAuth:
+ *         type: http
+ *         scheme: bearer
+ *         bearerFormat: JWT
+ */
+
+/**
+ * @swagger
+ * components:
  *  schemas:
  *      Hotel:
  *          type: object
@@ -149,6 +159,10 @@ module.exports = router;
  *                          $ref: '#/components/schemas/Hotel'
  *          500:
  *              description: Some error happended
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
  /**
@@ -181,6 +195,10 @@ module.exports = router;
  *              description: The Hotel was not found / invalid input
  *          500:
  *              description: Some error happended
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
@@ -203,13 +221,17 @@ module.exports = router;
  *              description: The Hotel was not found / The is an error
  *          500:
  *              description: Some error happended
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
  * @swagger
  * /hotels/{id}/tags:
  *  put:
- *      summary: Update the hotel's tags
+ *      summary: Add tags to the hotel
  *      tags: [Hotels]
  *      parameters:
  *          -  in: path
@@ -233,6 +255,10 @@ module.exports = router;
  *                          $ref: '#/components/schemas/Hotel'
  *          400:
  *              description: The Hotel was not found / invalid input / Server error
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
@@ -259,6 +285,10 @@ module.exports = router;
  *              description: The Hotel's tag was updated
  *          400:
  *              description: The Hotel was not found / The is an error
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
@@ -327,6 +357,10 @@ module.exports = router;
  *                          $ref: '#/components/schemas/Tag'
  *          400:
  *              description: Some error happended
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
@@ -335,9 +369,19 @@ module.exports = router;
  *  delete:
  *      summary: Remove the tag
  *      tags: [Tags]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Tag'
  *      responses:
  *          200:
  *              description: The tag was deleted
  *          400:
  *              description: The is an error
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */

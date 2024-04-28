@@ -132,6 +132,8 @@ module.exports = router;
  *              description: The rating must be between 1 and 5 stars
  *          500:
  *              description: Some error happended
+ *      security:
+ *          - bearerAuth: []
  */
 
  /**
@@ -164,6 +166,8 @@ module.exports = router;
  *              description: The Review was not found / The rating must be between 1 and 5 stars
  *          500:
  *              description: Some error happended
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
@@ -186,6 +190,8 @@ module.exports = router;
  *              description: The review was not found / The is an error
  *          500:
  *              description: Some error happended
+ *      security:
+ *        - bearerAuth: []
  */
 
  /** 

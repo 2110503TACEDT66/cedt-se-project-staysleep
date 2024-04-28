@@ -119,6 +119,11 @@ module.exports = router;
  *                          $ref: '#/components/schemas/Reply'
  *          500:
  *              description: Some server error
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
+ * 
  */
 
  /**
@@ -151,6 +156,10 @@ module.exports = router;
  *              description: The Reply was not found
  *          500:
  *              description: Some error happended
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
 
 /**
@@ -171,4 +180,8 @@ module.exports = router;
  *              description: The reply was deleted
  *          400:
  *              description: The reply was not found
+ *          401:
+ *              description: Not authorized to access this data
+ *      security:
+ *         - bearerAuth: []
  */
