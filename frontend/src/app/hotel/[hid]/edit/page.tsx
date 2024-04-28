@@ -95,9 +95,8 @@ export default function EditPage({ params }: { params: { hid: string } }) {
             data.get("Picture") as string? data.get("Picture") as string : hotelDetail.data.picture,
             selectedTags
         )
-        .then((response) => response.json())
-        .then((json) => {
-            console.log(json);
+        .then((res) => {
+            console.log(res);
             router.push("/hotel")
         })
     };
