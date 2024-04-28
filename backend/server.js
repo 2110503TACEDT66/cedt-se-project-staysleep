@@ -11,8 +11,6 @@ const hpp = require('hpp');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
-const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
-
 //Swagger
 const swaggerOptions={
   swaggerDefinition:{
@@ -83,7 +81,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 //Mount router
-app.use(express.static(pathToSwaggerUi))
 app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/v1/hotels', hotels);
 app.use('/api/v1/bookings', bookings);
