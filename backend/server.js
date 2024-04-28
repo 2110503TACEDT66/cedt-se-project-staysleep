@@ -37,7 +37,7 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['backend/routes/*.js'],
+  apis: ['backend/routes/*.js', 'routes/*.js'],
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
@@ -89,7 +89,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 //Mount router
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, { customCss: CSS }));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/v1/hotels', hotels);
 app.use('/api/v1/bookings', bookings);
 app.use('/api/v1/rooms', rooms);
