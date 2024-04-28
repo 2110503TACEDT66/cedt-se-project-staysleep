@@ -49,6 +49,7 @@ describe('For customer', () => {
 			.trigger('change',{force:true})
 		cy.get('textarea[name="review-message"]:not([disabled])').click({force:true}).type("edit");
 		cy.get('button').filter(':visible').contains("Save").click({ force: true });
+		cy.wait(2500);
 
 	});
 
@@ -122,8 +123,9 @@ describe('For Admin', () => {
 		cy.wait(10000);
 		cy.get('a[href="/hotel/66026dd5078c681403eb908b/review/6621190f5f89aee4e9fe5c5c"]').click();
 		cy.wait(8000);
-		cy.get('textarea').click().type('Good Review');
+		cy.get('textarea').click().type('very good review 👍👍👍👍👍');
 		cy.get('button').contains('Submit').click();
+		cy.wait(2500);
 		// cy.wait(10000);
 		// cy.get('a[href = "/hotel"').contains("Hotels").click();
 		// cy.wait(5000);
