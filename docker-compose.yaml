@@ -14,6 +14,8 @@ services:
         build:
             context: ./database/database_seed
             dockerfile: Dockerfile
+        depends_on:
+            - db
         hostname: db-seed
         container_name: db-seed
         networks:
@@ -22,7 +24,7 @@ services:
     backend:
         build:
             context: backend
-            target: production
+            target: runner
             dockerfile: Dockerfile
         hostname: backend
         container_name: backend
@@ -30,6 +32,8 @@ services:
             - db
         networks:
             - hotel_reservation
+        ports:
+            - '5000:5000'
         environment:
             PORT: 5000
             NODE_ENV: production
@@ -41,7 +45,7 @@ services:
     frontend:
         build:
             context: frontend
-            target: production
+            target: runner
             dockerfile: Dockerfile
         hostname: frontend
         container_name: frontend
@@ -51,12 +55,15 @@ services:
             - hotel_reservation
         ports:
             - '3000:3000'
-        environment:
-            NEXTAUTH_URL: http://localhost:3000/
-            NEXTAUTH_SECRET: 'Ey7nTKnggBc0bRN8WUjyShw2qzOZ6KW4fUyqcKBePxY='
-            MONGO_URI: mongodb://db/HotelReservation?directConnection=true&retryWrites=true&w=majority
-            FRONTEND_URL: http://localhost:3000
-            BACKEND_URL: http://localhost:5000
+        #
+        # Move to .env.production file
+        #
+        # environment:
+        #     NEXTAUTH_URL: http://localhost:3000/
+        #     NEXTAUTH_SECRET: '"Ey7nTKnggBc0bRN8WUjyShw2qzOZ6KW4fUyqcKBePxY="'
+        #     MONGO_URI: mongodb://db/HotelReservation?directConnection=true&retryWrites=true&w=majority
+        #     FRONTEND_URL: http://localhost:3000
+        #     BACKEND_URL: http://backend:5000
 
 networks:
     hotel_reservation:

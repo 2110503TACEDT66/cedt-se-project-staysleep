@@ -2,3 +2,10 @@ UML
 out
 .next
 node_modules
+**.env**
+Dockerfile
+.dockerignore
+npm-debug.log
+README.md
+.next
+.git

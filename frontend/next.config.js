@@ -10,6 +10,7 @@ const nextConfig = {
         FRONTEND_URL: process.env.FRONTEND_URL,
         BACKEND_URL: process.env.BACKEND_URL,
     },
+    output: 'standalone'
 };
 
 module.exports = nextConfig;
