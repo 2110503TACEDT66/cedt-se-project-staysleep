@@ -19,8 +19,6 @@ module.exports = router;
  *  schemas:
  *      Reply:
  *          type: object
- *          required:
- *              - message
  *          properties:
  *              _id:
  *                  type: string
@@ -70,6 +68,8 @@ module.exports = router;
  *                          type: array
  *                          item:
  *                              $ref: '#/components/schemas/Reply'
+ *          500:
+ *              description: Some server error
  */ 
 
  /** 
@@ -94,8 +94,8 @@ module.exports = router;
  *                          type: array
  *                          item:
  *                              $ref: '#/components/schemas/Reply'
- *          404:
- *              description: The reply was not found
+ *          400:
+ *              description: The reply was not found / invalid id
  */
 
  /**
@@ -112,7 +112,7 @@ module.exports = router;
  *                      $ref: '#/components/schemas/Reply' 
  *      responses:
  *          201:
- *              description: The Reply was successfully created
+ *              description: The reply was successfully created
  *              content:
  *                  application/json:
  *                      schema:
@@ -147,7 +147,7 @@ module.exports = router;
  *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/Reply'
- *          404:
+ *          400:
  *              description: The Reply was not found
  *          500:
  *              description: Some error happended
@@ -169,6 +169,6 @@ module.exports = router;
  *      responses:
  *          200:
  *              description: The reply was deleted
- *          404:
+ *          400:
  *              description: The reply was not found
  */

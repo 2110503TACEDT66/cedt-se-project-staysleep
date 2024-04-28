@@ -18,9 +18,6 @@ module.exports = router;
  *  schemas:
  *      User:
  *          type: object
- *          required:
- *              - email
- *              - password
  *          properties:
  *              _id:
  *                  type: string
