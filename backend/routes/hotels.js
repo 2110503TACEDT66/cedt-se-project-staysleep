@@ -43,6 +43,14 @@ module.exports = router;
  *  schemas:
  *      Hotel:
  *          type: object
+ *          required:
+ *            - name
+ *            - tags
+ *            - address
+ *            - district
+ *            - province
+ *            - postalcode
+ *            - tel
  *          properties:
  *              _id:
  *                  type: string
@@ -71,7 +79,7 @@ module.exports = router;
  *                 description: The telephone number of the Hotel
  *              picture:
  *                 type: string
- *                 description: The picture of the Hotel
+ *                 description: The link to the picture of the Hotel
  *          example:
  *             _id: 5d725a1b7b292f5f8ceff789
  *             name: The Hotel
@@ -81,7 +89,7 @@ module.exports = router;
  *             province: Province
  *             postalcode: 12345
  *             tel: 1234567890
- *             picture: noimage.jpg
+ *             picture: https://www.google.com
  */
 
 /** 
@@ -106,8 +114,8 @@ module.exports = router;
  *                          type: array
  *                          item:
  *                              $ref: '#/components/schemas/Hotel'
- *          500:
- *              description: Some server error
+ *          400:
+ *              description: Some error happended
  */ 
 
  /** 
@@ -183,7 +191,29 @@ module.exports = router;
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Hotel' 
+ *                      type: object
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                              description: The name of the Hotel
+ *                          address:
+ *                              type: string
+ *                              description: The address of the Hotel
+ *                          district:
+ *                              type: string
+ *                              description: The district of the Hotel
+ *                          province:
+ *                              type: number
+ *                              description: The province of the Hotel
+ *                          postalcode:
+ *                              type: string
+ *                              description: The postal code of the Hotel
+ *                          tel:
+ *                             type: string
+ *                             description: The telephone number of the Hotel
+ *                          picture:
+ *                             type: string
+ *                             description: The link to the picture of the Hotel 
  *      responses:
  *          200:
  *              description: The hotel was updated
@@ -192,9 +222,7 @@ module.exports = router;
  *                      schema:
  *                          $ref: '#/components/schemas/Hotel'
  *          400:
- *              description: The Hotel was not found / invalid input
- *          500:
- *              description: Some error happended
+ *              description: The Hotel was not found / invalid input / Server error
  *          401:
  *              description: Not authorized to access this data
  *      security:
@@ -219,8 +247,6 @@ module.exports = router;
  *              description: The Hotel was deleted
  *          400:
  *              description: The Hotel was not found / The is an error
- *          500:
- *              description: Some error happended
  *          401:
  *              description: Not authorized to access this data
  *      security:

@@ -19,6 +19,10 @@ module.exports = router;
  *  schemas:
  *      Reply:
  *          type: object
+ *          required:
+ *             - review
+ *             - user
+ *             - message
  *          properties:
  *              _id:
  *                  type: string
@@ -95,7 +99,7 @@ module.exports = router;
  *                          item:
  *                              $ref: '#/components/schemas/Reply'
  *          400:
- *              description: The reply was not found / invalid id
+ *              description: The reply was not found / invalid id / server error
  */
 
  /**
@@ -109,7 +113,7 @@ module.exports = router;
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Reply' 
+ *                      $ref: '#/components/schemas/Reply'
  *      responses:
  *          201:
  *              description: The reply was successfully created
@@ -144,7 +148,19 @@ module.exports = router;
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Reply' 
+ *                      type: object
+ *                      properties:
+ *                          review:
+ *                              type: string
+ *                              format: uuid
+ *                              description: The object id of the review that the reply is associated with
+ *                          user:
+ *                              type: string
+ *                              format: uuid
+ *                              description: The object id of the user that created the reply
+ *                          message:
+ *                              type: string
+ *                              description: The reply message
  *      responses:
  *          200:
  *              description: The reply was updated
@@ -153,9 +169,7 @@ module.exports = router;
  *                      schema:
  *                          $ref: '#/components/schemas/Reply'
  *          400:
- *              description: The Reply was not found
- *          500:
- *              description: Some error happended
+ *              description: The Reply was not found / invalid id / server error
  *          401:
  *              description: Not authorized to access this data
  *      security:
@@ -179,7 +193,7 @@ module.exports = router;
  *          200:
  *              description: The reply was deleted
  *          400:
- *              description: The reply was not found
+ *              description: The reply was not found / The is an error
  *          401:
  *              description: Not authorized to access this data
  *      security:

@@ -20,6 +20,12 @@ module.exports = router;
  *  schemas:
  *      Review:
  *          type: object
+ *          required:
+ *            - hotel
+ *            - booking
+ *            - user
+ *            - message
+ *            - star
  *          properties:
  *              _id:
  *                  type: string
@@ -52,6 +58,7 @@ module.exports = router;
  *             user: 66211415c9d5dad6dfbb03aa
  *             booking: 66211439e5f4c1c26b3c09ec
  *             message: This is a review message
+ *             star: 5
  *             createdAt: 2021-05-12T19:00:00.000+00:00
  */
 
@@ -129,9 +136,7 @@ module.exports = router;
  *                      schema:
  *                          $ref: '#/components/schemas/Review'
  *          400:
- *              description: The rating must be between 1 and 5 stars
- *          500:
- *              description: Some error happended
+ *              description: The rating must be between 1 and 5 stars / The review was not created
  *      security:
  *          - bearerAuth: []
  */
@@ -154,7 +159,17 @@ module.exports = router;
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Review' 
+ *                      type: object
+ *                      properties:
+ *                          message:
+ *                              type: string
+ *                              description: The review message
+ *                          star:
+ *                              type: number
+ *                              description: The review rating
+ *                          createdAt:
+ *                              type: string
+ *                              description: The date and time the review was created
  *      responses:
  *          200:
  *              description: The Review was updated
@@ -163,9 +178,7 @@ module.exports = router;
  *                      schema:
  *                          $ref: '#/components/schemas/Review'
  *          400:
- *              description: The Review was not found / The rating must be between 1 and 5 stars
- *          500:
- *              description: Some error happended
+ *              description: The Review was not found / The rating must be between 1 and 5 stars / The review was not updated
  *      security:
  *         - bearerAuth: []
  */
@@ -187,9 +200,7 @@ module.exports = router;
  *          200:
  *              description: The review was deleted
  *          400:
- *              description: The review was not found / The is an error
- *          500:
- *              description: Some error happended
+ *              description: The review was not found / The is an error / The review was not deleted
  *      security:
  *        - bearerAuth: []
  */

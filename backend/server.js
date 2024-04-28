@@ -23,6 +23,9 @@ const swaggerOptions={
       servers: [
         {
           url: 'http://localhost:5000/api/v1'
+        },
+        {
+          url: 'https://hotel-reservation-api-phi.vercel.app/api/v1'
         }
       ]
   },

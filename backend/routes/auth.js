@@ -18,6 +18,12 @@ module.exports = router;
  *  schemas:
  *      User:
  *          type: object
+ *          required:
+ *             - name
+ *             - email
+ *             - password
+ *             - role
+ *             - tel
  *          properties:
  *              _id:
  *                  type: string
@@ -65,7 +71,14 @@ module.exports = router;
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/User'
+ *                      type: object
+ *                      properties:
+ *                         email:  
+ *                            type: string
+ *                            description: User email
+ *                         password:
+ *                            type: string
+ *                            description: User password
  *      responses:
  *          200:
  *              description: Login successful
