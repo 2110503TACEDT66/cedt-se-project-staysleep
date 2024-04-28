@@ -10,6 +10,7 @@ exports.getTags = async (req, res, next) => {
         const tags = await Tags.findOne({});
         res.status(200).json({ success: true, data: tags });
     } catch (err) {
+        console.error(err);
         res.status(400).json({ success: false });
     }
 }
@@ -50,6 +51,7 @@ exports.deleteTags = async (req, res, next) => {
         await Hotel.updateMany({ $pull: { tags: { $in: req.body.tag }} });
         res.status(200).json({ success: true, data: {} });
     }catch(err){
+        console.error(err);
         res.status(400).json({ success: false });
     }
 }
