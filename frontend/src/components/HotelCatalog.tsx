@@ -6,7 +6,7 @@ import { Rating } from '@mui/material';
 import { hotelItem } from '@/interface';
 import { reviewItem } from '@/interface';
 import Image from 'next/image';
-import { TbSearch } from 'react-icons/tb';
+import { TbMoodCry, TbSearch } from 'react-icons/tb';
 import { useSession } from 'next-auth/react';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -14,6 +14,8 @@ import getHotels from '@/libs/getHotels';
 import getHotelsTags from '@/libs/getHotelsTags';
 import deleteHotelsTags from '@/libs/deleteHotelsTags';
 import createHotelsTags from '@/libs/createHotelsTags';
+import { GiIsland } from "react-icons/gi";
+import { set } from 'node_modules/cypress/types/lodash';
 
 export default function HotelCatalog({ userRole }: { userRole: string }) {
     const [search, setSearch] = useState('');
@@ -25,6 +27,8 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
     const [addtag, setAddtag] = useState('');
     const [error, setError] = useState(false);
 
+    const [hotels_filtered, setHotels_filtered] = useState([]);
+
     const session = useSession();
     if (!session || !session.data?.user.token) return null;
 
@@ -32,6 +36,30 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
         fetchData(search);
         fetchTags();
     }, [search]);
+
+    useEffect(() => {
+        setHotels_filtered(hotels
+            .filter((hotelItem: hotelItem) => {
+                // Filter by searching
+                const lowercaseSearch = search.toLowerCase();
+                return lowercaseSearch === '' ? hotelItem : hotelItem.name.toLowerCase().includes(lowercaseSearch);
+            })
+            .filter((hotelItem: hotelItem) => {
+                // Filter by selected rating
+                if (rating === 0) return true;
+                let reviewStar = 0;
+                hotelItem.reviews.forEach((reviewItem: reviewItem) => reviewStar += reviewItem.star);
+                reviewStar = (reviewStar / hotelItem.reviews.length);
+                if (isNaN(reviewStar)) reviewStar = 0;
+                return reviewStar >= rating;
+            })
+            .filter((hotelItem: hotelItem) => {
+                // Filter by selected tags
+                if (selectedTags.length === 0) return true;
+                return selectedTags.every((tag) => hotelItem.tags.includes(tag));
+            })
+        );
+    }, [hotels, search, rating, selectedTags]);
 
     const fetchData = async (value: string) => {
         await getHotels(value)
@@ -81,8 +109,8 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
 
 
     return (
-        <>
-            <div className='w-full flex flex-col justify-center items-center'>
+        <div className='z-0'>
+            <div className='w-full flex flex-col justify-center items-center relative z-20'>
                 <div className="text-black max-w-lg p-4 bg-white rounded-lg shadow-md flex flex-row items-center z-10">
                     <TbSearch className="inline-block h-5 w-5 mr-2 fill-primary" />
                     <input
@@ -171,34 +199,22 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
                 </div>
             </div>
 
-            <div style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
-                {hotels
-                    .filter((hotelItem: hotelItem) => {
-                        // Filter by searching
-                        const lowercaseSearch = search.toLowerCase();
-                        return lowercaseSearch === '' ? hotelItem : hotelItem.name.toLowerCase().includes(lowercaseSearch);
-                    })
-                    .filter((hotelItem: hotelItem) => {
-                        // Filter by selected rating
-                        if (rating === 0) return true;
-                        let reviewStar = 0;
-                        hotelItem.reviews.forEach((reviewItem: reviewItem) => reviewStar += reviewItem.star);
-                        reviewStar = (reviewStar / hotelItem.reviews.length);
-                        if (isNaN(reviewStar)) reviewStar = 0;
-                        return reviewStar >= rating;
-                    })
-                    .filter((hotelItem: hotelItem) => {
-                        // Filter by selected tags
-                        if (selectedTags.length === 0) return true;
-                        return selectedTags.every((tag) => hotelItem.tags.includes(tag));
-                    })
-                    .map((hotelItem: hotelItem) => (
-                        <Link href={`/hotel/${hotelItem.id}`} className="mt-5 w-[55%]" key={hotelItem.id}>
-                            <Card hotelItem={hotelItem} />
-                        </Link>
-                    ))
-                }
+            <div className='relative pb-[7rem] z-0'>
+                <div className='w-[95%] min-h-[50vh] h-full absolute -top-[7rem] left-1/2 -translate-x-1/2 bg-[url(/img/bg2.png)] -z-10 rounded-3xl bg-[length:1500px] bg-repeat'></div>
+                <div className='' style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
+                    {hotels_filtered.length === 0
+                        ? <div className="text-[7rem] font-extrabold text-primaryWhite">
+                            <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem]" />
+                            <div className='text-sm'>No hotel found</div>
+                        </div>
+                        : hotels_filtered.map((hotelItem: hotelItem) => (
+                            <Link href={`/hotel/${hotelItem.id}`} className="mt-5 w-[55%]" key={hotelItem.id}>
+                                <Card hotelItem={hotelItem} />
+                            </Link>
+                        ))
+                    }
+                </div>
             </div>
-        </>
+        </div>
     );
 }

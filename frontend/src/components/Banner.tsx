@@ -88,7 +88,6 @@ export default function Banner() {
         </motion.div>
         <div className="mt-5 ml-20 text-primaryWhite tracking-[0.5em] font-light">{hotels[index].quote}</div>
       </div>
-      <Image src={"/img/bg.png"} alt="cover" fill priority className="object-cover -z-20" quality={40} />
       <Image src={hotels[index].image} alt="cover" fill priority className="object-cover -z-10 ml-[20rem]" quality={10} />
       <Link
         href="/hotel"
