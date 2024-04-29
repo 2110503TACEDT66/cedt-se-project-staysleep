@@ -46,7 +46,6 @@ const RegisterPage = () => {
 
   return (
     <main className="h-[100vh] w-[100vw] flex flex-col justify-center items-center">
-      <Image src={"/img/bg.png"} alt="cover" fill priority className="object-cover -z-20" quality={40} />
       <div className="relative w-[40vw] flex flex-col items-center justify-center p-16 rounded-lg overflow-hidden bg-[rgba(44,44,44,0.8)]">
         <h1 className="text-primary text-5xl font-extrabold">Register</h1>
         <div className="relative mt-10 h-fit flex flex-col gap-3 justify-center items-center">
