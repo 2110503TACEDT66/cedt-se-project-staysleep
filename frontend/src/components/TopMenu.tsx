@@ -20,7 +20,7 @@ export default async function TopMenu() {
           <TopMenuItem title="Home" pageRef="/" active />
           <TopMenuItem title="Hotels" pageRef="/hotel" />
           <TopMenuItem title="Booking" pageRef="/bookings/manage" />
-          <TopMenuItem title="About" pageRef="#" />
+          <TopMenuItem title="About" pageRef="/about" />
         </div>
         <div className="flex items-center gap-3">
           {session?.user ? (
