@@ -71,7 +71,7 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
   }, [])
 
   return (
-    <div id={review.id} key={review._id} data-test-id="review" className="w-full max-width: 100% mb-12">
+    <div id={review.id} key={review._id} data-test-id={review.message} className="w-full max-width: 100% mb-12">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full">
         <div className="flex justify-between">
           <h4 data-test-id = "name" className="text-xl font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
@@ -135,7 +135,7 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
       </div>
       {
         review.replys.map((replyItem: replyItem) => (
-          <div key={replyItem._id} className="bg-white rounded-lg shadow-lg p-6 mt-5 ml-10">
+          <div key={replyItem._id} data-test-id = {replyItem.message} className="bg-white rounded-lg shadow-lg p-6 mt-5 ml-10">
             <div className="font-bold text-lg">
               Hotel staff
             </div>

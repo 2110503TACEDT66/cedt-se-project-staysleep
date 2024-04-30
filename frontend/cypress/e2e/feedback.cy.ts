@@ -1,18 +1,17 @@
 
-
 describe('For customer', () => {
 	beforeEach('log in as a customer',()=>{
 		cy.visit('https://cedt-se-project-staysleep.vercel.app/')
 		// cy.visit('http://localhost:3000')
 		cy.get('a[href="/auth/signin"]').click()
-		cy.wait(2000);
-		cy.get('input[name="Email"]').type("thaniyakit@gmail.com")
+		// cy.wait(2000);
+		cy.get('input[name="Email"]', { timeout: 2000 }).type("thaniyakit@gmail.com")
 		cy.get('input[name="Password"]').type("0643234518").get('button[type="submit"]').click();
 		cy.wait(5000);
 	})
 
 	it('see review update', ()=>{
-		//see
+		// see
 		cy.get('a[href = "/hotel"').contains("Hotels").click();
 		cy.wait(5000);
 		cy.get('a[href = "/hotel/66026dd5078c681403eb908b"').click();
@@ -20,12 +19,19 @@ describe('For customer', () => {
 		cy.get('[data-test-id="review"').should('have.length.greaterThan',0);
 		cy.wait(5000);
 
+		let random_string = ''
+		let random_ascii
+		for (let i = 0; i < 10; i++) {
+			random_ascii = Math.floor(Math.random() * 25 + 97)
+			random_string += String.fromCharCode(random_ascii)
+		}
+
 		//write review
-		cy.get('a[href = "/bookings/manage"').click();
-		cy.wait(5000);
-		cy.get('a[href="/hotel/66026e06078c681403eb908e/add-review/661c191261220ebde386a1bf"]').click();
-		cy.wait(10000);
-		cy.get('textarea[name="review"]').click().type("This Hotel is Good!!");
+		cy.get('a[href = "/bookings/manage"', { timeout: 5000 }).click();
+		// cy.wait(5000);
+		cy.get('a[href="/hotel/66026e06078c681403eb908e/add-review/661c191261220ebde386a1bf"]', { timeout: 8000 }).click();
+		// cy.wait(10000);
+		cy.get('textarea[name="review"]',{ timeout: 12000 }).click().type(random_string);
 		
 		const valueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set
 		
@@ -36,9 +42,10 @@ describe('For customer', () => {
 			})
 			.trigger('change')
 		cy.get('button').contains('Submit').click();
-		cy.wait(15000);
+		cy.wait(5000);
+		cy.get(`[data-test-id="${random_string}"]`, { timeout: 10000 }).should('be.visible');
 
-		//update
+		// update
 		cy.get('[data-test-id="name"]').contains('Aomsin').as('Review')
 		cy.get('img[alt="edit icon"]').click({force:true});
 		const valueSetter2 = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set
@@ -111,21 +118,29 @@ describe('For Admin', () => {
 		// cy.visit('http://localhost:3000')
 		cy.get('a[href="/auth/signin"]').click()
 		cy.wait(2000);
-		cy.get('input[name="Email"]').type("admin@gmail.com")
+		cy.get('input[name="Email"]', { timeout: 10000 }).type("admin@gmail.com")
 		cy.get('input[name="Password"]').type("123456").get('button[type="submit"]').click();
 		cy.wait(5000);
 	})
 
 	it('reply', ()=>{
+		let random_string = ''
+		let random_ascii
+		for (let i = 0; i < 10; i++) {
+			random_ascii = Math.floor(Math.random() * 25 + 97)
+			random_string += String.fromCharCode(random_ascii)
+		}
+
 		cy.get('a[href = "/hotel"').contains("Hotels").click();
 		cy.wait(5000);
-		cy.get('a[href = "/hotel/66026dd5078c681403eb908b"').click();
-		cy.wait(10000);
-		cy.get('a[href="/hotel/66026dd5078c681403eb908b/review/6621190f5f89aee4e9fe5c5c"]').click();
+		cy.get('a[href = "/hotel/66026dd5078c681403eb908b"',{ timeout: 10000 }).click();
+		cy.wait(2000);
+		cy.get('a[href="/hotel/66026dd5078c681403eb908b/review/6621190f5f89aee4e9fe5c5c"]', { timeout: 10000 }).click();
 		cy.wait(8000);
-		cy.get('textarea').click().type('very good review 👍👍👍👍👍');
+		cy.get('textarea', { timeout: 10000 }).click().type(random_string);
 		cy.get('button').contains('Submit').click();
 		cy.wait(2500);
+		cy.get(`[data-test-id="${random_string}"]`, { timeout: 10000 }).should('be.visible');
 		// cy.wait(10000);
 		// cy.get('a[href = "/hotel"').contains("Hotels").click();
 		// cy.wait(5000);
