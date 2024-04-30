@@ -33,3 +33,4 @@
 /backend/node_modules
 #config/config.env
 /backend/VacQSequence.puml
+/backend/coverage/
