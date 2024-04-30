@@ -30,17 +30,17 @@ export default function Card({hotelItem} : {hotelItem: hotelItem}) {
                         <div className='text-left mt-4'>{hotelItem.district}, {hotelItem.province}, {hotelItem.postalcode}</div>
                         <div className='text-left mt-4 mb-4'>tel: {hotelItem.tel}</div>
                     </div>
-                    <div className='w-[25%] justify-items-center'>
-                        <div className="bg-[#f3f4f6] rounded-lg p-4 text-[#7881a9] w-[100%] shadow-lg h-fit text-center">
+                    <div className='w-[35%] flex justify-center items-center'>
+                        <div className="bg-[#f3f4f6] rounded-lg p-4 text-[#7881a9] w-24 shadow-lg h-fit text-center">
                                 <div className='text-lg'>{reviewStar} ⭐</div>
                                 <div className='text-xs'>{hotelItem.reviews.length} reviews</div>
                         </div>
                     </div>
                 </div>
-                <div className='grid grid-cols-4 gap-3'>
+                <div className='flex flex-wrap flex-row gap-3'>
                     {
                         hotelItem.tags.map((tag) => (
-                            <div key={tag+hotelItem.id} className="bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg text-center">
+                            <div key={tag+hotelItem.id} className=" w-fit bg-[#f3f4f6] rounded-lg px-5 py-2 h-10 shadow-lg text-center">
                                 {tag}
                             </div>
                         ))
