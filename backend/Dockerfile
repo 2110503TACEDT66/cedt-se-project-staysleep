@@ -30,6 +30,7 @@ FROM base AS runner
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/node_modules/swagger-ui-dist /backend/node_modules/swagger-ui-dist
 COPY . .
 
 ENV NODE_ENV=production
