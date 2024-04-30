@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { KingBed, CalendarMonth } from "@mui/icons-material";
 
 const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user: any, token: string, booking: BookingItemForReview }) => {
   // hanle edit review
@@ -73,17 +74,19 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
     <div id={review.id} key={review._id} data-test-id="review" className="w-full max-width: 100% mb-12">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full">
         <div className="flex justify-between">
-          <h4 data-test-id = "name" className="text-lg font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
+          <h4 data-test-id = "name" className="text-xl font-semibold mb-4 mt-3 mr-10">{review.user.name}</h4>
           <div className="text-[#78819a] mb-4 ml-8 text-3xl">{rating} ⭐</div>
         </div>
         <div className="flex w-full">
           <div className="">
-            <div className="mb-5 mt-5 ml-5 flex">
-              <Image src="/icon/bedicon.png" alt="bed icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
-              <div className="ml-2 text-sm text-[#78819a]">Room: {room?.roomNumber}</div>
+            <div className="mb-5 mt-5 ml-5 flex items-center">
+              {/* <Image src="/icon/bedicon.png" alt="bed icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" /> */}
+              <KingBed sx={{ fontSize: 35, color:"#949292"}}/>
+              <div className="ml-3 text-sm text-[#78819a]">Room: {room?.roomNumber}</div>
             </div>
             <div className="mb-5 ml-5 flex">
-              <Image src="/icon/calendaricon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" />
+              {/* <Image src="/icon/calendaricon.png" alt="calendar icon" fill style={{ objectFit: "contain" }} className="!relative !h-[1.5rem] !w-fit" /> */}
+              <CalendarMonth  sx={{fontSize: 35, color:"#949292"}}/>
               <div className="ml-3 text-sm text-[#78819a]">
                 {dayjs(booking.bookingbegin).format('DD/MM/YYYY')} - {dayjs(booking.bookingend).format('DD/MM/YYYY')}
                 {/*{dayjs(booking.bookingbegin).diff(dayjs(booking.bookingend), 'day')} days*/}
@@ -133,7 +136,11 @@ const ReviewItem = ({ review, user, token, booking }: { review: reviewItem, user
       {
         review.replys.map((replyItem: replyItem) => (
           <div key={replyItem._id} className="bg-white rounded-lg shadow-lg p-6 mt-5 ml-10">
+            <div className="font-bold text-lg">
+              Hotel staff
+            </div>
             <div className="text-black mb-4 mt-3 mr-24 w-[50vw] break-words">
+              
               {replyItem.message}
             </div>
             <div className="flex justify-between">

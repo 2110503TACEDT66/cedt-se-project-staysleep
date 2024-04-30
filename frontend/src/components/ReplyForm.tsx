@@ -30,7 +30,7 @@ export default function ReplyForm({ userID, rid, hid }: { userID: string, rid: s
     <div className="flex flex-col justify-center">
       <textarea
         name="reply"
-        className={`px-2 py-3 mt-6 mb-3 h-[7rem] rounded-lg ${error? "border border-red-500":""}`}
+        className={`text-black px-2 py-3 mt-6 mb-3 h-[7rem] rounded-lg ${error? "border border-red-500":""}`}
         placeholder={`${error? "Please write your reply":"Write your reply"}`}
         value={message}
         onChange={(e) => { setMessage(e.target.value); setError(false) }}

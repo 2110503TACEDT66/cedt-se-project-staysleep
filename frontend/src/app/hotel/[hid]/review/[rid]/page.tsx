@@ -6,6 +6,7 @@ import getRoom from "@/libs/getRoom";
 import getUserProfile from "@/libs/getUserProfile";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
+import { KingBed, CalendarMonth} from '@mui/icons-material';
 
 export default async function ReviewPage({ params }: { params: { hid: string; rid: string } }) {
   const session = await getServerSession(authOptions);
@@ -30,25 +31,34 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
         <>
           <div className="flex justify-center">
             <div className="w-2/3 my-4 h-fit justify-center bg-white rounded-lg shadow-xl">
-              <div className="flex flex-row mx-8 py-8">
+              <div className="flex flex-col mx-8 py-8">
+                <div className="flex justify-between font-bold text-2xl mb-2 text-black">
+                  {review.user.name}
+                  <div className="w-fit text-right text-[#7881a9] text-2xl text-nowrap">{review.star} ⭐</div>
+                </div>
+                <div className="flex flex-row">
+                {/* <h1 ></h1> */}
                 <div className="w-fit mr-4">
-                  <h1 className="font-bold text-2xl mb-2 text-black">{review.user.name}</h1>
-                  <span className="flex gap-2 text-nowrap mb-3">
-                    <Image
+                  
+                  <span className="flex items-center gap-2 text-nowrap mb-3 text-[#7b7b7b]">
+                    {/* <Image
                       src="/icon/bedicon.png"
                       alt="bed icon"
                       fill
                       className="!relative !h-[1.5rem] !w-fit object-contain"
-                    />
+                    /> */}
+                    <KingBed sx={{ fontSize: 35, color:"#949292"}}/>
                     Hotel : {hotel.name}<br />Room : {room.roomNumber}
                   </span>
-                  <span className="flex gap-2 text-nowrap">
-                    <Image
+                  <span className="flex gap-2 items-center text-nowrap text-[#78819a]">
+                    {/* <Image
                       src="/icon/calendaricon.png"
                       alt="calendar icon"
                       fill
                       className="!relative !h-[1.5rem] !w-fit object-contain"
-                    />
+                    /> */}
+                    
+                    <CalendarMonth  sx={{fontSize: 35, color:"#949292"}}/>
                     {new Date(review.booking.bookingbegin).toLocaleDateString()} - {new Date(review.booking.bookingend).toLocaleDateString()}
                   </span>
                   <div className="text-sm text-[#78819a] mt-10">
@@ -56,9 +66,11 @@ export default async function ReviewPage({ params }: { params: { hid: string; ri
                   </div>
                 </div>
                 <div className="w-[80%] px-20">
-                  <p className="break-words my-2">{review.message}</p>
+                  <p className="break-words my-2 text-black">{review.message}</p>
                 </div>
-                <div className="w-fit text-right text-[#7881a9] text-2xl text-nowrap">{review.star} ⭐</div>
+                
+                </div>
+                
               </div>
             </div>
           </div>
