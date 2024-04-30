@@ -19,6 +19,9 @@ exports.getTags = async (req, res, next) => {
 //@route POST /api/v1/hotels/tags
 //@access Private
 exports.createTags = async (req, res, next) => {
+    if (!req.body.tags || !(req.body.tags instanceof Array) || req.body.tags.length === 0) {
+        return res.status(400).json({ success: false });
+    }
     try {
         const tags = await Tags.findOne({});
         /* istanbul ignore next */ if (tags) {

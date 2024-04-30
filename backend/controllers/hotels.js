@@ -201,6 +201,9 @@ exports.deleteHotel = async (req, res, next) => {
 //@route PUT /api/v1/hotels/:id/tags
 //@access Private
 exports.addHotelTags = async (req, res, next) => {
+    if (!req.body.tags || !(req.body.tags instanceof Array) || req.body.tags.length === 0) {
+        return res.status(400).json({ success: false });
+    }
     try { 
         const tags = await Hotel.findById(req.params.id);
         tags.tags = merge(tags.tags, req.body.tags);
