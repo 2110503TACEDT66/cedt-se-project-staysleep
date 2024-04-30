@@ -84,6 +84,7 @@ exports.updateReview = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: review });
   } catch (err) {
+    console.error(err.stack);
     res.status(400).json({ success: false });
   }
 };
@@ -100,6 +101,7 @@ exports.deleteReview = async (req, res, next) => {
     await review.deleteOne();
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
+    console.error(err.stack);
     res.status(400).json({ success: false });
   }
 };
@@ -126,6 +128,7 @@ exports.getReviewByBookingID = async (req, res, next) => {
 
         res.status(200).json({ success: true, data: review });
     } catch (err) {
+        console.error(err.stack);
         res.status(500).json({
             success: false,
             message: 'Internal Server Error',

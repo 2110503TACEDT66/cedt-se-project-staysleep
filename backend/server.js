@@ -8,7 +8,38 @@ const rateLimit = require('express-rate-limit');
 const { xss } = require('express-xss-sanitizer');
 const helmet = require('helmet');
 const hpp = require('hpp');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+const fs = require('fs');
+const path = require('path');
 
+//Swagger
+// CDN CSS
+// const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
+const CSS = fs.readFileSync(
+  path.resolve(__dirname, '../backend/node_modules/swagger-ui-dist/swagger-ui.css'),
+  'utf8'
+);
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hotel Reservation API',
+      version: '1.0.0',
+      description: 'An Express Hotel booking API'
+    },
+    servers: [
+      {
+        url: 'http://localhost:5000/api/v1'
+      },
+      {
+        url: 'https://hotel-reservation-api-phi.vercel.app/api/v1'
+      }
+    ]
+  },
+  apis: ['backend/routes/*.js', 'routes/*.js'],
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //load env vars
 dotenv.config({ path: './config/config.env' });
@@ -58,6 +89,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 //Mount router
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/v1/hotels', hotels);
 app.use('/api/v1/bookings', bookings);
 app.use('/api/v1/rooms', rooms);
@@ -77,3 +109,5 @@ process.on('unhandledRejection', (err, promise) => {
   //Close server and exit process
   server.close(() => process.exit(1));
 });
+
+module.exports = app;

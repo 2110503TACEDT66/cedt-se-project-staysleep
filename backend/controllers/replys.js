@@ -25,6 +25,7 @@ exports.getReply = async (req, res, next) => {
         }
         res.status(200).json({ success: true, data: reply });
     }catch (err){
+        console.error(err.stack);
         res.status(400).json({ success: false, error: "Internal Server Error"  });
     }
 }
@@ -41,6 +42,7 @@ exports.createReply = async (req, res, next) => {
             data: reply 
         });
     } catch (err) {
+        console.error(err.stack);
         res.status(500).json({ success: false, error: "Internal Server Error" });
     }
 }
@@ -62,6 +64,7 @@ exports.updateReply = async (req, res, next) => {
 
         res.status(200).json({ success: true, data: reply });
     }catch (err){
+        console.error(err.stack);
         res.status(400).json({ success: false });
     }
 }
@@ -78,6 +81,7 @@ exports.deleteReply = async (req, res, next) => {
         await reply.deleteOne();
         res.status(200).json({ success: true, data: {} });
     }catch(err){
+        console.error(err.stack);
         res.status(400).json({ success: false });
     }
 }

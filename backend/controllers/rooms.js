@@ -25,6 +25,7 @@ exports.getRoom = async (req, res, next) => {
         }
         res.status(200).json({ success: true, data: room });
     }catch (err){
+        console.error(err.stack);
         res.status(400).json({ success: false });
     }
 }
@@ -67,6 +68,7 @@ exports.updateRoom = async (req, res, next) => {
 
         res.status(200).json({ success: true, data: room });
     }catch (err){
+        console.error(err.stack);
         res.status(400).json({ success: false });
     }
 }
@@ -83,6 +85,7 @@ exports.deleteRoom = async (req, res, next) => {
         await room.deleteOne();
         res.status(200).json({ success: true, data: {} });
     }catch(err){
+        console.error(err.stack);
         res.status(400).json({ success: false });
     }
 }
