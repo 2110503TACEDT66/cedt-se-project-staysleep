@@ -22,7 +22,7 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MjBlODBkNzZkZTZi
 
     it("should create a tag", async () => {
       const res = await request(app).post("/api/v1/hotels/tags").send({_id: "5d725a1b7b292f5f8ceff789",
-      "tags": ["test"]}).set('Authorization', `Bearer ${token}`);
+      "tags": ["test1"]}).set('Authorization', `Bearer ${token}`);
       expect(res.statusCode).toBe(201);
     });
   });
@@ -30,7 +30,7 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MjBlODBkNzZkZTZi
   describe("DELETE /api/v1/hotels/tags", () => {
     it("delete a tag", async () => {
       const res = await request(app).delete("/api/v1/hotels/tags").send({_id: "5d725a1b7b292f5f8ceff789",
-      "tags": ["test"]}).set('Authorization', `Bearer ${token}`);
+      "tags": ["test1"]}).set('Authorization', `Bearer ${token}`);
       expect(res.statusCode).toBe(200);
       //expect(res.body.name).toBe("");
     });
