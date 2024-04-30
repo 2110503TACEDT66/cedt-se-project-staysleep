@@ -12,12 +12,12 @@ describe('For customer', () => {
 
 	it('see review update', ()=>{
 		// see
-		// cy.get('a[href = "/hotel"').contains("Hotels").click();
-		// cy.wait(5000);
-		// cy.get('a[href = "/hotel/66026dd5078c681403eb908b"').click();
-		// cy.wait(10000);
-		// cy.get('[data-test-id="review"').should('have.length.greaterThan',0);
-		// cy.wait(5000);
+		cy.get('a[href = "/hotel"').contains("Hotels").click();
+		cy.wait(5000);
+		cy.get('a[href = "/hotel/66026dd5078c681403eb908b"').click();
+		cy.wait(10000);
+		cy.get('[data-test-id="review"').should('have.length.greaterThan',0);
+		cy.wait(5000);
 
 		let random_string = ''
 		let random_ascii
@@ -113,41 +113,41 @@ describe('For customer', () => {
 });
 
 
-// describe('For Admin', () => {
-// 	before('log in as a admin',()=>{
-// 		cy.visit('https://cedt-se-project-staysleep.vercel.app/')
-// 		// cy.visit('http://localhost:3000')
-// 		cy.get('a[href="/auth/signin"]').click()
-// 		cy.wait(2000);
-// 		cy.get('input[name="Email"]', { timeout: 10000 }).type("admin@gmail.com")
-// 		cy.get('input[name="Password"]').type("123456").get('button[type="submit"]').click();
-// 		cy.wait(5000);
-// 	})
+describe('For Admin', () => {
+	before('log in as a admin',()=>{
+		cy.visit('https://cedt-se-project-staysleep.vercel.app/')
+		// cy.visit('http://localhost:3000')
+		cy.get('a[href="/auth/signin"]').click()
+		cy.wait(2000);
+		cy.get('input[name="Email"]', { timeout: 10000 }).type("admin@gmail.com")
+		cy.get('input[name="Password"]').type("123456").get('button[type="submit"]').click();
+		cy.wait(5000);
+	})
 
-// 	it('reply', ()=>{
-// 		let random_string = ''
-// 		let random_ascii
-// 		for (let i = 0; i < 10; i++) {
-// 			random_ascii = Math.floor(Math.random() * 25 + 97)
-// 			random_string += String.fromCharCode(random_ascii)
-// 		}
+	it('reply', ()=>{
+		let random_string = ''
+		let random_ascii
+		for (let i = 0; i < 10; i++) {
+			random_ascii = Math.floor(Math.random() * 25 + 97)
+			random_string += String.fromCharCode(random_ascii)
+		}
 
-// 		cy.get('a[href = "/hotel"').contains("Hotels").click();
-// 		cy.wait(5000);
-// 		cy.get('a[href = "/hotel/66026dd5078c681403eb908b"',{ timeout: 10000 }).click();
-// 		cy.wait(2000);
-// 		cy.get('a[href="/hotel/66026dd5078c681403eb908b/review/6621190f5f89aee4e9fe5c5c"]', { timeout: 10000 }).click();
-// 		cy.wait(8000);
-// 		cy.get('textarea', { timeout: 10000 }).click().type(random_string);
-// 		cy.get('button').contains('Submit').click();
-// 		cy.wait(2500);
-// 		cy.get(`[data-test-id="${random_string}"]`, { timeout: 10000 }).should('be.visible');
-// 		// cy.wait(10000);
-// 		// cy.get('a[href = "/hotel"').contains("Hotels").click();
-// 		// cy.wait(5000);
-// 		// cy.get('a[href = "/hotel/66026dd5078c681403eb908b"').click();
-// 		// cy.wait(10000);
-// 	})
+		cy.get('a[href = "/hotel"').contains("Hotels").click();
+		cy.wait(5000);
+		cy.get('a[href = "/hotel/66026dd5078c681403eb908b"',{ timeout: 10000 }).click();
+		cy.wait(2000);
+		cy.get('a[href="/hotel/66026dd5078c681403eb908b/review/6621190f5f89aee4e9fe5c5c"]', { timeout: 10000 }).click();
+		cy.wait(8000);
+		cy.get('textarea', { timeout: 10000 }).click().type(random_string);
+		cy.get('button').contains('Submit').click();
+		cy.wait(2500);
+		cy.get(`[data-test-id="${random_string}"]`, { timeout: 10000 }).should('be.visible');
+		// cy.wait(10000);
+		// cy.get('a[href = "/hotel"').contains("Hotels").click();
+		// cy.wait(5000);
+		// cy.get('a[href = "/hotel/66026dd5078c681403eb908b"').click();
+		// cy.wait(10000);
+	})
 	
 	
-// });
+});
