@@ -208,13 +208,13 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
                 <div className='' style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
                     {loading ?
                         <div className="text-[7rem] font-extrabold text-primaryWhite">
-                            <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem]" />
+                            <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem] fill-primary" />
                             <div className='text-sm'>Loading...</div>
                         </div>
                         : hotels_filtered.length === 0
                             ?
                             <div className="text-[7rem] font-extrabold text-primaryWhite">
-                                <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem]" />
+                                <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem] fill-primary" />
                                 <div className='text-sm'>No hotel found</div>
                             </div>
                             :

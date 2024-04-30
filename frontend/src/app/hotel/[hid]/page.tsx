@@ -10,6 +10,7 @@ import { CircularProgress } from "@mui/material";
 import ReviewItem from "@/components/ReviewItem";
 import { redirect } from "next/navigation";
 import Card from "@/components/Card";
+import { BiSolidCommentDetail } from "react-icons/bi";
 
 export default function HospitalDetailPage({ params }: { params: { hid: string } }) {
   const session = useSession();
@@ -127,7 +128,12 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
                 <ReviewItem review={review} user={user} token={session.data.user.token} booking={review.booking} />
               ))
             ) : (
-              <p>No reviews available</p>
+              <div className="w-full p-6 bg-secondary flex justify-center rounded-lg">
+                <div className="text-[7rem] font-extrabold text-primaryWhite">
+                  <BiSolidCommentDetail className="inline-block mb-2 h-[10rem] w-[10rem] fill-primary" />
+                  <div className='text-sm text-center'>No reviews available</div>
+                </div>
+              </div>
             )}
           </div>
         </div>
