@@ -11,11 +11,9 @@ describe("POST /api/v1/hotels/tags", () => {
         var req = {body : "test"};
         var res = null;
         try{
-            res = await createTags(req,new Response)
+            res = await createTags(req)
         }
-        catch(err){
-
-        }
+        catch(err){}
         expect(res).toEqual(null)
     });
   });
