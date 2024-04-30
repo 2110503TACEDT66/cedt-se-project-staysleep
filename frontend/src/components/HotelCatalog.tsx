@@ -190,7 +190,7 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
                                 </div>
                                 {
                                     error ?
-                                        <span className='text-red-600'>Fill the tag</span>
+                                        <span className='text-red-600'>Please fill the tag</span>
                                         : null
                                 }
                             </div>
