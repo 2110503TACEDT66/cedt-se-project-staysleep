@@ -26,6 +26,7 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
     const [visible, setVisible] = useState(false);
     const [addtag, setAddtag] = useState('');
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [hotels_filtered, setHotels_filtered] = useState([]);
 
@@ -33,9 +34,9 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
     if (!session || !session.data?.user.token) return null;
 
     useEffect(() => {
-        fetchData(search);
+        fetchData('');
         fetchTags();
-    }, [search]);
+    }, []);
 
     useEffect(() => {
         setHotels_filtered(hotels
@@ -59,16 +60,19 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
                 return selectedTags.every((tag) => hotelItem.tags.includes(tag));
             })
         );
-    }, [hotels, search, rating, selectedTags]);
+    }, [search, rating, selectedTags]);
 
     const fetchData = async (value: string) => {
+        setLoading(true);
         await getHotels(value)
             .then((res) => {
                 setHotels(res.data);
+                setHotels_filtered(res.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
+        setLoading(false);
     };
 
     const fetchTags = async () => {
@@ -202,16 +206,24 @@ export default function HotelCatalog({ userRole }: { userRole: string }) {
             <div className='relative pb-[7rem] z-0'>
                 <div className='w-[95%] min-h-[50vh] h-full absolute -top-[7rem] left-1/2 -translate-x-1/2 bg-[url(/img/bg2.png)] -z-10 rounded-3xl bg-[length:1500px] bg-repeat'></div>
                 <div className='' style={{ margin: "20px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-around", alignContent: "space-around", color: "black" }}>
-                    {hotels_filtered.length === 0
-                        ? <div className="text-[7rem] font-extrabold text-primaryWhite">
+                    {loading ?
+                        <div className="text-[7rem] font-extrabold text-primaryWhite">
                             <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem]" />
-                            <div className='text-sm'>No hotel found</div>
+                            <div className='text-sm'>Loading...</div>
                         </div>
-                        : hotels_filtered.map((hotelItem: hotelItem) => (
-                            <Link href={`/hotel/${hotelItem.id}`} className="mt-5 w-[55%]" key={hotelItem.id}>
-                                <Card hotelItem={hotelItem} />
-                            </Link>
-                        ))
+                        : hotels_filtered.length === 0
+                            ?
+                            <div className="text-[7rem] font-extrabold text-primaryWhite">
+                                <GiIsland className="inline-block mb-2 h-[10rem] w-[10rem]" />
+                                <div className='text-sm'>No hotel found</div>
+                            </div>
+                            :
+                            hotels_filtered.map((hotelItem: hotelItem) => (
+                                <Link href={`/hotel/${hotelItem.id}`} className="mt-5 w-[55%]" key={hotelItem.id}>
+                                    <Card hotelItem={hotelItem} />
+                                </Link>
+                            ))
+
                     }
                 </div>
             </div>
