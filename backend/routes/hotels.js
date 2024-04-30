@@ -45,7 +45,6 @@ module.exports = router;
  *          type: object
  *          required:
  *            - name
- *            - tags
  *            - address
  *            - district
  *            - province
