@@ -121,8 +121,8 @@ export default function HospitalDetailPage({ params }: { params: { hid: string }
       </div>
       <div>
         <div className="flex justify-center ">
-          
-          <div className="mt-8 text-black w-[80%]">
+
+        <div className="mt-8 text-black w-[80%]" data-test-id="review">
             {hotelDetail.data.reviews && hotelDetail.data.reviews.length > 0 ? (
               hotelDetail.data.reviews.map((review: reviewItem) => (
                 <ReviewItem review={review} user={user} token={session.data.user.token} booking={review.booking} />
